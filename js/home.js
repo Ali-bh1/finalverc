@@ -259,8 +259,8 @@
         if (typeof window.fbq === 'function') {
           window.fbq('track', 'InitiateCheckout', {
             content_name: 'Clarity Call',
-            value: 499,
-            currency: 'INR'
+            value: 9.99,
+            currency: 'USD'
           });
         }
       });
