@@ -210,12 +210,12 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
     </div>
   </div>
 
-  <!-- CTA — Direct to Razorpay booking (simplified funnel) -->
+  <!-- CTA — Book free call -->
   <div class="cta-section">
     <div class="cta-inner">
-      <h2 id="ctaTitle">Your next step: a clarity call with Tejal</h2>
-      <p id="ctaBody">Your profile reveals exactly where we begin. Book a call and let's map your way forward.</p>
-      <a id="ctaBtn" href="https://pages.razorpay.com/manifested369" class="btn-champ" target="_blank" rel="noopener">Book Your Call →</a>
+      <h2 id="ctaTitle">Your next step: a free Expansion Call with Tejal</h2>
+      <p id="ctaBody">Your profile reveals exactly where we begin. Book a free call and let's map your way forward.</p>
+      <a id="ctaBtn" href="#book" data-book-call class="btn-champ">Book Your Free Call →</a>
     </div>
   </div>
 
@@ -258,8 +258,8 @@ const ARCHETYPES = {
 
 const CAT_LABELS = {A:'Safety',B:'Worthiness',C:'Visibility',D:'Receiving',E:'Ease'};
 
-// Razorpay booking link — simplified funnel (Report → Book a Call)
-const RAZORPAY_BOOKING = 'https://pages.razorpay.com/manifested369';
+// Free call booking link
+const BOOKING_LINK = '#book';
 
 function loadReport() {
   // Check URL for submissionId first (bookmarkable reports from backend)
@@ -376,12 +376,13 @@ function renderReport(name, topType, scores) {
   document.getElementById('edgeDesc').innerHTML   = a.edge.desc;
 
   // CTA — direct link to Razorpay booking (simplified funnel)
-  document.getElementById('ctaTitle').textContent = 'Your next step: a clarity call with Tejal';
-  document.getElementById('ctaBody').textContent  = 'Your ' + a.name + ' pattern reveals exactly where we begin. Book a call and let\'s map your way forward.';
-  document.getElementById('ctaBtn').href          = RAZORPAY_BOOKING;
+  document.getElementById('ctaTitle').textContent = 'Your next step: a free Expansion Call with Tejal';
+  document.getElementById('ctaBody').textContent  = 'Your ' + a.name + ' pattern reveals exactly where we begin. Book a free call and let\'s map your way forward.';
+  document.getElementById('ctaBtn').href          = BOOKING_LINK;
 }
 
 loadReport();
 </script>
   <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/booking-popup.js"></script>
 </body></html>

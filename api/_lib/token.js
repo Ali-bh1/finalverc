@@ -1,5 +1,5 @@
 /**
- * Access tokens for people who have paid for the $9.99 call.
+ * Access tokens for people who have booked the free call.
  *
  * A token is `payload.signature`, where payload is base64url JSON and the
  * signature is HMAC-SHA256 over that exact payload string. Nothing in the

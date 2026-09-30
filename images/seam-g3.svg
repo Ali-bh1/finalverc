@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none" fill="none">
-  <path d="M0,70 C210,20 430,104 700,62 C952,23 1168,96 1440,46 L1440,120 L0,120 Z" fill="#061C13"/>
-  <path d="M0,70 C210,20 430,104 700,62 C952,23 1168,96 1440,46" stroke="#C7AC6D" stroke-width="2.2" vector-effect="non-scaling-stroke" stroke-opacity="0.82"/>
-  <path d="M0,52 C210,2 430,86 700,44 C952,5 1168,78 1440,28" stroke="#C7AC6D" stroke-width="1" vector-effect="non-scaling-stroke" stroke-opacity="0.42"/>
-  <path d="M0,88 C210,38 430,122 700,80 C952,41 1168,114 1440,64" stroke="#C7AC6D" stroke-width="1" vector-effect="non-scaling-stroke" stroke-opacity="0.28"/>
+  <path d="M1440,70 C1230,20 1010,104 740,62 C488,23 272,96 0,46 L0,120 L1440,120 Z" fill="#D5C8A0"/>
+  <path d="M1440,70 C1230,20 1010,104 740,62 C488,23 272,96 0,46" stroke="#C7AC6D" stroke-width="2" vector-effect="non-scaling-stroke" stroke-opacity="0.85"/>
+  <path d="M1440,52 C1230,2 1010,86 740,44 C488,5 272,78 0,28" stroke="#C7AC6D" stroke-width="1" vector-effect="non-scaling-stroke" stroke-opacity="0.42"/>
+  <path d="M1440,88 C1230,38 1010,122 740,80 C488,41 272,114 0,64" stroke="#C7AC6D" stroke-width="1" vector-effect="non-scaling-stroke" stroke-opacity="0.28"/>
 </svg>

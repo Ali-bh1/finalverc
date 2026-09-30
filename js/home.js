@@ -259,8 +259,7 @@
         if (typeof window.fbq === 'function') {
           window.fbq('track', 'InitiateCheckout', {
             content_name: 'Clarity Call',
-            value: 9.99,
-            currency: 'USD'
+            content_name: 'Free Expansion Call'
           });
         }
       });

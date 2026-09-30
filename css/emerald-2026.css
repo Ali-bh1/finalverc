@@ -7,18 +7,18 @@
    ============================================================ */
 
 .h26.inv{
-  /* surfaces */
-  --ground:      #061C13;   /* deepest — footer, page ground   */
-  --band:        #0A2C1F;   /* section ground                  */
-  --panel:       rgba(255,255,255,.055);
+  /* surfaces — warm beige with real depth */
+  --ground:      #F5EFE0;   /* warm paper — footer, page ground   */
+  --band:        #EDE5D3;   /* section ground                     */
+  --panel:       rgba(21,66,48,.055);
   --panel-line:  rgba(199,172,109,.62);
   --panel-line-s:rgba(199,172,109,.34);
-  /* text on emerald */
-  --on-green:    #F4F1EA;
-  --on-green-q:  #CFD6CE;
+  /* text on beige */
+  --on-green:    #2C3B33;
+  --on-green-q:  #55635A;
 
   background-color:var(--ground);
-  color:#fff;
+  color:var(--on-green);
 }
 
 /* ── The ground ─────────────────────────────────────────────
@@ -43,31 +43,33 @@
   color:var(--on-green);
   isolation:isolate;
 }
+/* Each section gets its own tonal personality so scrolling feels
+   like moving through rooms rather than sliding down a flat wall. */
 .h26.inv .hero{
   background-image:
-    linear-gradient(180deg, #0F3F2E 0%, #0A2C1F 56%, #072016 100%);
+    linear-gradient(180deg, #E8DCBF 0%, #DFD2B0 40%, #D6C8A2 100%);
   background-position:center;
 }
 .h26.inv .say.cream{
   background-image:
-    linear-gradient(180deg, #14503B 0%, #0C3122 40%, #0A2719 100%);
+    linear-gradient(180deg, #DDCFA9 0%, #D4C49E 40%, #CDB992 100%);
   background-position:center;
 }
 .h26.inv .say.dark{
   background-image:
-    linear-gradient(180deg, #0A2719 0%, #0F3C2B 48%, #0A2D1F 100%);
+    linear-gradient(180deg, #D4C49E 0%, #CCBB93 48%, #C6B48C 100%);
   background-position:center;
 }
 .h26.inv .book{
   background-image:
-    linear-gradient(180deg, #134A36 0%, #0C3324 42%, #0A2A1D 100%);
+    linear-gradient(180deg, #D8CB9F 0%, #D0C296 42%, #C9BA8E 100%);
   background-position:center;
 }
 
-/* The one light band left on the page — same linework, deeper gold. */
+/* The sand band — lifts lighter against the richer sections. */
 .h26.inv .say.sand{
-  background-color:var(--sa);
-  background-image:linear-gradient(176deg, #F1E8D6 0%, #E7DCC5 58%, #DCCFB4 100%);
+  background-color:#EFE7D5;
+  background-image:linear-gradient(176deg, #F5EEE0 0%, #EFE7D5 58%, #E8DDC8 100%);
   background-repeat:no-repeat;
   background-size:100% 100%;
   background-position:center;
@@ -77,30 +79,39 @@
 /* The old hand-drawn hero veins now fight the marble. */
 .h26.inv .hero .vein{display:none}
 
-/* ── No glows ───────────────────────────────────────────────
-   Three inherited light sources were sitting under the page: a drifting
-   gold aura behind the dark bands (soul-2026.css), a second one in the
-   hero behind the portrait, and one more on the figures block. They read
-   as haze rather than light, and they were the reason the linework
-   looked washed out. The gradient ground and the strokes do the work
-   now. */
-.h26.inv .hero .arch2:before,
-.h26.inv .figures:before,
+/* ── No dark glows, but warm auras remain ──────────────────
+   The dark-mode auras are replaced with warm champagne blooms
+   that give each section a living centre of light. */
+.h26.inv .hero .arch2:before{content:none!important}
+.h26.inv .figures:before{content:none!important}
 .h26.inv .ripple:before{content:none!important}
 /* soul-2026.css animates .say.dark:before / .book:before as a drifting gold
    aura. That pseudo-element is reused below for the wave layer, so its
    animation and geometry are both replaced rather than merely hidden. */
 
+/* ── Warm ambient auras — depth without darkness ───────────
+   A subtle gold-tinged radial that drifts behind each section,
+   giving the flat beige fields a sense of light and space. */
+.h26.inv .hero:after,
+.h26.inv .say.cream:after,
+.h26.inv .say.dark:after,
+.h26.inv .book:after{
+  content:"";position:absolute;z-index:-2;
+  left:50%;top:50%;width:min(1200px,150%);aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,rgba(199,172,109,.18),rgba(199,172,109,0) 63%);
+  animation:auraDrift 26s ease-in-out infinite;
+}
+.h26.inv .say.cream:after{animation-duration:32s;animation-direction:reverse}
+.h26.inv .say.dark:after{animation-duration:28s;animation-delay:-8s}
+.h26.inv .book:after{animation-duration:34s;animation-direction:reverse;animation-delay:-12s}
+
 
 /* ── The waves, adrift ─────────────────────────────────────
    The linework lives on its own layer so it can move without the page
-   repainting: the scale is fixed, only the translate animates, which
-   keeps the whole thing on the compositor.
-
-   The periods are deliberately unequal and prime-ish, so no two bands
-   ever come back into step — the movement should never resolve into a
-   pulse you can count. It is a drift of a percent or two over the best
-   part of a minute; you should notice it only if you stop and look. */
+   repainting. On a light beige ground the gold strokes need normal
+   blending with real opacity — multiply washed them out. */
 .h26.inv .hero:before,
 .h26.inv .say.cream:before,
 .h26.inv .say.dark:before,
@@ -116,6 +127,7 @@
   transform:scale(1.1) translate3d(0,0,0);
   will-change:transform;
   animation:waveDrift 47s ease-in-out infinite;
+  opacity:1;
 }
 .h26.inv .say.cream:before{background-position:left 30% bottom;animation-duration:59s;animation-delay:-11s}
 .h26.inv .say.dark:before {background-position:right 20% center;animation-duration:53s;animation-delay:-23s}
@@ -124,6 +136,7 @@
   background-image:url(../images/gold-waves-warm.svg);
   background-position:right 24% center;
   animation-duration:67s;animation-delay:-31s;
+  opacity:.7;
 }
 
 @keyframes waveDrift{
@@ -163,8 +176,7 @@
 }
 .h26.inv .seam-to-sand {background-image:url(../images/seam-sand.svg)}
 .h26.inv .seam-to-green{background-image:url(../images/seam-green.svg)}
-/* green ➝ green: the wave carries the next band's tone up over this one, so
-   the edge is a change in depth rather than a change in colour */
+/* Each seam fills the colour of the band it transitions INTO */
 .h26.inv .seam-g1{background-image:url(../images/seam-g1.svg)}
 .h26.inv .seam-g2{background-image:url(../images/seam-g2.svg)}
 .h26.inv .seam-g3{background-image:url(../images/seam-g3.svg)}
@@ -208,7 +220,7 @@ html:not(.js) .h26.inv .seam:after{transform:rotate(45deg) scale(1);opacity:1}
    the seam lines do, and the empty middle picks up the role line so the
    lockup reads as a masthead rather than a stranded logo. */
 .h26.inv nav{
-  background:linear-gradient(180deg, rgba(8,32,22,.92), rgba(6,26,18,.88));
+  background:linear-gradient(180deg, rgba(223,210,176,.96), rgba(215,202,164,.94));
   -webkit-backdrop-filter:blur(16px) saturate(1.1);
           backdrop-filter:blur(16px) saturate(1.1);
   border-bottom:none;
@@ -219,15 +231,15 @@ html:not(.js) .h26.inv .seam:after{transform:rotate(45deg) scale(1);opacity:1}
   content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
   background:linear-gradient(90deg,
     rgba(199,172,109,0) 0%,
-    rgba(199,172,109,.55) 16%,
-    rgba(230,211,163,.8) 50%,
-    rgba(199,172,109,.55) 84%,
+    rgba(199,172,109,.6) 16%,
+    rgba(168,133,63,.9) 50%,
+    rgba(199,172,109,.6) 84%,
     rgba(199,172,109,0) 100%);
   pointer-events:none;
 }
 .h26.inv #nav.scrolled{
-  background:linear-gradient(180deg, rgba(6,26,18,.97), rgba(5,22,15,.95));
-  box-shadow:0 14px 34px -26px rgba(0,0,0,.9);
+  background:linear-gradient(180deg, rgba(223,210,176,.99), rgba(218,205,167,.97));
+  box-shadow:0 14px 34px -26px rgba(21,66,48,.18);
 }
 
 .h26.inv .nin{gap:clamp(16px,3vw,34px)}
@@ -235,22 +247,23 @@ html:not(.js) .h26.inv .seam:after{transform:rotate(45deg) scale(1);opacity:1}
 .h26.inv .brand img.lg{
   width:40px;height:40px;
   transition:transform .4s var(--ease-out);
+  filter:drop-shadow(0 1px 3px rgba(21,66,48,.25));
 }
 .h26.inv .brand:hover img.lg{transform:rotate(-6deg) scale(1.04)}
 .h26.inv .brand span{
-  color:#F0DFAF;font-size:21px;font-weight:600;letter-spacing:.05em;
+  color:var(--forest);font-size:21px;font-weight:700;letter-spacing:.05em;
 }
 
 /* the role line sits between the name and the CTA, behind its own rule */
 .h26.inv .brand-role{
   display:flex;align-items:center;gap:14px;
   margin-right:auto;
-  font-size:10.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
-  color:#B99A5C;white-space:nowrap;
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--forest);white-space:nowrap;opacity:.65;
 }
 .h26.inv .brand-role:before{
   content:"";width:clamp(18px,3vw,44px);height:1px;
-  background:linear-gradient(90deg, rgba(199,172,109,0), rgba(199,172,109,.7));
+  background:linear-gradient(90deg, rgba(21,66,48,0), rgba(21,66,48,.35));
 }
 @media(max-width:1000px){.h26.inv .brand-role{display:none}}
 
@@ -260,10 +273,10 @@ html:not(.js) .h26.inv .seam:after{transform:rotate(45deg) scale(1);opacity:1}
    rather than a serif ₹ pasted in beside letter-spaced caps. */
 .h26.inv .ncta{
   display:inline-flex;align-items:stretch;
-  background:#E6D3A3;
-  border:1px solid #E6D3A3;
+  background:var(--forest);
+  border:1px solid var(--forest);
   /* booking-2026.css:87 forces `color:#fff !important` on .ncta */
-  color:#10382A!important;
+  color:#F0DFAF!important;
   font-family:var(--sans);
   line-height:1;
   padding:0;white-space:nowrap;border-radius:2px;overflow:hidden;
@@ -285,49 +298,49 @@ html:not(.js) .h26.inv .seam:after{transform:rotate(45deg) scale(1);opacity:1}
   font-style:normal;font-weight:700;
   font-size:13px;letter-spacing:.03em;
   font-variant-numeric:tabular-nums;
-  border-left:1px solid rgba(16,56,42,.26);
+  border-left:1px solid rgba(230,211,163,.3);
   transition:border-color .22s var(--ease-out);
 }
 /* the same keyline hover every other button uses */
 .h26.inv .ncta:hover{
-  background:#EFE1BE;
-  border-color:#EFE1BE;
-  color:#10382A!important;
-  box-shadow:inset 0 0 0 1px rgba(16,56,42,.34);
+  background:var(--forest-deep);
+  border-color:var(--forest-deep);
+  color:#F3E8CB!important;
+  box-shadow:inset 0 0 0 1px rgba(230,211,163,.34);
 }
 .h26.inv .ncta:hover .lbl{letter-spacing:.168em}
-.h26.inv .ncta:active{background:#DCC793;border-color:#DCC793;
-  box-shadow:inset 0 0 0 1px rgba(16,56,42,.5)}
-.h26.inv .ncta:focus-visible{outline:2px solid #E6D3A3;outline-offset:3px}
+.h26.inv .ncta:active{background:#0E3122;border-color:#0E3122;
+  box-shadow:inset 0 0 0 1px rgba(230,211,163,.5)}
+.h26.inv .ncta:focus-visible{outline:2px solid var(--forest);outline-offset:3px}
 
 /* A quiet variant for pages with nothing left to sell — the thank-you
    page's only nav action is "email us". */
 .h26.inv .ncta-quiet{
   background:transparent;
-  border-color:rgba(199,172,109,.6);
-  color:#EDD79C!important;
+  border-color:rgba(21,66,48,.4);
+  color:var(--forest)!important;
 }
 .h26.inv .ncta-quiet .lbl{padding:13px 19px}
 .h26.inv .ncta-quiet:hover{
-  background:#EFE1BE;border-color:#EFE1BE;color:#10382A!important;
-  box-shadow:inset 0 0 0 1px rgba(16,56,42,.34);
+  background:var(--forest);border-color:var(--forest);color:#F0DFAF!important;
+  box-shadow:inset 0 0 0 1px rgba(230,211,163,.34);
 }
 
-/* ── Type on emerald ───────────────────────────────────────── */
+/* ── Type on warm beige ───────────────────────────────────── */
 .h26.inv .hero h1,
 .h26.inv .say.cream h2,
 .h26.inv .say.dark h2,
-.h26.inv .book h2{color:#F0DFAF;font-weight:700}
+.h26.inv .book h2{color:var(--forest);font-weight:700}
 .h26.inv .hero .sub,
 .h26.inv .say.cream .p,
 .h26.inv .say.dark .p,
 .h26.inv .book p{color:var(--on-green)}
-.h26.inv .hero .superhead{color:#E8CE90}
+.h26.inv .hero .superhead{color:#6B5A2E}
 .h26.inv .hero .rule{background:var(--gold-deep)}
-.h26.inv .hero .trustline{color:var(--on-green-q)}
-.h26.inv .hero .trustline b{color:#EDD79C}
+.h26.inv .hero .trustline{color:var(--on-green);font-size:15px}
+.h26.inv .hero .trustline b{color:var(--forest)}
 .h26.inv .say.cream .eyebrow,
-.h26.inv .book .eyebrow{color:#EDD79C;opacity:1}
+.h26.inv .book .eyebrow{color:#7A6530;opacity:1}
 .h26.inv .cue{color:var(--on-green-q)}
 .h26.inv .cue-line{background:rgba(199,172,109,.5)}
 
@@ -338,31 +351,31 @@ html:not(.js) .h26.inv .seam:after{transform:rotate(45deg) scale(1);opacity:1}
    most of what makes it feel more present. */
 .h26.inv .hero .sub{
   font-size:clamp(17px,1.85vw,20.5px);font-weight:500;line-height:1.7;
-  max-width:520px;color:#F4F1EA;
+  max-width:520px;color:var(--on-green);
 }
-.h26.inv .hero .sub b{font-weight:700;color:#fff}
+.h26.inv .hero .sub b{font-weight:700;color:var(--forest)}
 .h26.inv .say .p{
   font-size:clamp(17px,1.8vw,19.5px);font-weight:500;line-height:1.75;
-  opacity:1;color:#F4F1EA;
+  opacity:1;color:var(--on-green);
 }
 .h26.inv .say.sand .p{color:var(--ink)}
 .h26.inv .say h2{font-weight:700}
 .h26.inv .hero h1{font-weight:700}
 .h26.inv .hero .superhead{
   font-weight:700;font-size:clamp(13px,1.35vw,15.5px);letter-spacing:.1em;
-  color:#EDD79C;
+  color:#6B5A2E;
 }
-.h26.inv .eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.26em;opacity:1}
+.h26.inv .eyebrow{font-size:13px;font-weight:700;letter-spacing:.24em;opacity:1;color:#7A6530}
 
-/* Panels and lists carry most of the reading — lift them too. */
+/* Panels and lists carry most of the reading. */
 .h26.inv .deliv h3{font-size:clamp(23px,2.6vw,28px)}
-.h26.inv .deliv p{font-size:17.5px;font-weight:500;line-height:1.7;color:#F4F1EA}
-.h26.inv .nopitch p{font-size:17.5px;font-weight:500;color:#F4F1EA}
+.h26.inv .deliv p{font-size:17.5px;font-weight:500;line-height:1.7;color:var(--on-green)}
+.h26.inv .nopitch p{font-size:17.5px;font-weight:500;color:var(--on-green)}
 .h26.inv .say.sand .isyou li{font-size:17.5px;font-weight:500;line-height:1.65;color:var(--ink)}
 .h26.inv .say.sand .isyou li b{font-weight:700}
 .h26.inv .pc-list li{font-size:17px;font-weight:500}
-.h26.inv .whome p{font-size:17.5px;font-weight:500;line-height:1.7;color:#F4F1EA}
-.h26.inv .whome p b{font-weight:700;color:#fff}
+.h26.inv .whome p{font-size:17.5px;font-weight:500;line-height:1.7;color:var(--on-green)}
+.h26.inv .whome p b{font-weight:700;color:var(--forest)}
 .h26.inv .steps b{font-size:16.5px;font-weight:700}
 .h26.inv .steps .s-d{font-size:14.5px;font-weight:500}
 .h26.inv .hero .trustline{font-size:14px;font-weight:500}
@@ -382,11 +395,11 @@ html:not(.js) .h26.inv .seam:after{transform:rotate(45deg) scale(1);opacity:1}
    not arrived yet. Without JS there are no word spans and the flat
    colour below is what renders. */
 .h26.inv .hero h1{
-  color:#F0DFAF;
-  filter:drop-shadow(0 5px 14px rgba(3,16,10,.6));
+  color:var(--forest);
+  filter:none;
 }
 html.js .h26.inv .hero h1 .w{
-  background-image:linear-gradient(178deg,#FCF3D8 0%,#F0DFAF 44%,#D6B978 100%);
+  background-image:linear-gradient(178deg,#154230 0%,#1D5540 44%,#0E3122 100%);
   -webkit-background-clip:text;
           background-clip:text;
   -webkit-text-fill-color:transparent;
@@ -403,36 +416,36 @@ html.js .h26.inv .hero h1 .w{
 .h26.inv .deliv .d,
 .h26.inv .paycard2,
 .h26.inv .nopitch{
-  background:linear-gradient(178deg, rgba(4,20,13,.72), rgba(4,20,13,.86));
-  border:1px solid rgba(199,172,109,.62);
+  background:linear-gradient(178deg, rgba(255,255,255,.7), rgba(255,255,255,.85));
+  border:1px solid rgba(199,172,109,.5);
   box-shadow:
-    inset 0 1px 0 rgba(230,211,163,.22),
-    0 26px 54px -30px rgba(0,0,0,.85);
+    inset 0 1px 0 rgba(255,255,255,.6),
+    0 26px 54px -30px rgba(21,66,48,.15);
 }
-.h26.inv .hero .idname{color:#F0DFAF}
-.h26.inv .hero .idrole{color:#E8CE90}
+.h26.inv .hero .idname{color:var(--forest)}
+.h26.inv .hero .idrole{color:var(--gold-text)}
 .h26.inv .hero .idbio{color:var(--on-green);opacity:1;font-size:14px}
 
-.h26.inv .deliv .d:hover{background:linear-gradient(178deg, rgba(6,26,17,.66), rgba(6,26,17,.82));border-color:#C7AC6D}
-.h26.inv .deliv .n{color:#E8CE90}
-.h26.inv .deliv h3{color:#F0DFAF;font-weight:700}
+.h26.inv .deliv .d:hover{background:linear-gradient(178deg, rgba(255,255,255,.82), rgba(255,255,255,.92));border-color:#C7AC6D}
+.h26.inv .deliv .n{color:var(--gold-text)}
+.h26.inv .deliv h3{color:var(--forest);font-weight:700}
 .h26.inv .deliv p{color:var(--on-green);font-size:17px;line-height:1.75}
 
 
-.h26.inv .nopitch h3{color:#F0DFAF}
+.h26.inv .nopitch h3{color:var(--forest)}
 .h26.inv .nopitch p{color:var(--on-green);font-size:17px}
-.h26.inv .nopitch p b{color:#fff;font-weight:700}
+.h26.inv .nopitch p b{color:var(--forest);font-weight:700}
 
-/* ── The payment card — an emerald panel with a gold edge ──── */
+/* ── The payment card — a warm panel with a gold edge ──── */
 .h26.inv .paycard2{border-top:4px solid var(--gold-deep)}
 .h26.inv .pc-head{border-bottom-color:var(--panel-line)}
-.h26.inv .pc-kicker{color:#F0DFAF}
-.h26.inv .pc-dur{color:#E8CE90}
-.h26.inv .pc-list h3{color:#E8CE90}
+.h26.inv .pc-kicker{color:var(--forest)}
+.h26.inv .pc-dur{color:var(--gold-text)}
+.h26.inv .pc-list h3{color:var(--gold-text)}
 .h26.inv .pc-list li{color:var(--on-green);border-bottom-color:rgba(199,172,109,.3);font-size:16.5px}
-.h26.inv .pc-list li:before{background:rgba(199,172,109,.24);color:#F0DFAF}
+.h26.inv .pc-list li:before{background:rgba(21,66,48,.09);color:var(--forest)}
 .h26.inv .pc-buy{background:rgba(199,172,109,.13);border-left-color:rgba(199,172,109,.55)}
-.h26.inv .pc-price{color:#F0DFAF}
+.h26.inv .pc-price{color:var(--forest)}
 .h26.inv .pc-price .cur{color:var(--gold-deep)}
 .h26.inv .pc-note{color:var(--on-green-q)}
 .h26.inv .pc-methods span,
@@ -444,12 +457,25 @@ html.js .h26.inv .hero h1 .w{
 /* ── Testimonials become champagne rather than white ───────── */
 .h26.inv .story{background:var(--sa);border-top:2px solid var(--gold-deep)}
 .h26.inv .story p{color:var(--em);font-size:20px}
-.h26.inv .story .by{color:rgba(21,66,48,.6)}
+.h26.inv .story .by{color:var(--forest);opacity:.8;font-size:12.5px}
 
 /* The about-portrait nameplate was the last white object on the page. */
 .h26.inv .nameplate{background:var(--sa);border-left-color:var(--gold-deep)}
 .h26.inv .nameplate b{color:var(--em)}
-.h26.inv .nameplate span{color:var(--gold-text)}
+.h26.inv .nameplate span{color:#7A6530}
+
+/* ── Credential badges — dark on beige, not gold on beige ── */
+.h26.inv .credrow span{background:rgba(21,66,48,.1);border-color:rgba(21,66,48,.3);
+  color:var(--forest);font-size:13.5px;font-weight:600}
+.h26.inv .credrow span:hover{background:var(--forest);color:var(--ch);border-color:var(--forest)}
+
+/* ── "Who you'll be talking to" — forced dark on beige ──── */
+.h26.inv .whome h2{color:var(--forest);font-weight:700}
+.h26.inv .whome h2 em{color:var(--forest-mid);font-weight:700}
+.h26.inv .say.dark .eyebrow.lt{color:#7A6530;opacity:1}
+
+/* ── Disclaimer text must be readable ──────────────────── */
+.h26.inv .disc{color:var(--on-green)!important;opacity:.7!important;font-size:13px!important}
 
 /* ── Buttons ───────────────────────────────────────────────
    The inherited button carried three things that read as unfinished once
@@ -482,29 +508,28 @@ html.js .h26.inv .hero h1 .w{
 .h26.inv .btn:active{transform:none;transition-duration:.08s}
 .h26.inv .btn:focus-visible{outline:2px solid #E6D3A3;outline-offset:3px}
 
-/* Primary on emerald — flat champagne, ink-green label. Flat, not a
-   gradient: a 135° gradient across a 380px button shows its own seam. */
-/* Gold is the primary everywhere on the inverted scheme. This used to be
-   a list of ancestors — hero, .say.cream, .book and so on — which meant
-   any new section got the inherited forest button, invisible on a forest
-   ground. Stated as a default with one exception instead. */
+/* Primary buttons — forest green on beige for maximum contrast.
+   Gold background was invisible against the warm beige ground. */
 .h26.inv .btn-em,
 .h26.inv .btn-ch{
-  background:#E6D3A3;
-  color:#10382A;
-  border:1px solid #E6D3A3;
+  background:var(--forest);
+  color:#F0DFAF;
+  border:1px solid var(--forest);
+  font-size:13px;
+  font-weight:700;
+  box-shadow:0 18px 40px -22px rgba(21,66,48,.5);
 }
 .h26.inv .btn-em:hover,
 .h26.inv .btn-ch:hover{
-  background:#EFE1BE;
-  border-color:#EFE1BE;
-  color:#10382A;
-  box-shadow:inset 0 0 0 1px rgba(16,56,42,.34);
+  background:var(--forest-deep);
+  border-color:var(--forest-deep);
+  color:#F3E8CB;
+  box-shadow:inset 0 0 0 1px rgba(230,211,163,.34), 0 22px 46px -22px rgba(21,66,48,.6);
 }
 .h26.inv .btn-em:active,
 .h26.inv .btn-ch:active{
-  background:#DCC793;border-color:#DCC793;
-  box-shadow:inset 0 0 0 1px rgba(16,56,42,.5);
+  background:#0E3122;border-color:#0E3122;
+  box-shadow:inset 0 0 0 1px rgba(230,211,163,.5);
 }
 
 /* The exception: on the champagne band, forest is what has contrast. */
@@ -538,10 +563,10 @@ html.js .h26.inv .hero h1 .w{
   position:relative;
   margin:clamp(34px,4.6vw,54px) auto 0;
   max-width:900px;
-  border:1px solid rgba(199,172,109,.62);
+  border:1px solid rgba(199,172,109,.5);
   padding:10px;
-  background:linear-gradient(178deg, rgba(4,20,13,.7), rgba(4,20,13,.85));
-  box-shadow:inset 0 1px 0 rgba(230,211,163,.2), 0 26px 54px -32px rgba(0,0,0,.85);
+  background:linear-gradient(178deg, rgba(255,255,255,.65), rgba(255,255,255,.8));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 26px 54px -32px rgba(21,66,48,.12);
 }
 .fband img{
   width:100%;height:clamp(240px,34vw,420px);
@@ -550,27 +575,72 @@ html.js .h26.inv .hero h1 .w{
 .fband figcaption{
   font-family:var(--serif);font-style:italic;
   font-size:clamp(16px,1.9vw,20px);line-height:1.5;
-  color:#F0DFAF;
+  color:var(--forest);
   padding:16px 10px 6px;text-align:center;
 }
 /* On the champagne band the frame flips to ink-on-light. */
-.fband.fb-warm{border-color:rgba(21,66,48,.28);background:rgba(255,255,255,.35)}
+.fband.fb-warm{border-color:rgba(21,66,48,.18);background:rgba(255,255,255,.45)}
 .fband.fb-warm figcaption{color:var(--em)}
 
-/* ── Steps, FAQ, form on emerald ───────────────────────────── */
-.h26.inv .steps b{color:#fff}
-.h26.inv .steps .s-d{color:var(--on-green-q)}
-.h26.inv .steps .s-n{border-color:var(--panel-line);color:var(--ch)}
-.h26.inv .fq details{border-bottom:1px solid var(--panel-line-s)}
-.h26.inv .askfirst summary{color:#EDD79C}
+/* ── Steps, FAQ, form on beige ───────────────────────────── */
+.h26.inv .steps b{color:var(--forest);font-size:17px}
+.h26.inv .steps .s-d{color:var(--on-green);font-size:15px}
+.h26.inv .steps .s-n{border-color:var(--gold-deep);color:var(--ch);background:var(--forest);font-size:20px;font-weight:700}
+.h26.inv .fq details{border-bottom:1px solid rgba(21,66,48,.18)}
+.h26.inv .fq summary{color:var(--forest)!important;font-size:20px;font-weight:700}
+.h26.inv .fq summary:after{color:var(--forest)}
+.h26.inv .fq p{color:var(--on-green)!important;font-size:17px}
+.h26.inv .askfirst summary{color:var(--forest);font-weight:700;border-color:rgba(21,66,48,.3)}
+
+/* ── Askfirst form — dark on beige, not white on dark ──────── */
+.h26.inv .askfirst > summary{color:var(--forest)!important;border-color:rgba(21,66,48,.3);
+  font-size:16px;font-weight:700}
+.h26.inv .askfirst > summary:hover{background:rgba(21,66,48,.06)}
+.h26.inv .askfirst[open] > summary{border-color:rgba(21,66,48,.3)}
+.h26.inv .askfirst .inner{border-color:rgba(21,66,48,.2);background:rgba(255,255,255,.35)}
+.h26.inv .askfirst .inner p{color:var(--on-green)!important}
+.h26.inv .askfirst .cform label{color:var(--forest)!important;opacity:1}
+.h26.inv .askfirst .cform input,
+.h26.inv .askfirst .cform select,
+.h26.inv .askfirst .cform textarea{
+  background:rgba(255,255,255,.65)!important;
+  border-color:rgba(21,66,48,.2)!important;
+  color:var(--on-green)!important;
+}
+.h26.inv .askfirst .cform input::placeholder,
+.h26.inv .askfirst .cform textarea::placeholder{color:rgba(44,59,51,.4)!important}
+.h26.inv .askfirst .cform input:focus,
+.h26.inv .askfirst .cform select:focus,
+.h26.inv .askfirst .cform textarea:focus{border-color:var(--forest)!important}
+.h26.inv .askfirst .chk span{color:var(--on-green)!important}
+.h26.inv .askfirst .err{color:#8a2f18!important}
+.h26.inv .askfirst .btn{background:var(--forest)!important;color:#F0DFAF!important;border-color:var(--forest)!important}
 
 /* ── Champagne band keeps its ink, just heavier ────────────── */
-.h26.inv .say.sand h2{color:var(--em);font-weight:600}
+.h26.inv .say.sand h2{color:var(--em);font-weight:700}
 .h26.inv .say.sand .isyou li{font-size:17px;line-height:1.7;color:var(--ink)}
-.h26.inv .say.sand .eyebrow{color:var(--gold-text);opacity:1}
+.h26.inv .say.sand .eyebrow{color:#7A6530;opacity:1}
 
-/* ── Footer ────────────────────────────────────────────────── */
-.h26.inv footer{background:#061C13;border-top:1px solid var(--panel-line-s)}
+/* ── Footer — deeper sand with subtle wave pattern for cohesion ── */
+.h26.inv footer{
+  background-color:#B8A885;
+  background-image:url("data:image/svg+xml,%3Csvg preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23154230' fill-opacity='0.06' d='M0,192L80,186.7C160,181,320,171,480,176C640,181,800,203,960,202.7C1120,203,1280,181,1360,170.7L1440,160L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z'/%3E%3Cpath fill='%23154230' fill-opacity='0.035' d='M0,96L80,106.7C160,117,320,139,480,133.3C640,128,800,96,960,101.3C1120,107,1280,149,1360,170.7L1440,192L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:center top;
+  background-size:100% 280px;
+  border-top:1px solid rgba(21,66,48,.2);
+  color:var(--forest);
+  position:relative;
+}
+.h26.inv footer a{color:var(--forest)!important;font-size:15.5px}
+.h26.inv footer a:hover{color:var(--forest-deep)!important}
+.h26.inv footer .brand span{color:var(--forest)!important}
+.h26.inv footer .brand img.lg{filter:drop-shadow(0 1px 3px rgba(21,66,48,.2))}
+.h26.inv footer h4{color:var(--forest)!important;font-size:13px;font-weight:700}
+.h26.inv footer .tag{color:var(--on-green);font-size:15px}
+.h26.inv footer .cp{color:var(--forest);opacity:.65;font-size:12.5px}
+.h26.inv footer .soc svg{color:var(--forest)}
+.h26.inv footer .disc{color:var(--on-green);opacity:.85;font-size:12.5px}
 
 /* ════════════════════════════════════════════════════════════
    PHONE
@@ -648,7 +718,7 @@ html.js .h26.inv .hero h1 .w{
    assessment before the call. Everything here serves those.
    ════════════════════════════════════════════════════════════ */
 
-/* the confirmation header + the calendar read as one emerald field */
+/* the confirmation header + the calendar read as one warm field */
 .h26.inv .ty,
 .h26.inv .cal-section,
 .h26.inv .ty-assess,
@@ -659,10 +729,10 @@ html.js .h26.inv .hero h1 .w{
   background-size:100% 100%;
   color:var(--on-green);
 }
-.h26.inv .ty{background-image:linear-gradient(180deg,#0F3F2E 0%,#0A2C1F 62%,#082419 100%)}
-.h26.inv .cal-section{background-image:linear-gradient(180deg,#082419 0%,#0A2C1F 60%,#0A2719 100%)}
-.h26.inv .ty-assess{background-image:linear-gradient(180deg,#14503B 0%,#0C3122 42%,#0A2719 100%)}
-.h26.inv .ty-quiz{background-image:linear-gradient(180deg,#0A2719 0%,#0C3122 50%,#061C13 100%)}
+.h26.inv .ty{background-image:linear-gradient(180deg,#E8DCBF 0%,#DFD2B0 62%,#D6C8A2 100%)}
+.h26.inv .cal-section{background-image:linear-gradient(180deg,#D4C49E 0%,#CCBB93 60%,#CDB992 100%)}
+.h26.inv .ty-assess{background-image:linear-gradient(180deg,#DDCFA9 0%,#D4C49E 42%,#CDB992 100%)}
+.h26.inv .ty-quiz{background-image:linear-gradient(180deg,#D4C49E 0%,#CCBB93 50%,#E8DCBF 100%)}
 
 .h26.inv .ty:before,
 .h26.inv .cal-section:before,
@@ -674,6 +744,7 @@ html.js .h26.inv .hero h1 .w{
   transform:scale(1.1) translate3d(0,0,0);
   will-change:transform;
   animation:waveDrift 47s ease-in-out infinite;
+  opacity:1;
 }
 .h26.inv .cal-section:before{background-position:right 20% center;animation-duration:59s;animation-delay:-13s}
 .h26.inv .ty-assess:before {background-position:left 30% bottom;animation-duration:53s;animation-delay:-27s}
@@ -687,35 +758,35 @@ html.js .h26.inv .hero h1 .w{
    the homepage lost — the tick alone carries the moment */
 .h26.inv .ty-rings{display:none}
 .h26.inv .ty:before{content:""}
-.h26.inv .ty .chk{border-color:#E8CE90;color:#F0DFAF;border-width:1px}
-.h26.inv .ty .eyebrow{color:#EDD79C;opacity:1}
-.h26.inv .ty h1{color:#F0DFAF;font-weight:700;
-  filter:drop-shadow(0 5px 14px rgba(3,16,10,.6))}
+.h26.inv .ty .chk{border-color:var(--gold-deep);color:var(--forest);border-width:1px}
+.h26.inv .ty .eyebrow{color:var(--gold-text);opacity:1}
+.h26.inv .ty h1{color:var(--forest);font-weight:700;
+  filter:none}
 .h26.inv .ty .lead{color:var(--on-green);font-size:clamp(17px,1.8vw,19.5px);font-weight:500}
-.h26.inv .ty .lead b{color:#fff;font-weight:700}
+.h26.inv .ty .lead b{color:var(--forest);font-weight:700}
 
 /* the calendar is the point of the page — give it the card treatment */
 .h26.inv .cal-section .cal-header{
-  color:#EDD79C;opacity:1;font-weight:600;font-size:12px;letter-spacing:.24em}
+  color:var(--gold-text);opacity:1;font-weight:600;font-size:12px;letter-spacing:.24em}
 .h26.inv .cal-section .cal-frame{
-  border:1px solid rgba(199,172,109,.62);
+  border:1px solid rgba(199,172,109,.5);
   border-radius:3px;
   background:#FBFAF5;
-  box-shadow:inset 0 1px 0 rgba(230,211,163,.22), 0 30px 60px -34px rgba(0,0,0,.85);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 30px 60px -34px rgba(21,66,48,.12);
 }
 .h26.inv .cal-section iframe{border-radius:0}
-.h26.inv .cal-section .cal-note{color:#B99A5C;font-size:13px}
+.h26.inv .cal-section .cal-note{color:var(--gold-text);font-size:13px}
 
 /* ── the assessment block ── */
 .h26.inv .ty-assess{padding:clamp(74px,9vw,124px) 0 clamp(52px,6.5vw,84px);text-align:center}
-.h26.inv .ty-assess .eyebrow{color:#EDD79C;opacity:1;display:inline-block;position:relative;padding:0 42px}
+.h26.inv .ty-assess .eyebrow{color:var(--gold-text);opacity:1;display:inline-block;position:relative;padding:0 42px}
 .h26.inv .ty-assess .eyebrow:before,
 .h26.inv .ty-assess .eyebrow:after{content:"";position:absolute;top:50%;width:30px;height:1px;
   background:rgba(199,172,109,.7)}
 .h26.inv .ty-assess .eyebrow:before{left:0}
 .h26.inv .ty-assess .eyebrow:after{right:0}
 .h26.inv .ty-assess h2{
-  font-family:var(--serif);color:#F0DFAF;font-weight:700;
+  font-family:var(--serif);color:var(--forest);font-weight:700;
   font-size:clamp(28px,4.2vw,46px);line-height:1.1;margin:16px auto 0;max-width:20ch}
 .h26.inv .ty-assess .lead{
   color:var(--on-green);font-size:clamp(17px,1.8vw,19px);font-weight:500;line-height:1.75;
@@ -724,16 +795,16 @@ html.js .h26.inv .hero h1 .w{
 .h26.inv .assess-card{
   display:grid;grid-template-columns:1.1fr .9fr;
   max-width:760px;margin:clamp(30px,4vw,46px) auto 0;text-align:left;
-  background:linear-gradient(178deg, rgba(4,20,13,.72), rgba(4,20,13,.86));
-  border:1px solid rgba(199,172,109,.62);
+  background:linear-gradient(178deg, rgba(255,255,255,.7), rgba(255,255,255,.85));
+  border:1px solid rgba(199,172,109,.5);
   border-top:3px solid var(--gold-deep);
-  box-shadow:inset 0 1px 0 rgba(230,211,163,.22), 0 26px 54px -30px rgba(0,0,0,.85);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 26px 54px -30px rgba(21,66,48,.15);
 }
 @media(max-width:700px){.h26.inv .assess-card{grid-template-columns:1fr}}
 .h26.inv .ac-body{padding:clamp(24px,3.2vw,34px)}
 .h26.inv .ac-kicker{
   display:block;font-family:var(--serif);font-weight:700;
-  font-size:clamp(21px,2.4vw,26px);color:#F0DFAF;line-height:1.15}
+  font-size:clamp(21px,2.4vw,26px);color:var(--forest);line-height:1.15}
 .h26.inv .ac-list{list-style:none;margin:16px 0 0;padding:0}
 .h26.inv .ac-list li{
   position:relative;padding:10px 0 10px 30px;font-size:16.5px;font-weight:500;
@@ -742,7 +813,7 @@ html.js .h26.inv .hero h1 .w{
 .h26.inv .ac-list li:before{
   content:"✓";position:absolute;left:0;top:11px;width:20px;height:20px;
   display:flex;align-items:center;justify-content:center;border-radius:50%;
-  background:rgba(199,172,109,.24);color:#F0DFAF;font-size:11px;font-weight:700}
+  background:rgba(21,66,48,.09);color:var(--forest);font-size:11px;font-weight:700}
 .h26.inv .ac-go{
   padding:clamp(24px,3.2vw,34px);
   background:rgba(199,172,109,.13);
@@ -753,20 +824,20 @@ html.js .h26.inv .hero h1 .w{
 }
 .h26.inv .ac-go .btn{width:100%}
 .h26.inv .ac-link{
-  font-size:13px;line-height:1.6;color:#CFD6CE;margin:0;
+  font-size:13px;line-height:1.6;color:var(--on-green-q);margin:0;
 }
-.h26.inv .ac-link b{color:#F0DFAF;font-weight:600;white-space:nowrap}
+.h26.inv .ac-link b{color:var(--forest);font-weight:600;white-space:nowrap}
 .h26.inv .ac-later{
-  font-size:13.5px;font-weight:500;color:#CFD6CE;
+  font-size:13.5px;font-weight:500;color:var(--on-green-q);
   border-bottom:1px solid rgba(199,172,109,.5);display:inline;padding-bottom:2px;
   transition:color .22s var(--ease-out),border-color .22s var(--ease-out)}
-.h26.inv .ac-later:hover{color:#F0DFAF;border-color:#E6D3A3}
+.h26.inv .ac-later:hover{color:var(--forest);border-color:var(--gold-deep)}
 
 /* ── prep block ── */
 .h26.inv .ty-quiz{padding:clamp(56px,7vw,92px) 0 clamp(60px,7vw,96px);text-align:center}
-.h26.inv .ty-quiz .eyebrow{color:#EDD79C;opacity:1}
+.h26.inv .ty-quiz .eyebrow{color:var(--gold-text);opacity:1}
 .h26.inv .ty-quiz h2{
-  font-family:var(--serif);color:#F0DFAF;font-weight:700;
+  font-family:var(--serif);color:var(--forest);font-weight:700;
   font-size:clamp(26px,3.6vw,40px);line-height:1.12;margin:14px auto 0;max-width:22ch}
 .h26.inv .ty-quiz p{
   color:var(--on-green);font-size:clamp(16.5px,1.7vw,18px);font-weight:500;
@@ -777,7 +848,7 @@ html.js .h26.inv .hero h1 .w{
   position:absolute;left:0;right:0;top:-1px;
   height:clamp(46px,5.6vw,84px);
   z-index:3;pointer-events:none;
-  background-image:url(../images/seam-g1.svg);
+  background-image:url(../images/seam-sand.svg);
   background-repeat:no-repeat;background-position:center top;background-size:100% 100%;
   transform:scaleY(-1);
 }
@@ -796,7 +867,7 @@ html.js .h26.inv .hero h1 .w{
    ════════════════════════════════════════════════════════════ */
 
 .h26.inv .atop{
-  background:linear-gradient(180deg, rgba(8,32,22,.92), rgba(6,26,18,.88));
+  background:linear-gradient(180deg, rgba(242,234,219,.94), rgba(237,229,211,.90));
   -webkit-backdrop-filter:blur(16px) saturate(1.1);
           backdrop-filter:blur(16px) saturate(1.1);
   border-bottom:none;
@@ -805,8 +876,8 @@ html.js .h26.inv .hero h1 .w{
 .h26.inv .atop:after{
   content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
   background:linear-gradient(90deg,
-    rgba(199,172,109,0) 0%, rgba(199,172,109,.55) 16%,
-    rgba(230,211,163,.8) 50%, rgba(199,172,109,.55) 84%,
+    rgba(199,172,109,0) 0%, rgba(199,172,109,.35) 16%,
+    rgba(199,172,109,.55) 50%, rgba(199,172,109,.35) 84%,
     rgba(199,172,109,0) 100%);
   pointer-events:none;
 }
@@ -814,7 +885,7 @@ html.js .h26.inv .hero h1 .w{
 .h26.inv .eqshell{
   position:relative;isolation:isolate;
   background-color:var(--band);
-  background-image:linear-gradient(180deg,#0F3F2E 0%,#0A2C1F 54%,#061C13 100%);
+  background-image:linear-gradient(180deg,#DDCFA9 0%,#D4C49E 54%,#CDB992 100%);
   background-repeat:no-repeat;background-size:100% 100%;
   color:var(--on-green);
 }
@@ -825,80 +896,81 @@ html.js .h26.inv .hero h1 .w{
   transform:scale(1.1) translate3d(0,0,0);
   will-change:transform;
   animation:waveDrift 47s ease-in-out infinite;
+  opacity:1;
 }
 @media(prefers-reduced-motion:reduce){.h26.inv .eqshell:before{animation:none}}
 /* the page's own expanding rings were the haze the rest of the site lost */
 .h26.inv .eqrings{display:none}
 
 /* ── intro ── */
-.h26.inv .intro .eyebrow{color:#EDD79C;opacity:1}
+.h26.inv .intro .eyebrow{color:var(--gold-text);opacity:1}
 .h26.inv .intro h1{
-  color:#F0DFAF;font-weight:700;
-  filter:drop-shadow(0 5px 14px rgba(3,16,10,.6));
+  color:var(--forest);font-weight:700;
+  filter:none;
 }
 .h26.inv .intro p{color:var(--on-green);opacity:1;font-weight:500;font-size:clamp(17px,2vw,19px)}
-.h26.inv .meta-row{color:#CFD6CE}
+.h26.inv .meta-row{color:var(--on-green-q)}
 .h26.inv .meta-row .dot{background:var(--gold-deep)}
-.h26.inv .fineprint{color:#B99A5C}
+.h26.inv .fineprint{color:var(--gold-text)}
 
 /* ── questions ── */
-.h26.inv .qcount{color:#B99A5C}
+.h26.inv .qcount{color:var(--gold-text)}
 .h26.inv .bar{background:rgba(199,172,109,.22)}
-.h26.inv .bar i{background:linear-gradient(90deg,#C7AC6D,#F0DFAF)}
-.h26.inv .qhead{color:#EDD79C}
-.h26.inv .qbox h2{color:#F0DFAF;font-weight:700}
+.h26.inv .bar i{background:linear-gradient(90deg,#C7AC6D,var(--forest))}
+.h26.inv .qhead{color:var(--gold-text)}
+.h26.inv .qbox h2{color:var(--forest);font-weight:700}
 .h26.inv .opt{
-  background:linear-gradient(178deg, rgba(4,20,13,.72), rgba(4,20,13,.86));
+  background:linear-gradient(178deg, rgba(255,255,255,.7), rgba(255,255,255,.85));
   border:1px solid rgba(199,172,109,.5);
   color:var(--on-green);
   font-weight:500;
-  box-shadow:inset 0 1px 0 rgba(230,211,163,.14);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5);
 }
 .h26.inv .opt:hover{
-  background:linear-gradient(178deg, rgba(6,28,19,.66), rgba(6,28,19,.82));
+  background:linear-gradient(178deg, rgba(255,255,255,.85), rgba(255,255,255,.95));
   border-color:#C7AC6D;
 }
 .h26.inv .opt.sel{
-  background:#E6D3A3;border-color:#E6D3A3;color:#10382A;font-weight:600;
-  box-shadow:inset 0 0 0 1px rgba(16,56,42,.34);
+  background:var(--forest);border-color:var(--forest);color:#F0DFAF;font-weight:600;
+  box-shadow:inset 0 0 0 1px rgba(230,211,163,.34);
 }
-.h26.inv .back2{color:#CFD6CE}
-.h26.inv .back2:hover{color:#F0DFAF}
+.h26.inv .back2{color:var(--on-green-q)}
+.h26.inv .back2:hover{color:var(--forest)}
 
 /* ── the email gate before the result ── */
 .h26.inv .gift{color:var(--on-green)}
-.h26.inv .field label{color:#B99A5C}
+.h26.inv .field label{color:var(--gold-text)}
 .h26.inv .field input{
-  background:rgba(4,20,13,.6);
+  background:rgba(255,255,255,.6);
   border:1px solid rgba(199,172,109,.5);
-  color:#F4F1EA;font-weight:500;
+  color:var(--on-green);font-weight:500;
 }
-.h26.inv .field input::placeholder{color:rgba(207,214,206,.55)}
-.h26.inv .field input:focus{border-color:#E6D3A3;outline:2px solid rgba(230,211,163,.35);outline-offset:1px}
-.h26.inv .err{color:#F3B7A0}
+.h26.inv .field input::placeholder{color:rgba(85,99,90,.45)}
+.h26.inv .field input:focus{border-color:var(--forest);outline:2px solid rgba(21,66,48,.2);outline-offset:1px}
+.h26.inv .err{color:#8a2f18}
 
 /* ── result ── */
-.h26.inv .res .eyebrow{color:#EDD79C;opacity:1}
-.h26.inv .res h1,.h26.inv .res h2{color:#F0DFAF;font-weight:700}
+.h26.inv .res .eyebrow{color:var(--gold-text);opacity:1}
+.h26.inv .res h1,.h26.inv .res h2{color:var(--forest);font-weight:700}
 .h26.inv .res-card{
-  background:linear-gradient(178deg, rgba(4,20,13,.72), rgba(4,20,13,.86));
-  border:1px solid rgba(199,172,109,.62);
-  box-shadow:inset 0 1px 0 rgba(230,211,163,.22), 0 26px 54px -30px rgba(0,0,0,.85);
+  background:linear-gradient(178deg, rgba(255,255,255,.7), rgba(255,255,255,.85));
+  border:1px solid rgba(199,172,109,.5);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 26px 54px -30px rgba(21,66,48,.15);
 }
 .h26.inv .res-card p{color:var(--on-green);opacity:1;font-weight:500;font-size:16.5px}
-.h26.inv .res-card p b{color:#fff;font-weight:700;opacity:1}
-.h26.inv .ranks .cap{color:#B99A5C}
+.h26.inv .res-card p b{color:var(--forest);font-weight:700;opacity:1}
+.h26.inv .ranks .cap{color:var(--gold-text)}
 .h26.inv .rank-row .nm{color:var(--on-green)}
 .h26.inv .rank-bar{background:rgba(199,172,109,.2)}
-.h26.inv .rank-bar i{background:linear-gradient(90deg,#C7AC6D,#F0DFAF)}
+.h26.inv .rank-bar i{background:linear-gradient(90deg,#C7AC6D,var(--forest))}
 .h26.inv .cta-band{
-  background:linear-gradient(178deg, rgba(4,20,13,.78), rgba(4,20,13,.9));
-  border:1px solid rgba(199,172,109,.62);
+  background:linear-gradient(178deg, rgba(255,255,255,.7), rgba(255,255,255,.85));
+  border:1px solid rgba(199,172,109,.5);
 }
-.h26.inv .cta-band h3{color:#F0DFAF;font-weight:700}
+.h26.inv .cta-band h3{color:var(--forest);font-weight:700}
 .h26.inv .cta-band p{color:var(--on-green);font-weight:500}
-.h26.inv .restart{color:#CFD6CE}
-.h26.inv .restart:hover{color:#F0DFAF}
+.h26.inv .restart{color:var(--on-green-q)}
+.h26.inv .restart:hover{color:var(--forest)}
 
 
 /* ════════════════════════════════════════════════════════════
@@ -908,28 +980,26 @@ html.js .h26.inv .hero h1 .w{
    ════════════════════════════════════════════════════════════ */
 
 .h26.inv.rpt{
-  background-color:#061C13;
+  background-color:#F5EFE0;
   color:var(--on-green);
   font-family:var(--sans);
 }
 /* the wave field, same as every other page */
 .h26.inv.rpt:before{
   content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-color:#0A2C1F;
+  background-color:#D4C49E;
   background-image:
     url(../images/gold-waves.svg),
-    linear-gradient(180deg,#0F3F2E 0%,#0A2C1F 55%,#061C13 100%);
+    linear-gradient(180deg,#DDCFA9 0%,#D4C49E 55%,#CDB992 100%);
   background-repeat:no-repeat,no-repeat;
   background-size:cover,100% 100%;
   background-position:center,center;
+  opacity:1;
 }
 .h26.inv.rpt > *{position:relative;z-index:1}
 
 .h26.inv.rpt .wrap{max-width:1100px;margin:0 auto;padding:0 clamp(24px,5vw,60px)}
 
-/* The report is built on base/layout/sections, not home-2026, so the nav
-   geometry that every other page inherits does not exist here. Restated for
-   this page only. */
 .h26.inv.rpt #nav{position:sticky;top:0;z-index:60}
 .h26.inv.rpt #nav .nin{
   display:flex;align-items:center;justify-content:space-between;
@@ -939,19 +1009,18 @@ html.js .h26.inv .hero h1 .w{
 .h26.inv.rpt #nav .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
 .h26.inv.rpt #nav .brand img.lg{width:40px;height:40px;object-fit:contain;display:block}
 .h26.inv.rpt #nav .brand span{
-  font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.05em;color:#F0DFAF}
+  font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.05em;color:var(--forest)}
 .h26.inv.rpt #nav .ncta{text-decoration:none}
-/* the page's own top padding assumed a fixed injected nav that is now gone */
 .h26.inv.rpt .wrap{padding-top:clamp(24px,4vw,48px)}
 .h26.inv.rpt #nav .wrap{padding-top:0}
 
 /* ── header ── */
 .h26.inv.rpt .rhead{text-align:center;padding-bottom:clamp(20px,3vw,32px)}
-.h26.inv.rpt .rhead .eyebrow{color:#EDD79C;opacity:1;font-weight:600;letter-spacing:.26em}
+.h26.inv.rpt .rhead .eyebrow{color:var(--gold-text);opacity:1;font-weight:600;letter-spacing:.26em}
 .h26.inv.rpt .rhead-name{
-  font-family:var(--serif);color:#F0DFAF;font-weight:700;
+  font-family:var(--serif);color:var(--forest);font-weight:700;
   font-size:clamp(34px,5.2vw,58px);line-height:1.06;margin:14px 0 0;
-  filter:drop-shadow(0 5px 14px rgba(3,16,10,.6));
+  filter:none;
 }
 .h26.inv.rpt .rhead-tag{
   color:var(--on-green);font-size:clamp(17px,1.9vw,19.5px);font-weight:500;
@@ -962,51 +1031,49 @@ html.js .h26.inv .hero h1 .w{
 .h26.inv.rpt .card,
 .h26.inv.rpt .insight-card,
 .h26.inv.rpt .cta-section{
-  background:linear-gradient(178deg, rgba(4,20,13,.72), rgba(4,20,13,.86));
-  border:1px solid rgba(199,172,109,.62);
+  background:linear-gradient(178deg, rgba(255,255,255,.7), rgba(255,255,255,.85));
+  border:1px solid rgba(199,172,109,.5);
   border-radius:3px;
-  box-shadow:inset 0 1px 0 rgba(230,211,163,.22), 0 26px 54px -30px rgba(0,0,0,.85);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 26px 54px -30px rgba(21,66,48,.15);
   color:var(--on-green);
 }
 .h26.inv.rpt .lab,
 .h26.inv.rpt .insight-label,
 .h26.inv.rpt .cat-hint,
-.h26.inv.rpt .note{color:#B99A5C}
+.h26.inv.rpt .note{color:var(--gold-text)}
 .h26.inv.rpt .profile-type,
 .h26.inv.rpt .ring-num,
 .h26.inv.rpt .big,
 .h26.inv.rpt .cat-val,
-.h26.inv.rpt .pct{color:#F0DFAF}
+.h26.inv.rpt .pct{color:var(--forest)}
 .h26.inv.rpt .cat-name,
 .h26.inv.rpt .nm,
 .h26.inv.rpt p,
 .h26.inv.rpt li{color:var(--on-green)}
-/* emphasis inside the copy was inheriting a forest colour from sections.css
-   and vanishing against the dark card */
 .h26.inv.rpt p b,
 .h26.inv.rpt p strong,
 .h26.inv.rpt li b,
-.h26.inv.rpt li strong{color:#fff;font-weight:700}
+.h26.inv.rpt li strong{color:var(--forest);font-weight:700}
 .h26.inv.rpt h1,.h26.inv.rpt h2,.h26.inv.rpt h3,.h26.inv.rpt h4{
-  font-family:var(--serif);color:#F0DFAF;font-weight:700}
+  font-family:var(--serif);color:var(--forest);font-weight:700}
 .h26.inv.rpt .profile-tag,
 .h26.inv.rpt .pill{
-  background:rgba(199,172,109,.16);
-  border:1px solid rgba(199,172,109,.5);
-  color:#F0DFAF;
+  background:rgba(21,66,48,.08);
+  border:1px solid rgba(21,66,48,.25);
+  color:var(--forest);
 }
 
 /* ── the score ring and category bars ── */
 .h26.inv.rpt .ring-wrap circle.edge{stroke:rgba(199,172,109,.22)}
-.h26.inv.rpt .ring-wrap circle.arche{stroke:#E6D3A3}
+.h26.inv.rpt .ring-wrap circle.arche{stroke:var(--forest)}
 .h26.inv.rpt .cat-track{background:rgba(199,172,109,.2)}
-.h26.inv.rpt .cat-fill{background:linear-gradient(90deg,#C7AC6D,#F0DFAF)}
+.h26.inv.rpt .cat-fill{background:linear-gradient(90deg,#C7AC6D,var(--forest))}
 
 /* ── closing CTA ── */
 .h26.inv.rpt .cta-section{text-align:center}
 .h26.inv.rpt .cta-inner p{color:var(--on-green);font-weight:500}
 .h26.inv.rpt .btn-champ{
-  background:#E6D3A3;color:#10382A;border:1px solid #E6D3A3;
+  background:var(--forest);color:#F0DFAF;border:1px solid var(--forest);
   font-family:var(--sans);font-size:12.5px;font-weight:700;letter-spacing:.12em;
   text-transform:uppercase;padding:18px 36px;border-radius:2px;display:inline-flex;
   align-items:center;justify-content:center;
@@ -1014,6 +1081,6 @@ html.js .h26.inv .hero h1 .w{
              letter-spacing .22s var(--ease-out),box-shadow .22s var(--ease-out);
 }
 .h26.inv.rpt .btn-champ:hover{
-  background:#EFE1BE;border-color:#EFE1BE;color:#10382A;
-  letter-spacing:.152em;box-shadow:inset 0 0 0 1px rgba(16,56,42,.34);
+  background:var(--forest-deep);border-color:var(--forest-deep);color:#F3E8CB;
+  letter-spacing:.152em;box-shadow:inset 0 0 0 1px rgba(230,211,163,.34);
 }

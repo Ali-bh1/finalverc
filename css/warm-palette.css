@@ -1,0 +1,130 @@
+/* ============================================================
+   warm-palette.css — Warm beige overrides for non-inverted pages
+   Loaded after home-2026.css on programme, legal, and policy pages.
+   Applies the warm sand/gold palette WITHOUT the .inv scope.
+   ============================================================ */
+
+/* ── EYEBROW (light variant) — gold-text instead of gold for contrast on sand ── */
+.eyebrow.lt{color:var(--gold-text)}
+
+/* ── PAGE GROUND ── */
+.h26{
+  background:#E8DCBF;
+  color:var(--ink);
+}
+:root{
+  --wh:   #E8DCBF;
+  --cream:#E2D5B5;
+  --cream-lift:#EFE7D5;
+}
+
+/* ── NAV ── */
+.h26 nav{
+  background:linear-gradient(180deg, rgba(223,210,176,.96), rgba(215,202,164,.94));
+  backdrop-filter:blur(16px) saturate(1.1);
+  -webkit-backdrop-filter:blur(16px) saturate(1.1);
+  border-bottom:none;
+}
+.h26 nav:after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:linear-gradient(90deg,
+    rgba(199,172,109,0) 0%,
+    rgba(199,172,109,.6) 16%,
+    rgba(168,133,63,.9) 50%,
+    rgba(199,172,109,.6) 84%,
+    rgba(199,172,109,0) 100%);
+  pointer-events:none;
+}
+#nav.scrolled{
+  background:linear-gradient(180deg, rgba(223,210,176,.99), rgba(218,205,167,.97));
+  box-shadow:0 14px 34px -26px rgba(21,66,48,.18);
+}
+
+/* ── HERO AREAS ── */
+.php-hero{
+  background-color:#DDCFA9;
+  background-image:none;
+}
+.legal-hero{
+  background-color:#D4C49E;
+  color:var(--ink);
+}
+.legal-hero .eyebrow.lt{color:var(--gold-text);opacity:1}
+.legal-hero h1{color:var(--forest)}
+.legal-hero .upd{color:var(--ink-soft)}
+
+/* ── SECTIONS ── */
+.say.dark,.book{
+  background:var(--forest);
+}
+
+/* ── SHOWCASE ── */
+/* Keep the green showcase panel — it's a design accent, not the page bg */
+
+/* ── LEGAL BODY ── */
+.legal{
+  background-color:#E2D5B5;
+}
+.legal h2,.legal h3{color:var(--forest)}
+.legal p,.legal li{color:var(--ink-soft)}
+
+/* ── PROGRAMME SECTIONS ── */
+.whome,.gua,.gua:not(.dark){
+  background-color:#E8DCBF;
+}
+.split.cream{background:#DDCFA9}
+.about2{background:#E2D5B5}
+.mom{background:#DDCFA9}
+
+/* ── PILLAR/FEATURE CARDS ── */
+.pillar,.deliv .d,.story{
+  background:rgba(255,255,255,.55);
+  border-color:rgba(199,172,109,.5);
+}
+.pillar:hover,.deliv .d:hover{
+  background:rgba(255,255,255,.75);
+  border-color:var(--gold-deep);
+}
+
+/* ── FOOTER — deeper sand instead of green ── */
+.h26 footer{
+  background:#C7B99A;
+  color:rgba(35,48,42,.8);
+}
+.h26 footer .brand span{color:var(--forest)}
+.h26 footer h4{color:var(--forest);opacity:.8}
+.h26 footer a{color:var(--ink-soft)}
+.h26 footer a:hover{color:var(--forest)}
+.h26 footer .soc svg{color:var(--forest)}
+.h26 footer .cp{
+  color:var(--ink-soft);
+  border-top-color:rgba(21,66,48,.15);
+}
+.disc{color:rgba(35,48,42,.55)}
+
+/* ── STICKY BAR ── */
+.stickycta{
+  background:var(--forest);
+}
+
+/* ── FORM INPUTS ── */
+.cform input,.cform select,.cform textarea{
+  background:rgba(255,255,255,.6);
+  border-color:rgba(199,172,109,.5);
+}
+.cform input:focus,.cform select:focus,.cform textarea:focus{
+  border-color:var(--forest);
+}
+
+/* ── FAQ ── */
+.fq details[open]{background:rgba(199,172,109,.08)}
+.fq summary{color:var(--ink)}
+
+/* ── WAVE PATTERNS — boost visibility ── */
+.h26{
+  --wave-svg: url("data:image/svg+xml,%3Csvg preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23C7AC6D' fill-opacity='0.14' d='M0,224L48,213.3C96,203,192,181,288,186.7C384,192,480,224,576,218.7C672,213,768,171,864,165.3C960,160,1056,192,1152,197.3C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'/%3E%3Cpath fill='%23C7AC6D' fill-opacity='0.09' d='M0,96L48,112C96,128,192,160,288,154.7C384,149,480,107,576,101.3C672,96,768,128,864,138.7C960,149,1056,139,1152,122.7C1248,107,1344,85,1392,74.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'/%3E%3C/svg%3E");
+
+  --wave-svg-top: url("data:image/svg+xml,%3Csvg preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23C7AC6D' fill-opacity='0.12' d='M0,64L60,80C120,96,240,128,360,138.7C480,149,600,139,720,122.7C840,107,960,85,1080,90.7C1200,96,1320,128,1380,144L1440,160L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z'/%3E%3Cpath fill='%23C7AC6D' fill-opacity='0.07' d='M0,128L48,138.7C96,149,192,171,288,176C384,181,480,171,576,149.3C672,128,768,96,864,101.3C960,107,1056,149,1152,160C1248,171,1344,149,1392,138.7L1440,128L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z'/%3E%3C/svg%3E");
+
+  --wave-svg-sand: url("data:image/svg+xml,%3Csvg preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23154230' fill-opacity='0.08' d='M0,192L80,186.7C160,181,320,171,480,176C640,181,800,203,960,202.7C1120,203,1280,181,1360,170.7L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z'/%3E%3Cpath fill='%23154230' fill-opacity='0.05' d='M0,96L80,106.7C160,117,320,139,480,133.3C640,128,800,96,960,101.3C1120,107,1280,149,1360,170.7L1440,192L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z'/%3E%3C/svg%3E");
+}

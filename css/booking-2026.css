@@ -9,7 +9,7 @@
         trades that for real weight and real colour.
 
      2. BOOKING FUNNEL. New homepage sections + a sticky mobile
-        CTA bar, all pointing at one action: book the $9.99 call.
+        CTA bar, all pointing at one action: book the Free call.
    ============================================================ */
 
 :root{
@@ -332,4 +332,156 @@
   .pc-price{font-size:clamp(52px,15vw,64px)}
   .pc-list li{font-size:15.5px}
   .whome h2{font-size:clamp(30px,8vw,40px);font-weight:700}
+}
+
+/* ============================================================
+   3. BOOKING POP-UP MODAL
+   Replaces the old Razorpay payment flow with a free booking
+   form that captures client details before calendar selection.
+   ============================================================ */
+
+/* ── Overlay ── */
+.bk-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(14,49,34,.72);
+  backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  opacity:0;visibility:hidden;
+  transition:opacity .35s var(--ease-out),visibility .35s;
+}
+.bk-overlay.bk-open{
+  opacity:1;visibility:visible;
+}
+
+/* ── Modal container ── */
+.bk-modal{
+  background:var(--paper,#FBFAF5);
+  border:1px solid rgba(199,172,109,.35);
+  border-radius:12px;
+  width:100%;max-width:580px;
+  max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);
+  overflow-y:auto;
+  padding:clamp(28px,4vw,44px);
+  box-shadow:0 40px 80px -20px rgba(0,0,0,.4),0 0 0 1px rgba(199,172,109,.15);
+  transform:translateY(20px) scale(.97);
+  transition:transform .4s var(--ease-out);
+  position:relative;
+}
+.bk-open .bk-modal{
+  transform:none;
+}
+
+/* ── Close button ── */
+.bk-close{
+  position:absolute;top:16px;right:16px;
+  background:none;border:none;cursor:pointer;
+  font-size:28px;line-height:1;color:var(--ink-faint,rgba(35,48,42,.5));
+  width:40px;height:40px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;transition:background .2s,color .2s;
+}
+.bk-close:hover{
+  background:rgba(199,172,109,.15);color:var(--forest);
+}
+
+/* ── Header ── */
+.bk-header{text-align:center;margin-bottom:28px}
+.bk-eyebrow{
+  font-family:var(--serif);font-style:italic;font-weight:400;
+  font-size:13px;letter-spacing:.06em;color:var(--gold-text,#A0833B);
+}
+.bk-title{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(24px,4vw,34px);line-height:1.1;
+  color:var(--forest);margin:8px 0 0;
+}
+.bk-sub{
+  font-size:15px;color:var(--ink-quiet,#55635A);
+  margin:10px auto 0;max-width:38ch;line-height:1.6;
+}
+
+/* ── Form layout ── */
+.bk-form{display:flex;flex-direction:column;gap:14px}
+.bk-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:500px){.bk-row{grid-template-columns:1fr}}
+
+/* ── Fields ── */
+.bk-field{display:flex;flex-direction:column;gap:6px}
+.bk-field label{
+  font-weight:500;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-faint,rgba(35,48,42,.5));
+}
+.bk-field .bk-opt{font-weight:400;text-transform:none;letter-spacing:0;font-style:italic}
+.bk-field input,.bk-field select,.bk-field textarea{
+  font-family:var(--sans);font-weight:400;font-size:15px;
+  color:var(--ink,#23302A);
+  background:var(--white,#fff);
+  border:1px solid rgba(199,172,109,.45);
+  padding:13px 14px;border-radius:4px;
+  transition:border-color .25s,box-shadow .25s;
+  -webkit-appearance:none;appearance:none;
+}
+.bk-field input:focus,.bk-field select:focus,.bk-field textarea:focus{
+  outline:none;border-color:var(--forest);
+  box-shadow:0 0 0 3px rgba(21,66,48,.1);
+}
+.bk-field select{cursor:pointer;padding-right:36px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2355635A' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  background-size:12px;
+}
+.bk-field textarea{resize:vertical;min-height:80px}
+
+/* ── Consent checkbox ── */
+.bk-consent{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:var(--ink-quiet);line-height:1.5;
+  cursor:pointer;
+}
+.bk-consent input[type="checkbox"]{
+  margin-top:3px;flex:none;
+  width:16px;height:16px;accent-color:var(--forest);
+}
+
+/* ── Error message ── */
+.bk-err{color:#8a2f18;font-size:12.5px;min-height:1em}
+
+/* ── Submit button ── */
+.bk-submit{width:100%;margin-top:4px}
+.bk-submit:disabled{
+  opacity:.6;cursor:not-allowed;
+}
+
+/* ── Fine print ── */
+.bk-fine{
+  font-family:var(--serif);font-style:italic;
+  font-size:12.5px;color:var(--ink-faint);text-align:center;margin-top:4px;
+}
+
+/* ── Success state ── */
+.bk-success{
+  text-align:center;padding:40px 20px;
+}
+.bk-check-icon{
+  width:56px;height:56px;border-radius:50%;
+  border:2px solid var(--forest);color:var(--forest);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;font-weight:700;margin:0 auto 20px;
+  animation:bkPop .5s var(--ease-out);
+}
+@keyframes bkPop{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.1)}to{transform:scale(1);opacity:1}}
+.bk-success h3{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(22px,3.6vw,30px);color:var(--forest);margin-bottom:10px;
+}
+.bk-success p{
+  font-size:15px;color:var(--ink-quiet);line-height:1.6;
+}
+
+/* ── Mobile: prevent iOS zoom on 16px inputs ── */
+@media(max-width:640px){
+  .bk-field input,.bk-field select,.bk-field textarea{font-size:16px}
+  .bk-modal{padding:24px 20px;border-radius:8px}
+  .bk-title{font-size:clamp(22px,6vw,28px)}
 }
