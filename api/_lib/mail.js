@@ -7,16 +7,21 @@
  */
 
 import nodemailer from 'nodemailer';
+import { MAIL_DEFAULTS } from './mail-config.js';
 
 let cached = null;
+
+// Env vars win when set (local .env, or a host's settings); otherwise the
+// built-in mailbox in mail-config.js is used, so a deploy needs no setup.
+const useEnv = Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
 
 function transport() {
   if (cached) return cached;
 
-  const host = process.env.SMTP_HOST;
-  const port = Number(process.env.SMTP_PORT || 587);
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
+  const host = useEnv ? process.env.SMTP_HOST : MAIL_DEFAULTS.host;
+  const port = Number(useEnv ? (process.env.SMTP_PORT || 587) : MAIL_DEFAULTS.port);
+  const user = useEnv ? process.env.SMTP_USER : MAIL_DEFAULTS.user;
+  const pass = useEnv ? process.env.SMTP_PASS : MAIL_DEFAULTS.pass;
 
   if (!host || !user || !pass) throw new Error('SMTP is not configured');
 
@@ -29,7 +34,7 @@ function transport() {
   return cached;
 }
 
-const FROM = process.env.MAIL_FROM || 'Tejal Desae <hello@tejaldesae.com>';
+const FROM = (useEnv && process.env.MAIL_FROM) || MAIL_DEFAULTS.from;
 
 export async function sendAccessLink({ to, link, isResend = false }) {
   const heading = isResend ? 'Here’s your link again' : 'Your assessment is ready';
