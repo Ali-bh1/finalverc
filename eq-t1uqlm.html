@@ -20,12 +20,13 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
 <!-- End Meta Pixel Code -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Expansion Quotient™ — Tejal Desae</title>
+  <link rel="icon" type="image/png" href="images/logo-mark.png">
+  <title>The Expansion Quotient™ | Tejal Desae</title>
   <meta name="description" content="You've built a successful life. How much of it are you actually able to hold, experience and enjoy? Take the free Expansion Quotient.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/home-2026.css">
   <script>document.documentElement.className += ' js';</script>
@@ -104,27 +105,12 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
     .multi-opt.sel{background:var(--em);border-color:var(--em);color:var(--gold)}
     .multi-wrap{display:flex;flex-wrap:wrap;margin-bottom:20px}
 
-    /* emerald special screen (Q12) */
-    .emerald-screen .eqshell{background:var(--forest)}
-    .emerald-screen .qbox h2{color:var(--gold)}
-    .emerald-screen .multi-opt{background:rgba(255,255,255,.08);border-color:rgba(230,211,163,.3);color:var(--gold)}
-    .emerald-screen .multi-opt.sel{background:var(--gold);border-color:var(--gold);color:var(--forest)}
-    .emerald-screen .qcount,.emerald-screen .back2{color:var(--gold)}
-    .emerald-screen .bar{background:rgba(230,211,163,.15)}
-    .emerald-screen .bar i{background:linear-gradient(90deg,var(--gold),#fff)}
-    body.emerald-screen{background:var(--forest)}
-    body.emerald-screen .atop{background:rgba(21,66,48,.92);border-color:rgba(230,211,163,.2)}
-    body.emerald-screen .atop .brand span{color:var(--gold)}
-    body.emerald-screen .atop .ncta-quiet .lbl{color:var(--gold)}
-    body.emerald-screen .btn-em{background:var(--gold-grad);color:var(--forest)}
 
     /* open text */
     .open-text{width:100%;font-family:var(--sans);font-weight:300;font-size:15px;color:var(--em);
       background:var(--cream-lift,#FEFDFB);border:1px solid rgba(199,172,109,.45);
       padding:16px 18px;min-height:120px;resize:vertical;transition:border-color .25s}
     .open-text:focus{outline:none;border-color:var(--em)}
-    body.emerald-screen .open-text{background:rgba(255,255,255,.08);border-color:rgba(230,211,163,.3);color:var(--gold)}
-    body.emerald-screen .open-text::placeholder{color:rgba(230,211,163,.5)}
 
     /* contact form */
     .cap{text-align:center}
@@ -161,6 +147,9 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
     .confirm h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,4.4vw,40px);line-height:1.1;
       color:var(--em);margin:0 0 16px}
     .confirm p{font-weight:300;font-size:16px;line-height:1.8;color:var(--em);opacity:.85;margin-bottom:16px}
+    .confirm .inbox{background:var(--cream-lift,#FEFDFB);border:1px solid rgba(199,172,109,.45);padding:18px 22px;margin:8px 0 22px}
+    .confirm .inbox p{margin:6px 0 0;font-size:15px;opacity:.9}
+    .confirm .inbox-lab{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-text)}
     .confirm .signoff{margin-top:30px;padding-top:24px;border-top:1px solid rgba(199,172,109,.3)}
     .confirm .signoff strong{font-weight:500;display:block;font-size:17px;color:var(--em)}
     .confirm .signoff span{font-size:13px;opacity:.6;display:block;margin-top:2px}
@@ -179,13 +168,17 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
     @media(prefers-reduced-motion:reduce){.screen,.qbox{animation:none}.eqrings{display:none}}
   </style>
   <link rel="stylesheet" href="css/emerald-2026.css">
+  <link rel="stylesheet" href="css/popup.css">
+  <link rel="stylesheet" href="css/site-polish.css">
+  <link rel="stylesheet" href="css/site-premium.css">
+  <link rel="stylesheet" href="css/site-type.css">
 </head>
 <body class="h26 inv">
 
   <nav id="nav" class="atop">
     <div class="wrap nin">
-      <a class="brand" href="index.html" aria-label="Tejal Desae — home">
-        <img class="lg" src="images/ref-logo.png" alt="Tejal Desae monogram">
+      <a class="brand" href="index.html" aria-label="Tejal Desae, home">
+        <img class="lg" src="images/logo-mark.png" alt="Tejal Desae monogram">
         <span>Tejal Desae</span>
       </a>
       <span class="brand-role">The Expansion Quotient</span>
@@ -200,17 +193,17 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
       <!-- INTRO -->
       <section class="screen active" id="s-intro">
         <div class="intro">
-          <span class="eyebrow">The Expansion Quotient™</span>
+          <span class="eyebrow" id="introEyebrow">The Expansion Quotient™</span>
           <h1>You've built a successful life. How much of it are you actually able to <b>hold, experience and enjoy</b>?</h1>
           <p>You probably don't need another assessment telling you how ambitious, capable or successful you are. You already know what you can achieve. The Expansion Quotient™ looks somewhere different.</p>
-          <p>It explores what is happening underneath the achievement — across your identity, wealth, relationships, health, time, spirituality and your capacity to receive and experience the life you've built.</p>
+          <p>It explores what is happening underneath the achievement, across your identity, wealth, relationships, health, time, spirituality and your capacity to receive and experience the life you've built.</p>
           <p style="font-style:italic;opacity:.7">There are no 'good' answers. Choose the answer that feels most true today, not the one you think you should choose.</p>
           <div class="meta-row">
             <span><span class="dot"></span>~4 minutes</span>
             <span><span class="dot"></span>Free</span>
             <span><span class="dot"></span>Results by email</span>
           </div>
-          <button class="btn btn-em full" onclick="show('s-quiz')">Begin My Expansion Quotient →</button>
+          <button class="btn btn-em full" id="beginBtn">Begin My Expansion Quotient →</button>
           <p class="fineprint">Free, always. Your personalised result is sent to your inbox.</p>
         </div>
       </section>
@@ -219,7 +212,7 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
       <section class="screen" id="s-quiz">
         <div class="qhead">
           <span class="qcount" id="qcount">Question 1 of 14</span>
-          <button class="back2" id="backBtn" onclick="goBack()" hidden>← Back</button>
+          <button class="back2" id="backBtn" hidden>← Back</button>
         </div>
         <div class="bar"><i id="bar" style="width:0%"></i></div>
         <div id="qmount"></div>
@@ -227,6 +220,7 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
 
       <!-- CONTACT DETAILS -->
       <section class="screen" id="s-contact">
+        <div class="qhead"><span class="qcount">Last step</span><button class="back2" id="capBack">← Back</button></div>
         <div class="cap">
           <span class="eyebrow">Almost there</span>
           <h2>Where should I send your Expansion Quotient?</h2>
@@ -236,7 +230,11 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
               <div class="field"><label for="fn">First name</label><input id="fn" type="text" autocomplete="given-name" placeholder="Your name" required></div>
               <div class="field"><label for="ln">Last name</label><input id="ln" type="text" autocomplete="family-name" placeholder="Your surname" required></div>
             </div>
-            <div class="field"><label for="em">Email</label><input id="em" type="email" autocomplete="email" placeholder="you@email.com" required></div>
+            <div class="fr2">
+              <div class="field"><label for="em">Email</label><input id="em" type="email" autocomplete="email" placeholder="you@email.com" required></div>
+              <div class="field"><label for="ph">Phone / WhatsApp <span class="opt-tag">(optional)</span></label><input id="ph" type="tel" autocomplete="tel" placeholder="+91…"></div>
+            </div>
+            <input type="text" id="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
             <div class="fr2">
               <div class="field"><label for="co">Country</label>
                 <select id="co" required>
@@ -266,11 +264,11 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
             </div>
             <div class="fr2">
               <div class="field"><label for="bz">Company / Business <span class="opt-tag">(optional)</span></label><input id="bz" type="text" placeholder="Your business name" autocomplete="organization"></div>
-              <div class="field"><label for="li">LinkedIn <span class="opt-tag">(optional)</span></label><input id="li" type="url" placeholder="linkedin.com/in/you"></div>
+              <div class="field"><label for="li">LinkedIn <span class="opt-tag">(optional)</span></label><input id="li" type="text" placeholder="linkedin.com/in/you"></div>
             </div>
             <label class="chk"><input type="checkbox" id="mc"><span>I'd also like to receive Tejal's insights on identity, wealth and living from wholeness. I can unsubscribe anytime.</span></label>
-            <div class="err" id="capErr"></div>
-            <button class="btn btn-em full" id="submitBtn" onclick="submitAssessment()">Show Me My Expansion Quotient →</button>
+            <div class="err" id="capErr" role="alert"></div>
+            <button class="btn btn-em full" id="submitBtn">Show Me My Expansion Quotient →</button>
             <p class="fineprint">Your details stay private. Completely free.</p>
           </div>
         </div>
@@ -282,9 +280,12 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
           <div class="chk-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 6 9 17l-5-5"/></svg></div>
           <h2>Your results are on their way.</h2>
           <p>Thank you for taking the time to answer these questions thoughtfully.</p>
-          <p>Your Expansion Quotient isn't designed to tell you what's wrong with your life. It's designed to help you see where you've already expanded beautifully — and where the person underneath everything you've built may be ready for more.</p>
-          <p>We'll send your results to the email address you provided.</p>
-          <p>My team also reviews the responses. If we see something in yours that I believe would be valuable to explore together, we'll reach out and invite you to a conversation. There's no obligation.</p>
+          <p>Your Expansion Quotient isn't designed to tell you what's wrong with your life. It's designed to help you see where you've already expanded beautifully, and where the person underneath everything you've built may be ready for more.</p>
+          <div class="inbox">
+            <span class="inbox-lab">Check your inbox</span>
+            <p>Your personalised results are on their way to <b id="cfEmail">your email</b>. If they're not there in a few minutes, look in Promotions or Spam.</p>
+          </div>
+          <p id="cfNext">My team also reviews the responses. If we see something in yours that I believe would be valuable to explore together, we'll reach out and invite you to a conversation. There's no obligation.</p>
           <p style="font-style:italic;font-family:var(--serif);font-size:17px;color:var(--gold-text);margin-top:24px">What am I ready to experience, receive and become that achievement alone cannot give me?</p>
           <div class="signoff">
             <strong>Tejal Desae</strong>
@@ -297,357 +298,31 @@ src="https://www.facebook.com/tr?id=925766013116755&ev=PageView&noscript=1"
     </div>
   </div>
 
-<script type="module">
-import { sendLead } from './js/lead-service.js';
+  <footer>
+    <div class="wrap">
+      <div class="fg">
+        <div>
+          <div class="brand"><img class="lg" src="images/logo-mark.png" alt="Tejal Desae monogram"><span>Tejal Desae</span></div>
+          <p class="tag">Wealth &amp; Identity Mentor.<br>Helping people who are brilliant at the work finally get paid for it.</p>
+          <div class="soc">
+            <a href="https://instagram.com/tejaldesae" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span>@tejaldesae</span></a>
+            <a href="https://youtube.com/@tejaldesae" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg><span>@tejaldesae</span></a>
+            <a href="https://linkedin.com/in/tejaldesae" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 10v7M7 7v.5M11.5 17v-4a2.5 2.5 0 0 1 5 0v4"/></svg><span>Tejal Desae</span></a>
+          </div>
+        </div>
+        <div><h4>The Call</h4><a href="index.html#call">What you get</a><a href="index.html#who">Is this you?</a><a href="index.html#proof">About Tejal</a><a href="index.html#book">Book a free call</a></div>
+        <div><h4>Programmes</h4><a href="wealth-expansion-code.html">Wealth Expansion Code</a><a href="business-expansion-code.html">Business Expansion Code</a></div>
+        <div><h4>Legal</h4><a href="privacy-policy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a><a href="refund-policy.html">Refund &amp; Cancellation</a>
+          <h4 class="fh-gap">Contact</h4>
+          <p class="ft">Bangalore, India</p>
+          <p class="ft"><a href="mailto:hello@tejaldesae.com">hello@tejaldesae.com</a></p>
+        </div>
+      </div>
+      <div class="disc">Disclaimer: The Wealth Expansion Code and Business Expansion Code are educational and coaching programmes for personal and professional development purposes only. Nothing on this site constitutes financial, legal, medical, or psychological advice. Results vary and depend on individual effort, commitment, and circumstances. We do not guarantee specific outcomes.</div>
+      <div class="cp">© 2026 Tejal Desae · tejaldesae.com</div>
+    </div>
+  </footer>
 
-// ── Questions (Q1–Q11: single select, Q12: multi-select, Q13: intent, Q14: open-text) ──
-
-const QUESTIONS = [
-  // Q1: The Life You Built → Time & Experience
-  { q: "When you look at your life from the outside, which feels closest to the truth?",
-    o: [["I've built a life I'm proud of, and I genuinely have space to enjoy it.", 1],
-        ["I'm grateful for what I've built, but I know there are parts of my life that haven't expanded with my success.", 2],
-        ["I'm achieving constantly, but the next target arrives before I've really experienced the last one.", 3],
-        ["I sometimes wonder, 'I worked this hard for this life — why doesn't it feel the way I thought it would?'", 4]],
-    territory: "time" },
-
-  // Q2: Identity
-  { q: "Take away your title, business, income, responsibilities and the people who depend on you. How comfortable are you with who remains?",
-    o: [["Very. My accomplishments are part of my life, not my identity.", 1],
-        ["Mostly — although achievement still influences how I see myself.", 2],
-        ["That question makes me surprisingly uncomfortable.", 3],
-        ["I'm not sure I know who I am when I'm not achieving, solving, providing or being useful.", 4]],
-    territory: "identity" },
-
-  // Q3: Control & Certainty
-  { q: "When something deeply matters to you but the outcome isn't fully in your control — money, business, family, health, relationships or timing — what happens?",
-    o: [["I do what is mine to do and can generally release the rest.", 1],
-        ["I tell myself to let go, but my mind keeps returning to it.", 2],
-        ["I plan, analyse, anticipate and keep looking for something else I can do.", 3],
-        ["Uncertainty is extremely uncomfortable. I feel safest when I know what is going to happen.", 4]],
-    territory: "certainty" },
-
-  // Q4: Money
-  { q: "Which statement best describes your relationship with money today?",
-    o: [["Money feels like a resource. I can create, receive, hold, enjoy and direct it consciously.", 1],
-        ["I earn well, but money can still create more anxiety than I think it should.", 2],
-        ["I'm comfortable earning money, but receiving more, charging more, holding it or enjoying it can feel different.", 3],
-        ["Regardless of how much I have or earn, some part of me still worries that it may not be enough.", 4]],
-    territory: "wealth" },
-
-  // Q5: Receiving
-  { q: "Something wonderful comes toward you — recognition, money, support, an opportunity, affection or praise. What happens naturally?",
-    o: [["I receive it and enjoy it.", 1],
-        ["I receive it, but quickly think about what I need to do next.", 2],
-        ["I often minimise it, deflect it or feel I need to reciprocate immediately.", 3],
-        ["Giving feels considerably easier than receiving.", 4]],
-    territory: "receiving" },
-
-  // Q6: Responsibility → Relationships & Boundaries
-  { q: "How often do you find yourself carrying things that technically belong to other capable adults?",
-    o: [["Rarely. I'm clear about what belongs to me.", 1],
-        ["Occasionally — particularly with people I love.", 2],
-        ["Often. It's usually easier to handle it myself.", 3],
-        ["Constantly. I'm the person everyone turns to, and I don't really know how not to be.", 4]],
-    territory: "relationships" },
-
-  // Q7: Relationships → Relationships & Boundaries
-  { q: "When something is difficult for YOU, who gets access to that version of you?",
-    o: [["I have people with whom I can be completely myself.", 1],
-        ["A few people, although I still tend to handle most things privately.", 2],
-        ["People know what's happening in my life, but not necessarily what I'm experiencing underneath it.", 3],
-        ["I'm surrounded by people, but there are things I genuinely don't know who I would call about.", 4]],
-    territory: "relationships" },
-
-  // Q8: Body → Body & Capacity
-  { q: "At the end of a demanding day, what does your system naturally know how to do?",
-    o: [["Switch off, recover and enjoy the rest of my life.", 1],
-        ["Physically stop working while my mind keeps going.", 2],
-        ["Reach for scrolling, food, television, shopping, another drink, more work or stimulation to switch off.", 3],
-        ["I'm so accustomed to functioning under pressure that I often notice exhaustion only when my body forces me to.", 4]],
-    territory: "body" },
-
-  // Q9: Time → Time & Experience
-  { q: "If I looked at your calendar rather than your vision board, what would it tell me you value most?",
-    o: [["My calendar reflects what matters to me remarkably well.", 1],
-        ["Work still receives more of me than I consciously intend.", 2],
-        ["The people and experiences I say matter most often receive whatever time is left.", 3],
-        ["Much of the life I want is still sitting under 'when things settle down.'", 4]],
-    territory: "time" },
-
-  // Q10: Spirituality → Certainty & Surrender
-  { q: "When life refuses to follow your plan, what does spirituality look like for you?",
-    o: [["I can take aligned action and genuinely surrender what I cannot control.", 1],
-        ["I believe in God/Universe/Source, but surrender is much easier intellectually than practically.", 2],
-        ["I tend to reach for spirituality most when I need something to change.", 3],
-        ["I struggle to trust when reality looks very different from what I hoped for.", 4]],
-    territory: "certainty" },
-
-  // Q11: Success → Body & Capacity
-  { q: "Complete this sentence: 'I'll finally be able to relax/enjoy myself when...'",
-    o: [["I don't really live that way anymore.", 1],
-        ["I reach the next financial/business milestone.", 2],
-        ["This current problem or responsibility is handled.", 3],
-        ["If I'm truthful, the answer keeps changing. Every finish line seems to create another one.", 4]],
-    territory: "body" },
-];
-
-// Q12: Multi-select (expansion desires)
-const Q12_OPTIONS = [
-  "Peace", "Money", "Time", "Love", "Health", "Intimacy",
-  "Friendship", "Spiritual connection", "Freedom", "Business growth",
-  "Meaning", "Joy", "Travel & experiences", "Confidence", "Support", "Something else"
-];
-
-// Q13: Intent (conversation readiness)
-const Q13_OPTIONS = [
-  ["I'd love to understand what my results are showing me and what I could do next.", "understand"],
-  ["I'd be open to a private conversation if Tejal feels there's something worth exploring together.", "conversation"],
-  ["I'd like my results and would prefer to explore them independently for now.", "independent"],
-];
-
-// Territory display names
-const TERRITORY_NAMES = {
-  identity: "Identity",
-  receiving: "Receiving",
-  wealth: "Wealth",
-  relationships: "Relationships & Boundaries",
-  time: "Time & Experience",
-  certainty: "Certainty & Surrender",
-  body: "Body & Capacity",
-};
-
-// Total "screens": 11 single-select + Q12 multi + Q13 intent + Q14 open-text = 14
-const TOTAL_STEPS = 14;
-
-let state = {
-  i: 0, // current question index (0-10 for Q1-Q11, then 11=Q12, 12=Q13, 13=Q14)
-  answers: new Array(11).fill(null), // Q1-Q11 scores
-  q12: [],       // multi-select choices
-  q13: null,     // intent answer
-  q14: '',       // open-text 6-month answer
-};
-
-// Expose to inline onclick handlers
-window.show = show;
-window.pick = pick;
-window.goBack = goBack;
-window.submitAssessment = submitAssessment;
-window.toggleMulti = toggleMulti;
-window.pickIntent = pickIntent;
-
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0, 0);
-
-  // Toggle emerald styling for Q12
-  const isEmerald = id === 's-quiz' && state.i === 11;
-  document.body.classList.toggle('emerald-screen', isEmerald);
-}
-
-function renderQ() {
-  const pct = ((state.i) / TOTAL_STEPS * 100);
-  document.getElementById('bar').style.width = pct + '%';
-  document.getElementById('backBtn').hidden = state.i === 0;
-
-  // Toggle emerald for Q12
-  document.body.classList.toggle('emerald-screen', state.i === 11);
-
-  if (state.i < 11) {
-    // Q1–Q11: single select
-    const q = QUESTIONS[state.i];
-    document.getElementById('qcount').textContent = 'Question ' + (state.i + 1) + ' of ' + TOTAL_STEPS;
-    let h = '<div class="qbox"><h2>' + q.q + '</h2>';
-    q.o.forEach((o, idx) => {
-      const sel = state.answers[state.i] === o[1] ? ' sel' : '';
-      h += '<button class="opt' + sel + '" onclick="pick(' + idx + ')">' + o[0] + '</button>';
-    });
-    h += '</div>';
-    document.getElementById('qmount').innerHTML = h;
-
-  } else if (state.i === 11) {
-    // Q12: multi-select
-    document.getElementById('qcount').textContent = 'Question 12 of ' + TOTAL_STEPS;
-    let h = '<div class="qbox"><h2>If nothing had to be wrong with your current life for you to desire more from it… what would you want MORE of?</h2>';
-    h += '<p style="font-size:13px;opacity:.6;margin:-18px 0 20px;font-style:italic">Select all that apply</p>';
-    h += '<div class="multi-wrap">';
-    Q12_OPTIONS.forEach((opt, idx) => {
-      const sel = state.q12.includes(opt) ? ' sel' : '';
-      h += '<button class="multi-opt' + sel + '" onclick="toggleMulti(' + idx + ')">' + opt + '</button>';
-    });
-    h += '</div>';
-    h += '<button class="btn btn-em" style="margin-top:10px" onclick="advanceFromMulti()">Continue →</button>';
-    h += '</div>';
-    document.getElementById('qmount').innerHTML = h;
-
-  } else if (state.i === 12) {
-    // Q13: intent / conversation readiness
-    document.getElementById('qcount').textContent = 'Question 13 of ' + TOTAL_STEPS;
-    let h = '<div class="qbox"><h2>If your results show an area of your life that is ready for deeper expansion, what would you most want next?</h2>';
-    Q13_OPTIONS.forEach((o, idx) => {
-      const sel = state.q13 === o[1] ? ' sel' : '';
-      h += '<button class="opt' + sel + '" onclick="pickIntent(' + idx + ')">' + o[0] + '</button>';
-    });
-    h += '</div>';
-    document.getElementById('qmount').innerHTML = h;
-
-  } else if (state.i === 13) {
-    // Q14: open-text 6-month vision
-    document.getElementById('qcount').textContent = 'Question 14 of ' + TOTAL_STEPS;
-    let h = '<div class="qbox"><h2>If we spoke again six months from now and you told me, \'Something really shifted,\' what would be different in your life?</h2>';
-    h += '<textarea class="open-text" id="q14text" placeholder="Take your time with this one…" oninput="state.q14=this.value">' + (state.q14 || '') + '</textarea>';
-    h += '<button class="btn btn-em" style="margin-top:20px" onclick="advanceToContact()">Continue →</button>';
-    h += '</div>';
-    document.getElementById('qmount').innerHTML = h;
-  }
-}
-
-window.advanceFromMulti = function() {
-  state.i = 12;
-  renderQ();
-};
-
-window.advanceToContact = function() {
-  document.getElementById('bar').style.width = '100%';
-  document.body.classList.remove('emerald-screen');
-  show('s-contact');
-};
-
-function pick(idx) {
-  const q = QUESTIONS[state.i];
-  state.answers[state.i] = q.o[idx][1];
-  document.querySelectorAll('#qmount .opt').forEach(o => o.classList.remove('sel'));
-  document.querySelectorAll('#qmount .opt')[idx].classList.add('sel');
-  setTimeout(() => {
-    if (state.i < 10) { state.i++; renderQ(); }
-    else { state.i = 11; renderQ(); } // move to Q12
-  }, 380);
-}
-
-function toggleMulti(idx) {
-  const opt = Q12_OPTIONS[idx];
-  const pos = state.q12.indexOf(opt);
-  if (pos > -1) state.q12.splice(pos, 1);
-  else state.q12.push(opt);
-  // Re-render multi buttons
-  document.querySelectorAll('.multi-opt').forEach((btn, i) => {
-    btn.classList.toggle('sel', state.q12.includes(Q12_OPTIONS[i]));
-  });
-}
-
-function pickIntent(idx) {
-  state.q13 = Q13_OPTIONS[idx][1];
-  document.querySelectorAll('#qmount .opt').forEach(o => o.classList.remove('sel'));
-  document.querySelectorAll('#qmount .opt')[idx].classList.add('sel');
-  setTimeout(() => { state.i = 13; renderQ(); }, 380);
-}
-
-function goBack() {
-  document.body.classList.remove('emerald-screen');
-  if (state.i > 0) { state.i--; renderQ(); }
-  else { show('s-intro'); }
-}
-
-
-// ── Territory scoring ──
-
-function computeTerritories() {
-  const territories = {};
-  QUESTIONS.forEach((q, idx) => {
-    const score = state.answers[idx];
-    if (score === null) return;
-    if (!territories[q.territory]) territories[q.territory] = { total: 0, count: 0 };
-    territories[q.territory].total += score;
-    territories[q.territory].count += 1;
-  });
-
-  // Average score per territory
-  const averages = {};
-  for (const [key, val] of Object.entries(territories)) {
-    averages[key] = val.total / val.count;
-  }
-
-  // Find dominant territory (highest average = biggest expansion edge)
-  const sorted = Object.entries(averages).sort((a, b) => b[1] - a[1]);
-  const dominant = sorted[0] ? sorted[0][0] : 'identity';
-
-  // Check for dual territory (within 0.25 points)
-  let secondary = null;
-  if (sorted.length >= 2 && sorted[0][1] - sorted[1][1] <= 0.25) {
-    secondary = sorted[1][0];
-  }
-
-  return { averages, sorted, dominant, secondary };
-}
-
-
-// ── Submit assessment ──
-
-function submitAssessment() {
-  const fn = document.getElementById('fn').value.trim();
-  const ln = document.getElementById('ln').value.trim();
-  const email = document.getElementById('em').value.trim();
-  const country = document.getElementById('co').value;
-  const role = document.getElementById('rl').value.trim();
-  const company = document.getElementById('bz').value.trim();
-  const linkedin = document.getElementById('li').value.trim();
-  const consent = document.getElementById('mc').checked;
-  const err = document.getElementById('capErr');
-
-  // Validation
-  if (!fn) { err.textContent = 'Please enter your first name.'; return; }
-  if (!ln) { err.textContent = 'Please enter your last name.'; return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = 'Please enter a valid email address.'; return; }
-  if (!country) { err.textContent = 'Please select your country.'; return; }
-  err.textContent = '';
-
-  // Compute territories
-  const result = computeTerritories();
-
-  // Build answers string for logging
-  const answersStr = state.answers.map(a => a !== null ? String(a) : '-').join(', ');
-
-  // Send lead
-  sendLead({
-    source: 'Expansion Quotient Assessment',
-    firstName: fn,
-    lastName: ln,
-    email: email,
-    program: 'expansion-quotient',
-    scores: JSON.stringify(result.averages),
-    archetype: result.dominant,
-    quizAnswers: answersStr,
-    message: state.q14 || '',
-    extraFields: {
-      'Country': country,
-      'Role': role,
-      'Company': company,
-      'LinkedIn': linkedin,
-      'Marketing Consent': consent ? 'Yes' : 'No',
-      'Dominant Territory': TERRITORY_NAMES[result.dominant] || result.dominant,
-      'Secondary Territory': result.secondary ? (TERRITORY_NAMES[result.secondary] || result.secondary) : 'None',
-      'Desires (Q12)': state.q12.join(', ') || 'None selected',
-      'Conversation Intent (Q13)': state.q13 || 'Not answered',
-      'Six-Month Vision (Q14)': state.q14 || 'Not answered',
-    },
-  }).catch(() => {}); // fire-and-forget
-
-  // Store for any later use
-  try {
-    localStorage.setItem('tejal_eq_done', '1');
-    localStorage.setItem('tejal_eq_territory', result.dominant);
-    localStorage.setItem('tejal_lead_name', fn);
-  } catch (e) {}
-
-  // Show confirmation
-  show('s-confirm');
-}
-
-// Init
-const pp = new URLSearchParams(location.search).get('program');
-if (pp) sessionStorage.setItem('tejal_program', pp);
-renderQ();
-</script>
+<script type="module" src="js/eq-page.js"></script>
 </body>
 </html>

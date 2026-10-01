@@ -76,3 +76,11 @@ export async function sendAccessLink({ to, link, isResend = false }) {
     html,
   });
 }
+
+/**
+ * Generic send. `from` falls back to MAIL_FROM; with Gmail SMTP that must
+ * be the authenticated account (or a verified alias) or Gmail rewrites it.
+ */
+export async function sendMail({ to, subject, html, text, replyTo }) {
+  await transport().sendMail({ from: FROM, to, subject, html, text, replyTo });
+}

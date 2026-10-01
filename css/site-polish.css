@@ -1,0 +1,313 @@
+/* ============================================================
+   site-polish.css — one navbar, readable text, on every page.
+
+   Loaded LAST on every live page (index, assessment, calendar,
+   programme and policy pages). Two palettes grew up side by side —
+   emerald-2026.css (.h26.inv) and warm-palette.css — and each nudged
+   type a little lighter and smaller until much of it fell below
+   readable contrast on the sand grounds. This file sets the floor:
+
+   - the navbar is defined once here, by #nav, so no page drifts
+   - the gold and "quiet" ink tokens are darkened to pass WCAG AA
+     on the darkest sand (#CDB992)
+   - nothing below ~13px, and no text faded with opacity
+
+   Every selector starts body.h26:not(#_). The :not(#_) matches every
+   page but carries id-level specificity, so these rules win over
+   emerald-2026.css's deep .h26.inv … chains without !important.
+   ============================================================ */
+
+/* ── Tokens ──────────────────────────────────────────────────
+   Old --gold-text #A0833B measured ~2.4:1 on sand. #5E4715 keeps the
+   antique-gold character at ≥5:1. */
+body.h26:not(#_){
+  --gold-text:  #5E4715;
+  --on-green:   #23302A;
+  --on-green-q: #3A4740;
+  --ink-quiet:  #3A4740;
+  --ink-soft:   #2F3C35;
+  --ink-body:   #23302A;
+  --ink-faint:  rgba(35,48,42,.78);
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   NAVBAR — identical on every page
+   ════════════════════════════════════════════════════════════ */
+
+body.h26:not(#_) #nav{
+  position:sticky;top:0;z-index:60;display:block;padding:0;
+  background:rgba(250,246,236,.97);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(21,66,48,.18);
+  box-shadow:0 10px 26px -22px rgba(21,66,48,.45);
+}
+body.h26:not(#_) #nav:before,
+body.h26:not(#_) #nav:after{display:none}
+body.h26:not(#_) #nav.scrolled{background:rgba(250,246,236,.97)}
+
+body.h26:not(#_) #nav .nin{
+  display:flex;align-items:center;justify-content:flex-start;gap:22px;
+  max-width:1240px;min-height:74px;margin:0 auto;
+  padding:10px clamp(20px,4vw,48px);
+}
+body.h26:not(#_) #nav.scrolled .nin{padding-top:10px;padding-bottom:10px}
+
+/* Monogram: images/logo-mark.png is the same mark recoloured to a deeper
+   antique gold (shading kept), so the hairlines hold contrast on sand
+   without needing a backing shape. */
+body.h26:not(#_) #nav .brand{display:flex;align-items:center;gap:13px;flex:none;text-decoration:none}
+body.h26:not(#_) #nav .brand img.lg,
+body.h26:not(#_) #nav.scrolled .brand img.lg{
+  width:52px;height:52px;padding:0;margin:-4px 0;box-sizing:border-box;
+  border-radius:0;background:none;object-fit:contain;box-shadow:none;
+  filter:none;transform:none;
+}
+body.h26:not(#_) #nav .brand span{
+  font-family:var(--serif);font-weight:600;font-size:24px;line-height:1;
+  letter-spacing:.03em;color:var(--forest)!important;white-space:nowrap;
+}
+
+body.h26:not(#_) #nav .brand-role{
+  display:block;padding-left:22px;border-left:1px solid rgba(21,66,48,.28);
+  font-family:var(--sans);font-size:12px;font-weight:600;line-height:1.3;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--on-green-q);opacity:1;
+}
+body.h26:not(#_) #nav .brand-role:before{display:none}
+
+/* The one action on the right. Filled = go somewhere; quiet = step out. */
+body.h26:not(#_) #nav .ncta{
+  margin-left:auto;display:inline-flex;align-items:center;justify-content:center;gap:0;
+  height:46px;padding:0 24px;border:1.5px solid var(--forest);border-radius:0;
+  background:var(--forest);color:#F3E6C4!important;
+  font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;text-decoration:none;white-space:nowrap;opacity:1!important;
+  box-shadow:none;transition:background .25s,color .25s,border-color .25s;
+}
+body.h26:not(#_) #nav .ncta .lbl{padding:0;font:inherit;letter-spacing:inherit;color:inherit!important;background:none}
+body.h26:not(#_) #nav .ncta:hover{background:#0E3122;border-color:#0E3122;color:#fff!important}
+body.h26:not(#_) #nav .ncta:hover .lbl{letter-spacing:inherit}
+body.h26:not(#_) #nav .ncta:focus-visible{outline:2px solid var(--forest);outline-offset:3px}
+body.h26:not(#_) #nav .ncta.ncta-quiet{background:transparent;color:var(--forest)!important}
+body.h26:not(#_) #nav .ncta.ncta-quiet:hover{background:var(--forest);color:#F3E6C4!important}
+
+@media(max-width:900px){
+  body.h26:not(#_) #nav .brand-role{display:none}
+}
+@media(max-width:640px){
+  body.h26:not(#_) #nav .nin{min-height:64px;gap:12px;padding:8px 16px}
+  body.h26:not(#_) #nav .brand{gap:10px}
+  body.h26:not(#_) #nav .brand img.lg,
+  body.h26:not(#_) #nav.scrolled .brand img.lg{width:44px;height:44px;margin:-3px 0}
+  body.h26:not(#_) #nav .brand span{font-size:20px}
+  body.h26:not(#_) #nav .ncta{display:inline-flex!important;height:40px;padding:0 14px;font-size:11px;letter-spacing:.1em}
+}
+@media(max-width:360px){
+  body.h26:not(#_) #nav .brand span{font-size:18px}
+  body.h26:not(#_) #nav .ncta{padding:0 11px;letter-spacing:.06em}
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   TEXT — floors that apply site-wide
+   ════════════════════════════════════════════════════════════ */
+
+/* Eyebrows were 12px at 55% opacity. */
+body.h26:not(#_) .eyebrow,
+body.h26:not(#_) .eyebrow.lt{font-size:12.5px;font-weight:600;letter-spacing:.24em;opacity:1;color:var(--gold-text)}
+/* …except on the emerald panels (programme pages only — on .inv pages
+   these sections are sand), where light gold is the readable one. */
+body.h26:not(#_):not(.inv) .dark .eyebrow,body.h26:not(#_):not(.inv) .book .eyebrow,body.h26:not(#_) .gua.dark .eyebrow{color:#E6D3A3}
+
+/* Footer */
+body.h26:not(#_) footer{color:var(--ink)}
+body.h26:not(#_) footer h4{color:#0E3122!important;opacity:1;font-size:12.5px;font-weight:700}
+body.h26:not(#_) footer a,
+body.h26:not(#_) footer .ft,
+body.h26:not(#_) footer .ft a,
+body.h26:not(#_) footer .tag{color:#23302A!important;opacity:1}
+body.h26:not(#_) footer a:hover{color:var(--forest)!important}
+body.h26:not(#_) footer .disc{color:#23302A;opacity:1!important;font-size:13px;line-height:1.7}
+body.h26:not(#_) footer .cp{color:#2F3C35;opacity:1;font-size:12.5px}
+
+/* Contact / enquiry form (homepage "Have a question?") */
+body.h26:not(#_) .cform .field label,
+body.h26:not(#_) .field label{color:var(--forest);opacity:1;font-size:12px;font-weight:600}
+body.h26:not(#_) .cform .chk span{color:#2F3C35}
+body.h26:not(#_) .askfirst .btn,
+body.h26:not(#_) .askfirst .btn-ch{background:var(--forest)!important;color:#F3E6C4!important;border-color:var(--forest)!important;opacity:1}
+
+
+/* ════════════════════════════════════════════════════════════
+   HOMEPAGE
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .hero .superhead{color:var(--forest)}
+body.h26:not(#_) .hero .cue{opacity:1}
+body.h26:not(#_) .hero .cue span{color:var(--on-green-q);opacity:1;font-size:12px}
+body.h26:not(#_) .say.dark .p,
+body.h26:not(#_) #proof .p[style]{color:#2F3C35!important;opacity:1}
+body.h26:not(#_) .story .by{color:var(--gold-text);opacity:1}
+body.h26:not(#_) .deliv .n,
+body.h26:not(#_) .pc-dur,
+body.h26:not(#_) .pc-list h3,
+body.h26:not(#_) .idrole,
+body.h26:not(#_) .nameplate span{color:var(--gold-text);opacity:1;font-size:12px}
+body.h26:not(#_) .pc-dur,body.h26:not(#_) .pc-list h3{font-size:12.5px}
+
+
+/* ════════════════════════════════════════════════════════════
+   PROGRAMME PAGES
+   ════════════════════════════════════════════════════════════ */
+/* The guarantee band is meant to be emerald; warm-palette.css painted
+   it sand and left its cream text behind — invisible. */
+body.h26:not(#_) .gua.dark{background:var(--forest);color:#fff}
+body.h26:not(#_) .gua.dark h2{color:#E6D3A3}
+body.h26:not(#_) .gua.dark p{color:rgba(255,255,255,.92);opacity:1}
+body.h26:not(#_) .gua.dark p b{color:#E6D3A3}
+body.h26:not(#_) .gua.dark .fine{color:rgba(255,255,255,.78);opacity:1;font-size:14px}
+body.h26:not(#_) .gua.dark .rule{background:#E6D3A3}
+
+body.h26:not(#_) .php-card .k{color:var(--gold-text);opacity:1}
+body.h26:not(#_) .php-pillars li .no{color:var(--gold-text)}
+body.h26:not(#_) .php-pillars li b{color:var(--forest);font-size:12.5px}
+body.h26:not(#_) .php-pillars li{border-bottom-color:rgba(21,66,48,.14)}
+body.h26:not(#_) .iconrow .ic h4{font-size:12.5px}
+body.h26:not(#_) .paycard .what{color:#E6D3A3;opacity:1}
+body.h26:not(#_) .paycard .amt small{color:#E6D3A3;opacity:1}
+body.h26:not(#_) .paycard .sec{color:rgba(255,255,255,.85);opacity:1;font-size:12.5px}
+
+
+/* ════════════════════════════════════════════════════════════
+   POLICY PAGES
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .legal p,
+body.h26:not(#_) .legal li{color:#23302A;font-size:16.5px;line-height:1.8;opacity:1}
+body.h26:not(#_) .legal .note p{font-size:15px}
+body.h26:not(#_) .legal-hero .upd{color:#2F3C35;font-size:12.5px;opacity:1}
+
+
+/* ════════════════════════════════════════════════════════════
+   CALENDAR PAGE (cb-x7r9)
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .cal-section .cal-header{color:var(--forest);font-size:13px;opacity:1}
+body.h26:not(#_) .cal-section .cal-note{color:#2F3C35;font-size:14px;opacity:1}
+
+
+/* ════════════════════════════════════════════════════════════
+   ASSESSMENT (eq-t1uqlm)
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .intro p,
+body.h26:not(#_) .intro p[style]{color:#23302A;opacity:1!important}
+body.h26:not(#_) .meta-row{color:#2F3C35;opacity:1;font-size:12.5px;font-weight:600}
+body.h26:not(#_) .fineprint{color:#2F3C35;opacity:1;font-size:13.5px}
+body.h26:not(#_) .qcount{color:var(--forest);opacity:1;font-size:12.5px;font-weight:600}
+body.h26:not(#_) .back2{color:var(--forest);opacity:.85;font-size:12.5px;font-weight:600}
+body.h26:not(#_) .back2:hover{opacity:1}
+body.h26:not(#_) .qbox h2 + p{color:#2F3C35;opacity:1!important;font-size:14px!important}
+body.h26:not(#_) .field label .opt-tag{color:#2F3C35}
+body.h26:not(#_) .field input,
+body.h26:not(#_) .field select{background:rgba(255,255,255,.82);border-color:rgba(21,66,48,.28);color:#23302A;font-weight:400}
+body.h26:not(#_) .field input::placeholder{color:rgba(47,60,53,.62)}
+body.h26:not(#_) .chk{color:#2F3C35}
+body.h26:not(#_) .cap > p{color:#23302A;opacity:1;font-size:16px}
+body.h26:not(#_) .open-text{background:rgba(255,255,255,.82);border-color:rgba(21,66,48,.28);color:#23302A}
+
+/* thank-you */
+body.h26:not(#_) .confirm p{color:#23302A;opacity:1;font-size:16.5px}
+body.h26:not(#_) .confirm p[style]{color:var(--gold-text)!important;font-size:19px!important}
+body.h26:not(#_) .confirm .chk-icon{border-color:var(--forest)}
+body.h26:not(#_) .confirm .inbox{background:rgba(255,255,255,.85);border-color:rgba(21,66,48,.22)}
+body.h26:not(#_) .confirm .inbox-lab{color:var(--gold-text);font-weight:700;font-size:12px}
+body.h26:not(#_) .confirm .signoff{border-top-color:rgba(21,66,48,.2)}
+body.h26:not(#_) .confirm .signoff span{color:#2F3C35;opacity:1;font-size:14px}
+body.h26:not(#_) .confirm .signoff em{color:var(--gold-text);font-size:15.5px}
+
+/* Multi-select chips (Q12) — same surface, border and selected state as
+   the single-select answers, so every question looks like one family. */
+body.h26:not(#_) .multi-opt{
+  background:linear-gradient(178deg, rgba(255,255,255,.7), rgba(255,255,255,.85));
+  border:1px solid rgba(199,172,109,.5);color:#23302A;font-weight:400;font-size:15px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5);
+}
+body.h26:not(#_) .multi-opt:hover{border-color:#C7AC6D;background:rgba(255,255,255,.95)}
+body.h26:not(#_) .multi-opt.sel{background:var(--forest);border-color:var(--forest);color:#F0DFAF;font-weight:600}
+
+/* Q12 is the turn from problem to possibility — the spec asks to mark it.
+   Done with the heading colour alone: deep antique gold instead of emerald. */
+body.h26:not(#_) .qbox-desire h2{color:var(--gold-text)}
+
+
+/* ════════════════════════════════════════════════════════════
+   WEIGHT — Jost 300 is a hairline on sand. Body copy reads at 400.
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) :is(.confirm p, .cap > p, .intro p, .chk span, .legal p, .legal li,
+  .gua p, .say .p, .php-pillars li, .php-card p, .fq details p, .story p, .cal-note,
+  .ty .lead, .ty-quiz p, .bk-sub, .bk-consent span, .opt){font-weight:400}
+
+/* Small italic serif lines (fine print, sign-offs) were 12–14px. */
+body.h26:not(#_) .fineprint{font-size:15px}
+body.h26:not(#_) .confirm .signoff em{font-size:17px}
+body.h26:not(#_) .confirm .signoff strong{font-size:18px}
+body.h26:not(#_) .chk{font-size:14px}
+
+
+/* Footer monogram — same mark, no effects. */
+body.h26:not(#_) footer .brand img.lg{width:52px;height:52px;filter:none;background:none;box-shadow:none}
+
+
+/* ════════════════════════════════════════════════════════════
+   ONE SYSTEM — buttons, headings, footer layout
+   Two stylesheets had drifted: the homepage family used 13px/700
+   buttons with 2px corners and 700-weight headings; the programme
+   pages 13.5px/600 square buttons and 600 headings; the policy pages
+   500. These set one value for each, everywhere.
+   ════════════════════════════════════════════════════════════ */
+
+/* Buttons — square corners like the navbar button. */
+body.h26:not(#_) .btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:52px;padding:15px 34px;border-radius:0;border-width:1.5px;border-style:solid;
+  font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;line-height:1.3;text-align:center;
+}
+body.h26:not(#_) .btn-em{background:var(--forest);border-color:var(--forest);color:#F3E6C4!important}
+body.h26:not(#_) .btn-em:hover{background:#0E3122;border-color:#0E3122;color:#fff!important}
+body.h26:not(#_) .btn-ol-dark{background:transparent;border-color:var(--forest);color:var(--forest)!important}
+body.h26:not(#_) .btn-ol-dark:hover{background:var(--forest);color:#F3E6C4!important}
+/* Champagne button only on emerald panels; on sand it is the emerald one. */
+body.h26:not(#_) .btn-ch{background:#E6D3A3;border-color:#E6D3A3;color:#0E3122!important}
+body.h26:not(#_) .btn-ch:hover{background:#F3E6C4;border-color:#F3E6C4}
+body.h26.inv:not(#_) .btn-ch,
+body.h26:not(#_) .askfirst .btn-ch{background:var(--forest);border-color:var(--forest);color:#F3E6C4!important}
+body.h26:not(#_) .btn:focus-visible{outline:2px solid var(--forest);outline-offset:3px}
+
+/* Headings — Cormorant 600 throughout; one scale per role. */
+body.h26:not(#_) :is(h1,h2){font-family:var(--serif);font-weight:600;letter-spacing:0}
+body.h26:not(#_) :is(.hero h1, .php-hero h1, .legal-hero h1, .intro h1, .ty h1){font-size:clamp(38px,4.8vw,62px);line-height:1.08}
+body.h26:not(#_) :is(.say h2, .gua h2, .book h2, .ty-quiz h2, .showcase h2, .whome h2){font-size:clamp(30px,3.6vw,46px);line-height:1.12}
+body.h26:not(#_) .legal h2{font-size:28px}
+body.h26:not(#_) h3:not([class]){font-weight:600}
+
+/* Footer */
+body.h26:not(#_) footer .fh-gap{margin-top:22px}
+body.h26:not(#_) footer .ft a{display:inline}
+body.h26:not(#_) footer .soc a{color:#23302A!important}
+body.h26:not(#_) footer .soc svg{color:var(--forest)}
+
+/* Footer ground — one sand everywhere (the .inv pages had a darker,
+   wave-printed one; programme and policy pages a lighter flat one). */
+body.h26:not(#_) footer{background:#C9BB9C;background-image:none}
+
+/* Programme icon row — hairline pale-gold icons disappeared on sand. */
+body.h26:not(#_) .iconrow .ic svg{stroke:var(--gold-text);stroke-width:1.5}
+body.h26:not(#_) .iconrow .ic svg *{stroke-width:1.5}
+body.h26:not(#_) .iconrow .ic h4{color:var(--forest);font-weight:600}
+body.h26:not(#_) .iconrow .ic p{color:#2F3C35;opacity:1;font-size:14px;font-weight:400}
+body.h26:not(#_) .php-pillars li .no{font-size:24px;font-weight:600}
+
+/* No sideways drag on phones. Decorative ::before rings and glows run
+   past the viewport; body{overflow-x:hidden} hid that on desktop but iOS
+   Safari ignores it on body. clip (unlike hidden) creates no scroll
+   container, so the sticky navbar keeps working. */
+html:has(body.h26),
+body.h26:not(#_){overflow-x:clip}

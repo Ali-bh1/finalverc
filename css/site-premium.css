@@ -1,0 +1,212 @@
+/* ============================================================
+   site-premium.css — light, depth and motion.
+
+   Loaded after site-polish.css on every live page. The site sat on
+   one mid-tan (#D4C49E-ish) from top to bottom, which read flat and a
+   little muddy. This lifts the grounds to ivory and champagne, gives
+   each section its own soft light, anchors the page with an emerald
+   footer, and adds quiet hover feedback on everything you can touch.
+
+   All movement lives inside prefers-reduced-motion: no-preference.
+   Same :not(#_) specificity trick as site-polish.css.
+   ============================================================ */
+
+body.h26:not(#_){
+  --ivory:     #FBF7EE;
+  --cream-2:   #F5EEDE;
+  --champagne: #EEE3CB;
+  --sand-2:    #E5D7B9;
+  --glow:      rgba(255,251,240,.95);
+  --gold-haze: rgba(199,172,109,.20);
+  --lift-shadow: 0 26px 50px -30px rgba(21,66,48,.38), 0 2px 6px -2px rgba(21,66,48,.08);
+  --ease-lux: cubic-bezier(.22,.61,.36,1);
+  background-color:var(--ivory);
+}
+html:has(body.h26){scroll-behavior:smooth;background:#FBF7EE}
+body.h26:not(#_) ::selection{background:#E6D3A3;color:#154230}
+
+
+/* ════════════════════════════════════════════════════════════
+   GROUNDS — each section a slightly different light
+   ════════════════════════════════════════════════════════════ */
+
+/* Openers: luminous ivory with a warm glow from the upper right. */
+body.h26:not(#_) :is(.hero, .php-hero, .legal-hero, .ty, .eqshell){
+  background-color:var(--cream-2);
+  background-image:
+    radial-gradient(ellipse 70% 60% at 78% 8%, var(--glow) 0%, rgba(255,251,240,0) 62%),
+    radial-gradient(ellipse 55% 50% at 6% 96%, var(--gold-haze) 0%, rgba(199,172,109,0) 70%),
+    linear-gradient(180deg, #F7F1E3 0%, #EFE5CE 100%);
+  background-size:100% 100%;background-repeat:no-repeat;
+}
+
+/* Body sections alternate ivory ↔ champagne. */
+body.h26:not(#_) :is(.say.cream, .say.dark, .cal-section, .legal, .php-band.cream){
+  background-color:var(--ivory);
+  background-image:
+    radial-gradient(ellipse 60% 45% at 50% 0%, rgba(230,211,163,.22) 0%, rgba(230,211,163,0) 70%),
+    linear-gradient(180deg, #FBF7EE 0%, #F4ECDB 100%);
+  background-size:100% 100%;background-repeat:no-repeat;
+}
+body.h26:not(#_) :is(.say.sand, .ty-quiz, .php-band:not(.cream)){
+  background-color:var(--champagne);
+  background-image:
+    radial-gradient(ellipse 65% 50% at 15% 10%, rgba(255,251,240,.75) 0%, rgba(255,251,240,0) 65%),
+    linear-gradient(180deg, #F1E8D4 0%, #E8DCC0 100%);
+  background-size:100% 100%;background-repeat:no-repeat;
+}
+/* The homepage booking section: the richest of the light grounds. */
+body.h26.inv:not(#_) .book{
+  background-color:var(--champagne);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 50% 22%, rgba(255,251,240,.9) 0%, rgba(255,251,240,0) 70%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(199,172,109,.26) 0%, rgba(199,172,109,0) 70%),
+    linear-gradient(180deg, #F2E9D6 0%, #E6D8BA 100%);
+  background-size:100% 100%;background-repeat:no-repeat;
+}
+/* The gold linework that sits over sections — keep it, softer on light grounds. */
+body.h26:not(#_) :is(.hero, .say, .book, .eqshell)::before{opacity:.7}
+
+/* Emerald panels (programme pages): depth instead of a flat fill. */
+body.h26:not(#_) :is(.gua.dark, .showcase .sc-t){
+  background-color:#154230;
+  background-image:
+    radial-gradient(ellipse 60% 55% at 50% 0%, rgba(230,211,163,.16) 0%, rgba(230,211,163,0) 65%),
+    radial-gradient(ellipse 50% 60% at 100% 100%, rgba(0,0,0,.22) 0%, rgba(0,0,0,0) 70%),
+    linear-gradient(180deg, #17482F 0%, #0F3324 100%);
+}
+body.h26:not(.inv):not(#_) .book{
+  background-color:#154230;
+  background-image:
+    radial-gradient(ellipse 60% 55% at 50% 0%, rgba(230,211,163,.16) 0%, rgba(230,211,163,0) 65%),
+    linear-gradient(180deg, #154230 0%, #0F3324 100%);
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   FOOTER — deep emerald anchor with a gold hairline
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) footer{
+  position:relative;color:#EDE4CF;
+  background-color:#0F3324;
+  background-image:
+    radial-gradient(ellipse 60% 70% at 15% 0%, rgba(230,211,163,.10) 0%, rgba(230,211,163,0) 65%),
+    linear-gradient(180deg, #0E3122 0%, #0A251A 100%);
+}
+body.h26:not(#_) footer::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:linear-gradient(90deg, rgba(199,172,109,0), rgba(199,172,109,.85) 50%, rgba(199,172,109,0));
+}
+body.h26:not(#_) footer h4{color:#E6D3A3!important}
+body.h26:not(#_) footer :is(a, .ft, .ft a, .tag, .soc a){color:#EDE4CF!important}
+body.h26:not(#_) footer a:hover{color:#FFFFFF!important}
+body.h26:not(#_) footer .brand span{color:#F3E6C4!important}
+body.h26:not(#_) footer .brand img.lg{filter:brightness(1.7) saturate(.85)}
+body.h26:not(#_) footer .soc svg{color:#E6D3A3}
+body.h26:not(#_) footer .disc{color:rgba(237,228,207,.85)!important;opacity:1!important}
+body.h26:not(#_) footer .cp{color:rgba(237,228,207,.8)!important;opacity:1!important;border-top-color:rgba(230,211,163,.2)}
+/* sections that end in a wave seam sit flush on the footer */
+body.h26:not(#_) footer{margin-top:0}
+
+
+/* ════════════════════════════════════════════════════════════
+   SURFACES — cards and frames get a finer edge
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) :is(.deliv .d, .story, .php-card, .paycard2, .idcard, .nameplate, .legal .note, .confirm .inbox){
+  background:linear-gradient(178deg, rgba(255,255,255,.88), rgba(255,253,248,.96));
+  border:1px solid rgba(199,172,109,.45);
+  box-shadow:0 18px 40px -32px rgba(21,66,48,.32);
+}
+body.h26:not(#_) .fband{
+  background:#FFFDF8;border:1px solid rgba(199,172,109,.35);
+  box-shadow:0 30px 60px -40px rgba(21,66,48,.45);
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   MOTION — quiet, and only when the visitor allows it
+   ════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference){
+
+  /* Buttons: a small lift, a soft shadow, and a slow gold sheen. */
+  body.h26:not(#_) :is(.btn, #nav .ncta, .bk-submit){
+    position:relative;overflow:hidden;isolation:isolate;
+    transition:transform .4s var(--ease-lux), box-shadow .4s var(--ease-lux),
+               background-color .3s, color .3s, border-color .3s;
+  }
+  body.h26:not(#_) :is(.btn, #nav .ncta, .bk-submit):hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 30px -16px rgba(21,66,48,.55);
+  }
+  body.h26:not(#_) :is(.btn, #nav .ncta, .bk-submit):active{transform:translateY(0);transition-duration:.1s}
+  body.h26:not(#_) :is(.btn-em, .btn-ch, #nav .ncta:not(.ncta-quiet), .bk-submit)::after{
+    content:""!important;position:absolute;top:0;bottom:0;left:0;width:55%;z-index:-1;pointer-events:none;
+    background:linear-gradient(105deg, rgba(255,240,205,0) 0%, rgba(255,240,205,.30) 50%, rgba(255,240,205,0) 100%);
+    transform:translateX(-160%) skewX(-18deg);
+    transition:transform .9s var(--ease-lux);
+  }
+  body.h26:not(#_) :is(.btn-em, .btn-ch, #nav .ncta:not(.ncta-quiet), .bk-submit):hover::after{
+    transform:translateX(260%) skewX(-18deg);
+  }
+
+  /* Cards rise toward you. */
+  body.h26:not(#_) :is(.deliv .d, .story, .php-card, .iconrow .ic, .paycard2, .confirm .inbox){
+    transition:opacity .9s var(--ease-lux), transform .5s var(--ease-lux),
+               box-shadow .5s var(--ease-lux), border-color .3s;
+  }
+  body.h26:not(#_) :is(.deliv .d, .story, .php-card):hover{
+    transform:translateY(-6px);
+    box-shadow:var(--lift-shadow);
+    border-color:#C7AC6D;
+  }
+  body.h26:not(#_) .iconrow .ic:hover{transform:translateY(-4px)}
+  body.h26:not(#_) .iconrow .ic svg{transition:transform .5s var(--ease-lux)}
+  body.h26:not(#_) .iconrow .ic:hover svg{transform:scale(1.12) rotate(-4deg)}
+
+  /* Photographs: a slow push-in inside their frame. */
+  body.h26:not(#_) .fband{overflow:hidden}
+  body.h26:not(#_) :is(.fband img, .whome-m img, .arch2 img){transition:transform 1.4s var(--ease-lux), filter 1.4s}
+  body.h26:not(#_) .fband:hover img,
+  body.h26:not(#_) .whome-m:hover img{transform:scale(1.035)}
+  body.h26:not(#_) .arch2:hover img{transform:scale(1.025)}
+
+  /* Answer choices in the assessment. */
+  body.h26:not(#_) :is(.opt, .multi-opt){transition:transform .3s var(--ease-lux), box-shadow .3s, background .25s, border-color .25s, color .25s}
+  body.h26:not(#_) :is(.opt, .multi-opt):hover{box-shadow:0 10px 22px -16px rgba(21,66,48,.45)}
+  body.h26:not(#_) .multi-opt:hover{transform:translateY(-2px)}
+
+  /* Navbar monogram turns slightly toward the cursor. */
+  body.h26:not(#_) #nav .brand img.lg{transition:transform .6s var(--ease-lux)}
+  body.h26:not(#_) #nav .brand:hover img.lg{transform:rotate(-6deg) scale(1.04)}
+
+  /* FAQ */
+  body.h26:not(#_) .fq summary{transition:color .25s, padding-left .35s var(--ease-lux)}
+  body.h26:not(#_) .fq summary:hover{padding-left:6px}
+  body.h26:not(#_) .fq details[open] > p{animation:premiumFade .5s var(--ease-lux)}
+}
+@keyframes premiumFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+
+/* ════════════════════════════════════════════════════════════
+   LINKS — a gold underline that draws in from the left
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) :is(footer .fg a, .legal p a, .legal li a, .ty-quiz a){
+  text-decoration:none;border-bottom:0;
+  background-image:linear-gradient(currentColor, currentColor);
+  background-size:0% 1px;background-position:0 100%;background-repeat:no-repeat;
+  transition:background-size .4s var(--ease-lux), color .25s;
+}
+body.h26:not(#_) :is(.legal p a, .legal li a, .ty-quiz a){background-size:100% 1px;background-image:linear-gradient(rgba(199,172,109,.9), rgba(199,172,109,.9))}
+body.h26:not(#_) :is(footer .fg a, .legal p a, .legal li a, .ty-quiz a):hover{background-size:100% 1px}
+body.h26:not(#_) footer .soc a{background-image:none}
+body.h26:not(#_) footer .soc a span{
+  background-image:linear-gradient(currentColor, currentColor);
+  background-size:0% 1px;background-position:0 100%;background-repeat:no-repeat;
+  transition:background-size .4s var(--ease-lux);
+}
+body.h26:not(#_) footer .soc a:hover span{background-size:100% 1px}
+
+/* Keyboard focus is visible everywhere, in brand colours. */
+body.h26:not(#_) :is(a, button, summary, input, select, textarea):focus-visible{
+  outline:2px solid #C7AC6D;outline-offset:3px;
+}

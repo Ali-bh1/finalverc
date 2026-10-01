@@ -1,6 +1,108 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/money-energetics",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/money-energetics.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/wealth-oracle",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/wealth-oracle.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/divine-wealth",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/divine-wealth.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/inner-sanctum",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/inner-sanctum.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/sovereign-mentor",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/sovereign-mentor.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/apply-money-energetics",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/apply-money-energetics.html",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/apply-wealth-oracle",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/apply-wealth-oracle.html",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/apply-divine-wealth",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/apply-divine-wealth.html",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/apply-inner-sanctum",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/apply-inner-sanctum.html",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/apply-sovereign-mentor",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/apply-sovereign-mentor.html",
+      "destination": "/#book",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/call-booked-x7r9",

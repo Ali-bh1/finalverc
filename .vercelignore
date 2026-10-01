@@ -1,10 +1,16 @@
-# ── Magic-link backend: built, but not in use ──
-# Nothing on the site calls /api any more — the assessment is open to
-# anyone and the report reads the visitor's own localStorage. Excluded so
-# Vercel keeps this a pure static deploy instead of building dead
-# functions. Delete api/ and package.json outright if you never want it.
-api/
-package.json
+# ── Serverless functions ──
+# Only /api/eq-submit ships: it emails Expansion Quotient results to the
+# client and the full responses to the team. The rest of api/ is the old
+# paid magic-link gate — built, but not in use — so it stays out.
+api/auth.js
+api/me.js
+api/razorpay-webhook.js
+api/resend.js
+api/_lib/store.js
+api/_lib/token.js
+scripts/
+# Retired paid-programme pages — kept in the repo, never deployed.
+archive/
 .env.example
 
 # ── Backend: never upload to the static host ──

@@ -1,15 +1,17 @@
 /**
- * booking-popup.js — Modal form for free call booking
+ * booking-popup.js — the details pop-up, step 1 of both journeys
  *
- * Replaces the old Razorpay payment flow. When any CTA with
- * [data-book-call] or the old [data-pay] attribute is clicked,
- * this modal opens and captures client details before redirecting
- * to the calendar booking page (cb-x7r9.html).
+ *   "Book a free call"           → popup (mode 'call') → Expansion Quotient → thank-you
+ *   "Take the free Expansion Q." → popup (mode 'eq')   → Expansion Quotient → thank-you
  *
- * Depends on: lead-service.js (sendLead)
+ * [data-book-call] or a #book link opens it in 'call' mode; [data-take-eq]
+ * or a #eq link in 'eq' mode. The details are handed to the assessment
+ * through sessionStorage (eq-flow.js), so nobody is asked twice. Nothing is
+ * sent from here — the lead, the client's result email and the team
+ * notification all go out together when the assessment is submitted.
  */
 
-import { sendLead } from './lead-service.js';
+import { saveContact, loadContact, captureSource } from './eq-flow.js';
 
 // ── Country list (top countries first, then alphabetical) ────
 const COUNTRIES = [
@@ -36,26 +38,42 @@ const COUNTRIES = [
   'Sri Lanka', 'Sweden', 'Switzerland', 'Taiwan', 'Tanzania',
   'Thailand', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Uganda',
   'Ukraine', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam',
-  'Zambia', 'Zimbabwe',
+  'Zambia', 'Zimbabwe', 'Other',
 ];
 
-// ── Role/description options ─────────────────────────────────
-const ROLES = [
-  'I run my own business',
-  'I\'m employed / in a leadership role',
-  'I\'m a coach, consultant or practitioner',
-  'I\'m about to start out on my own',
-  'Something else',
-];
+const ASSESSMENT_URL = 'eq-t1uqlm.html';
 
-// ── Booking calendar URL ─────────────────────────────────────
-const CALENDAR_URL = 'cb-x7r9.html';
+// Copy for each journey. 'call' promises a call; 'eq' promises results only.
+const MODES = {
+  call: {
+    eyebrow: 'Your free Expansion Call',
+    title: "Let's start with you",
+    sub: 'Before you speak with Tejal, a short, private reflection helps us understand where you are.',
+    steps: ['Your details', 'Expansion Quotient <small>~4 min</small>', 'We arrange your call'],
+    phoneRequired: true,
+    button: 'Continue to my Expansion Quotient →',
+    fine: 'Completely free. Your personalised result comes to your inbox, and our team will be in touch to arrange your call.',
+    pixel: 'Free Expansion Call',
+  },
+  eq: {
+    eyebrow: 'The Expansion Quotient™ · Free',
+    title: 'Where should we send your results?',
+    sub: 'Fourteen reflective questions, about four minutes. Your personalised Expansion Quotient arrives in your inbox.',
+    steps: ['Your details', 'The questions <small>~4 min</small>', 'Results by email'],
+    phoneRequired: false,
+    button: 'Begin my Expansion Quotient →',
+    fine: 'Completely free. Your details stay private, and your results come straight to your inbox.',
+    pixel: 'Free Expansion Quotient',
+  },
+};
 
 
 // ── DOM Creation ─────────────────────────────────────────────
 
 let modalEl = null;
-let isSubmitting = false;
+let lastTrigger = null;
+let mode = 'call';
+let onDone = null;
 
 function createModal() {
   if (modalEl) return modalEl;
@@ -65,16 +83,17 @@ function createModal() {
   overlay.id = 'bookingOverlay';
   overlay.setAttribute('role', 'dialog');
   overlay.setAttribute('aria-modal', 'true');
-  overlay.setAttribute('aria-label', 'Book your free Expansion Call');
+  overlay.setAttribute('aria-labelledby', 'bk-title');
 
   overlay.innerHTML = `
     <div class="bk-modal">
-      <button class="bk-close" aria-label="Close booking form" type="button">&times;</button>
+      <button class="bk-close" aria-label="Close" type="button">&times;</button>
 
       <div class="bk-header">
-        <span class="bk-eyebrow">Your Expansion Call</span>
-        <h2 class="bk-title">Book your free call with Tejal</h2>
-        <p class="bk-sub">45 minutes, one-on-one. Fill in your details and pick a time that suits you.</p>
+        <span class="bk-eyebrow" id="bk-eyebrow"></span>
+        <h2 class="bk-title" id="bk-title"></h2>
+        <p class="bk-sub" id="bk-sub"></p>
+        <ol class="bk-steps" id="bk-steps" aria-label="How it works"></ol>
       </div>
 
       <form class="bk-form" id="bookingForm" novalidate>
@@ -95,8 +114,8 @@ function createModal() {
             <input id="bk-email" name="email" type="email" required autocomplete="email" placeholder="you@email.com">
           </div>
           <div class="bk-field">
-            <label for="bk-phone">Phone / WhatsApp *</label>
-            <input id="bk-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+91…">
+            <label for="bk-phone">Phone / WhatsApp <span id="bk-phone-req">*</span></label>
+            <input id="bk-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91…">
           </div>
         </div>
 
@@ -113,55 +132,47 @@ function createModal() {
             </select>
           </div>
           <div class="bk-field">
-            <label for="bk-role">What best describes you? *</label>
-            <select id="bk-role" name="role" required>
-              <option value="">Select one</option>
-              ${ROLES.map(r => `<option value="${r}">${r}</option>`).join('')}
-            </select>
+            <label for="bk-role">Role / Title *</label>
+            <input id="bk-role" name="role" type="text" required autocomplete="organization-title" placeholder="e.g. Founder, Director">
           </div>
         </div>
 
-        <div class="bk-field">
-          <label for="bk-msg">What's going on for you right now? <span class="bk-opt">(optional)</span></label>
-          <textarea id="bk-msg" name="message" rows="3" placeholder="A few lines is plenty."></textarea>
+        <div class="bk-row">
+          <div class="bk-field">
+            <label for="bk-company">Company <span class="bk-opt">(optional)</span></label>
+            <input id="bk-company" name="company" type="text" autocomplete="organization" placeholder="Your business">
+          </div>
+          <div class="bk-field">
+            <label for="bk-li">LinkedIn <span class="bk-opt">(optional)</span></label>
+            <input id="bk-li" name="linkedin" type="text" placeholder="linkedin.com/in/you">
+          </div>
         </div>
 
         <label class="bk-consent">
           <input type="checkbox" id="bk-consent" name="consent">
-          <span>I agree to receive emails and, optionally, WhatsApp messages from tejaldesae.com.</span>
+          <span>I'd also like to receive Tejal's insights on identity, wealth and living from wholeness. I can unsubscribe anytime.</span>
         </label>
 
-        <div class="bk-err" id="bk-err"></div>
+        <div class="bk-err" id="bk-err" role="alert"></div>
 
         <button class="btn btn-em bk-submit" type="submit" id="bk-submit">
-          Book my free call →
+          Continue to my Expansion Quotient →
         </button>
 
-        <p class="bk-fine">Free, always. No payment required. You'll pick your time on the next screen.</p>
+        <p class="bk-fine" id="bk-fine"></p>
       </form>
-
-      <!-- Success state (hidden by default) -->
-      <div class="bk-success" id="bk-success" hidden>
-        <div class="bk-check-icon">✓</div>
-        <h3>You're in — your call is being set up.</h3>
-        <p>Redirecting you to pick your time slot…</p>
-      </div>
     </div>
   `;
 
   document.body.appendChild(overlay);
   modalEl = overlay;
 
-  // ── Event bindings ──
-  const closeBtn = overlay.querySelector('.bk-close');
-  const form = overlay.querySelector('#bookingForm');
-
-  closeBtn.addEventListener('click', closeModal);
+  overlay.querySelector('.bk-close').addEventListener('click', closeModal);
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) closeModal();
   });
   document.addEventListener('keydown', handleEsc);
-  form.addEventListener('submit', handleSubmit);
+  overlay.querySelector('#bookingForm').addEventListener('submit', handleSubmit);
 
   return overlay;
 }
@@ -169,44 +180,72 @@ function createModal() {
 
 // ── Open / Close ─────────────────────────────────────────────
 
-function openModal() {
+/**
+ * @param {Element} [trigger]  what was clicked (focus returns here on close)
+ * @param {{mode?: 'call'|'eq', onDone?: (contact) => void}} [opts]
+ *   onDone: stay on this page and hand over the details instead of
+ *   navigating to the assessment (used on the assessment page itself).
+ */
+function openModal(trigger, opts = {}) {
   const modal = createModal();
-  // Reset form state
   const form = modal.querySelector('#bookingForm');
-  const success = modal.querySelector('#bk-success');
-  form.reset();
-  form.hidden = false;
-  success.hidden = true;
-  modal.querySelector('#bk-err').textContent = '';
-  isSubmitting = false;
-  updateSubmitButton(false);
+  lastTrigger = trigger || null;
+  mode = opts.mode === 'eq' ? 'eq' : 'call';
+  onDone = typeof opts.onDone === 'function' ? opts.onDone : null;
+  applyMode(modal);
 
-  // Show
+  form.reset();
+  modal.querySelector('#bk-err').textContent = '';
+  setBusy(false);
+
+  // Coming back to it in the same session — don't make them type it all again.
+  const saved = loadContact();
+  if (saved) {
+    for (const [k, v] of Object.entries(saved)) {
+      const el = form.elements[k];
+      if (!el) continue;
+      if (el.type === 'checkbox') el.checked = !!v;
+      else if (typeof v === 'string') el.value = v;
+    }
+  }
+
   requestAnimationFrame(() => {
     modal.classList.add('bk-open');
     document.body.style.overflow = 'hidden';
-    // Focus first input
-    modal.querySelector('#bk-fn').focus();
+    // The overlay fades in through `visibility`; at the instant the class
+    // lands it is still hidden and the browser refuses focus. Wait a beat.
+    const first = modal.querySelector('#bk-fn');
+    const focusFirst = () => { if (document.activeElement !== first) first.focus({ preventScroll: true }); };
+    setTimeout(focusFirst, 60);
+    setTimeout(focusFirst, 360); // after the fade, in case the first try was too early
   });
 
-  // Track in Meta Pixel
   if (typeof window.fbq === 'function') {
-    window.fbq('track', 'InitiateCheckout', {
-      content_name: 'Free Expansion Call',
-    });
+    window.fbq('track', 'InitiateCheckout', { content_name: MODES[mode].pixel });
   }
+}
+
+function applyMode(modal) {
+  const m = MODES[mode];
+  modal.querySelector('#bk-eyebrow').textContent = m.eyebrow;
+  modal.querySelector('#bk-title').textContent = m.title;
+  modal.querySelector('#bk-sub').textContent = m.sub;
+  modal.querySelector('#bk-steps').innerHTML = m.steps
+    .map((t, i) => '<li' + (i === 0 ? ' class="on"' : '') + '><b>' + (i + 1) + '</b>' + t + '</li>').join('');
+  modal.querySelector('#bk-fine').textContent = m.fine;
+  modal.querySelector('#bk-phone-req').innerHTML = m.phoneRequired ? '*' : '<span class="bk-opt">(optional)</span>';
+  modal.querySelector('#bk-phone').required = m.phoneRequired;
 }
 
 function closeModal() {
   if (!modalEl) return;
   modalEl.classList.remove('bk-open');
   document.body.style.overflow = '';
+  if (lastTrigger && typeof lastTrigger.focus === 'function') lastTrigger.focus();
 }
 
 function handleEsc(e) {
-  if (e.key === 'Escape' && modalEl?.classList.contains('bk-open')) {
-    closeModal();
-  }
+  if (e.key === 'Escape' && modalEl?.classList.contains('bk-open')) closeModal();
 }
 
 
@@ -214,117 +253,100 @@ function handleEsc(e) {
 
 function handleSubmit(e) {
   e.preventDefault();
-  if (isSubmitting) return;
-
   const form = e.target;
   const errEl = document.getElementById('bk-err');
-  errEl.textContent = '';
+  const v = (name) => form.elements[name].value.trim();
 
-  // Validation
-  const firstName = form.firstName.value.trim();
-  const lastName = form.lastName.value.trim();
-  const email = form.email.value.trim();
-  const phone = form.phone.value.trim();
-  const country = form.country.value;
-  const role = form.role.value;
-
-  if (!firstName) { showError(errEl, 'Please enter your first name.'); return; }
-  if (!lastName) { showError(errEl, 'Please enter your last name.'); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError(errEl, 'Please enter a valid email address.'); return; }
-  if (!phone) { showError(errEl, 'Please enter your phone number.'); return; }
-  if (!country) { showError(errEl, 'Please select your country.'); return; }
-  if (!role) { showError(errEl, 'Please tell us what describes you.'); return; }
-
-  // Submit
-  isSubmitting = true;
-  updateSubmitButton(true);
-
-  const leadData = {
-    source: 'Call Booking Form',
-    firstName,
-    lastName,
-    email,
-    phone,
-    program: 'expansion-call',
-    message: form.message.value.trim(),
-    extraFields: {
-      'Country': country,
-      'Role': role,
-      'Marketing Consent': form.consent.checked ? 'Yes' : 'No',
-    },
+  const contact = {
+    firstName: v('firstName'),
+    lastName:  v('lastName'),
+    email:     v('email'),
+    phone:     v('phone'),
+    country:   form.elements.country.value,
+    role:      v('role'),
+    company:   v('company'),
+    linkedin:  v('linkedin'),
+    consent:   form.elements.consent.checked,
   };
 
-  sendLead(leadData)
-    .then(() => showSuccess())
-    .catch(() => showSuccess()); // Still redirect — lead capture is fire-and-forget
+  const problem =
+    !contact.firstName ? ['firstName', 'Please enter your first name.'] :
+    !contact.lastName ? ['lastName', 'Please enter your last name.'] :
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email) ? ['email', 'Please enter a valid email address.'] :
+    (MODES[mode].phoneRequired || contact.phone) && contact.phone.replace(/\D/g, '').length < 7 ? ['phone', 'Please enter a phone number we can reach you on.'] :
+    !contact.country ? ['country', 'Please select your country.'] :
+    !contact.role ? ['role', 'Please tell us your role or title.'] :
+    null;
+
+  if (problem) {
+    errEl.textContent = problem[1];
+    form.elements[problem[0]].focus();
+    return;
+  }
+  errEl.textContent = '';
+
+  const program = lastTrigger?.closest('[data-program]')?.dataset.program
+    || document.querySelector('#book[data-program]')?.dataset.program
+    || '';
+
+  // Someone who asked for a call earlier in the visit keeps that request.
+  const askedForCall = mode === 'call' || loadContact()?.origin === 'book-call';
+  const saved = { ...contact, origin: askedForCall ? 'book-call' : 'assessment', program };
+  saveContact(saved);
+
+  if (onDone) {
+    closeModal();
+    onDone(saved);
+    return;
+  }
+  setBusy(true);
+  window.location.href = ASSESSMENT_URL;
 }
 
-function showError(errEl, msg) {
-  errEl.textContent = msg;
-  errEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function updateSubmitButton(loading) {
+function setBusy(busy) {
   const btn = document.getElementById('bk-submit');
   if (!btn) return;
-  btn.disabled = loading;
-  btn.textContent = loading ? 'Sending…' : 'Book my free call →';
-}
-
-function showSuccess() {
-  const form = document.getElementById('bookingForm');
-  const success = document.getElementById('bk-success');
-  form.hidden = true;
-  success.hidden = false;
-
-  // Redirect to calendar after short delay
-  setTimeout(() => {
-    window.location.href = CALENDAR_URL;
-  }, 1800);
+  btn.disabled = busy;
+  btn.textContent = busy ? 'One moment…' : MODES[mode].button;
 }
 
 
 // ── Auto-wire all booking CTAs ───────────────────────────────
 
 function init() {
-  // Wire up all elements that should open the booking popup
-  const selectors = '[data-book-call], [data-pay], a[href*="rzp.io/rzp/expansion369"]';
+  captureSource();
+
+  const selectors = '[data-book-call], [data-pay], a[href="#book"], a[href*="rzp.io/rzp/expansion369"]';
   document.querySelectorAll(selectors).forEach((el) => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
-      openModal();
+      openModal(el);
     });
-
-    // Update href so it doesn't navigate away if JS fails
     if (el.tagName === 'A') {
-      el.href = '#book';
       el.removeAttribute('target');
       el.removeAttribute('rel');
     }
   });
 
-  // Also wire anchor links that scroll to the old booking section
-  // (only on index.html where the booking section exists)
-  const bookSection = document.getElementById('book');
-  if (bookSection) {
-    document.querySelectorAll('a[href="#book"]').forEach((el) => {
-      // Only intercept if it's a CTA button, not a regular nav link
-      if (el.classList.contains('btn') || el.classList.contains('ncta')) {
-        el.addEventListener('click', (e) => {
-          e.preventDefault();
-          openModal();
-        });
-      }
+  document.querySelectorAll('[data-take-eq], a[href="#eq"]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal(el, { mode: 'eq' });
     });
+  });
+
+  // Arriving from another page's link (index.html#book or #eq) — open straight away.
+  if (location.hash === '#book' || location.hash === '#eq') {
+    const m = location.hash === '#eq' ? 'eq' : 'call';
+    history.replaceState(null, '', location.pathname + location.search);
+    openModal(null, { mode: m });
   }
 }
 
-// Initialize when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
   init();
 }
 
-// Export for testing
 export { openModal, closeModal };

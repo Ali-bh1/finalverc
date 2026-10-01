@@ -187,6 +187,12 @@
   function initContact() {
     var form = document.getElementById('contactForm');
     if (!form) return;
+    // Arriving from "use the form on my homepage" (index.html#contact): open it.
+    var panel = document.getElementById('contact');
+    if (panel && location.hash === '#contact') {
+      panel.open = true;
+      setTimeout(function () { panel.scrollIntoView({ block: 'center' }); }, 300);
+    }
     form.addEventListener('submit', function (ev) {
       ev.preventDefault();
       var firstName = (document.getElementById('cn').value || '').trim();

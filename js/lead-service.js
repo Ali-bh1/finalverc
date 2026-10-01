@@ -69,12 +69,16 @@ function submissionFingerprint(data) {
  *   message    – Freeform message (optional)
  *   quizAnswers – Comma-separated quiz answers (optional)
  *   extraFields – Object of additional key-value pairs for email (optional)
+ *   notify     – false skips the Web3Forms email (the caller has already
+ *                notified the team another way). Defaults to true.
+ *   emailOnly  – true sends only the Web3Forms email (a fallback for when
+ *                the sheet/marketing calls have already gone).
  *
  * @returns {Promise<{email: boolean, sheet: boolean}>}
  */
 export async function sendLead(data) {
   // Guard: prevent duplicate submissions
-  const fp = submissionFingerprint(data);
+  const fp = submissionFingerprint(data) + (data.notify === false ? '_quiet' : data.emailOnly ? '_email' : '');
   if (recentSubmissions.has(fp)) {
     return { email: false, sheet: false, reason: 'duplicate' };
   }
@@ -82,9 +86,9 @@ export async function sendLead(data) {
 
   // Fire all three channels in parallel — one failure doesn't block the others
   const [emailResult, sheetResult, marketingResult] = await Promise.allSettled([
-    sendEmail(data),
-    logToSheet(data),
-    sendToMarketingPlatform(data),
+    data.notify === false ? Promise.resolve(false) : sendEmail(data),
+    data.emailOnly ? Promise.resolve(false) : logToSheet(data),
+    data.emailOnly ? Promise.resolve(false) : sendToMarketingPlatform(data),
   ]);
 
   return {

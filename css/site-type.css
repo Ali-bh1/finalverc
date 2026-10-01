@@ -1,0 +1,199 @@
+/* ============================================================
+   site-type.css — the site's type scale, one step larger.
+
+   Loaded LAST on every live page. Five older stylesheets each set
+   font sizes in px (often with !important), so this file is the final
+   word on size and uses !important deliberately — that is its job.
+
+   Steps, from what was there before:
+     uppercase labels   11.5–13px  → 14.5–15.5px   (+2.5–3; tracking already adds size)
+     body copy          14–17.5px  → 17.5–20.5px   (+3–4)
+     lead paragraphs    18–21px    → 21–24px       (+3)
+     headings           h3 28 → 32 · h2 40–46 → 46–52 · h1 62 → 68
+   Phones step back a little so lines don't get too short.
+   ============================================================ */
+
+/* ── Navbar ─────────────────────────────────────────────── */
+body.h26:not(#_) #nav .brand span{font-size:28px!important}
+/* Tagline: a full sentence now, so normal case — tracked capitals at
+   this length would fill the bar. */
+body.h26:not(#_) #nav .brand-role{
+  font-size:15.5px!important;font-weight:500;letter-spacing:.02em;text-transform:none;
+  color:#2F3C35;max-width:44ch;line-height:1.35;
+}
+/* Monogram a step larger so it leads the bar. */
+body.h26:not(#_) #nav .brand img.lg,
+body.h26:not(#_) #nav.scrolled .brand img.lg{width:62px;height:62px;margin:-8px 0}
+body.h26:not(#_) #nav .brand{gap:14px}
+@media(max-width:1180px){body.h26:not(#_) #nav .brand-role{display:none}}
+body.h26:not(#_) #nav .ncta{font-size:14px!important;height:50px;padding:0 26px}
+@media(max-width:640px){
+  body.h26:not(#_) #nav .brand span{font-size:22px!important}
+  body.h26:not(#_) #nav .brand img.lg,
+  body.h26:not(#_) #nav.scrolled .brand img.lg{width:50px;height:50px;margin:-5px 0}
+  body.h26:not(#_) #nav .brand{gap:10px}
+  body.h26:not(#_) #nav .ncta{font-size:12px!important;height:42px;padding:0 14px}
+}
+
+/* ── Uppercase labels & eyebrows (→ ~15px) ───────────────── */
+body.h26:not(#_) :is(.eyebrow, .eyebrow.lt, .idrole, .hero .cue span, .nameplate span, .field label,
+  .inbox-lab, .paycard .what, .story .by, .pc-dur, .pc-list h3, footer h4, .meta-row span,
+  .qcount, .back2, .iconrow .ic h4, .php-pillars li b, .legal-hero .upd, .paycard .sec, .cal-header,
+  .php-card h3, .deliv .n){font-size:15px!important}
+body.h26:not(#_) :is(footer .cp, .opt-tag){font-size:14.5px!important}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+body.h26:not(#_) :is(.btn, .bk-submit){font-size:15px!important}
+body.h26:not(#_) .lnk{font-size:15.5px!important}
+
+/* ── Small supporting text (14–15.5 → 17.5–18.5) ─────────── */
+body.h26:not(#_) :is(footer .disc, .txt){font-size:15.5px!important}
+body.h26:not(#_) :is(.credrow span, .pc-note, .idbio, .trustline, .trustline b, .trustline span,
+  #proof .p, .chk span, .chk, .confirm .signoff span, .cal-note, .iconrow .ic p, .gua .fine,
+  footer .soc a span, .steps .s-d){font-size:17.5px!important}
+body.h26:not(#_) :is(footer .tag, footer .ft, footer .ft a, footer .fg a, .fineprint, .paycard .desc,
+  .legal .note p, .legal .note strong, .hero .superhead, .showcase .sc-t p){font-size:18.5px!important}
+
+/* ── Body copy (16–17.5 → 19.5–20.5) ─────────────────────── */
+body.h26:not(#_) :is(.askfirst summary, .askfirst .inner p, .cap > p, .php-card p, .paycard .amt small,
+  .legal p, .legal li, .legal p a, .legal strong, .legal code){font-size:19.5px!important}
+body.h26:not(#_) :is(.pc-list li, .confirm p, .confirm .inbox p, .php-pillars li, .deliv .d p,
+  .isyou li, .fq details p, .fq details p a){font-size:20px!important}
+body.h26:not(#_) :is(.whome-t p, .php-hero .sub){font-size:20.5px!important}
+
+/* ── Lead paragraphs (18–21 → 21–24) ─────────────────────── */
+body.h26:not(#_) :is(.ty-quiz p, .gua p, .gua p em, .gua p b, .say .p, .story p){font-size:21.5px!important}
+body.h26:not(#_) :is(.intro p, .confirm p[style], .ty .lead, .fband figcaption, .steps .s-n){font-size:22.5px!important}
+body.h26:not(#_) .fq summary{font-size:23px!important}
+body.h26:not(#_) :is(.hero .sub, .hero .sub b){font-size:23.5px!important}
+body.h26:not(#_) .qbox h2 + p{font-size:16px!important}
+body.h26:not(#_) .opt{font-size:17.5px!important}
+body.h26:not(#_) .multi-opt{font-size:17px!important}
+body.h26:not(#_) .open-text,
+body.h26:not(#_) :is(.field input, .field select){font-size:17.5px!important}
+
+/* ── Display accents ─────────────────────────────────────── */
+body.h26:not(#_) :is(.php-hero .meta, .php-pillars li .no){font-size:27px!important}
+body.h26:not(#_) :is(.pc-kicker, .php-card .k){font-size:29px!important}
+body.h26:not(#_) :is(.idname, .nameplate b){font-size:30px!important}
+body.h26:not(#_) .showcase .lead{font-size:26px!important}
+
+/* ── Headings ────────────────────────────────────────────── */
+body.h26:not(#_) :is(.deliv .d h3){font-size:32px!important}
+body.h26:not(#_) .legal h2{font-size:31px!important}
+body.h26:not(#_) :is(.say h2, .gua h2, .book h2, .ty-quiz h2, .showcase h2, .whome h2, .whome-t h2,
+  .php-band h2, .nar > h2, .wrap > h2){font-size:clamp(34px,4vw,52px)!important}
+body.h26:not(#_) :is(.cap h2, .confirm h2){font-size:clamp(32px,4vw,48px)!important}
+body.h26:not(#_) .qbox h2{font-size:clamp(25px,3vw,36px)!important}
+body.h26:not(#_) :is(.hero h1, .php-hero h1, .legal-hero h1, .intro h1, .ty h1){font-size:clamp(42px,5.4vw,68px)!important}
+body.h26:not(#_) :is(.pc-price, .paycard .amt){font-size:68px!important}
+
+/* ── Phones: one notch back on the largest body sizes ─────── */
+@media(max-width:640px){
+  body.h26:not(#_) :is(.pc-list li, .confirm p, .confirm .inbox p, .php-pillars li, .deliv .d p, .isyou li,
+    .fq details p, .whome-t p, .php-hero .sub, .legal p, .legal li, .cap > p, .php-card p){font-size:18.5px!important}
+  body.h26:not(#_) :is(.ty-quiz p, .gua p, .say .p, .story p, .intro p, .ty .lead, .fband figcaption){font-size:19.5px!important}
+  body.h26:not(#_) :is(.hero .sub, .hero .sub b){font-size:20px!important}
+  body.h26:not(#_) .fq summary{font-size:20px!important}
+  body.h26:not(#_) :is(.pc-price, .paycard .amt){font-size:56px!important}
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   BOOKING CARD (homepage "Your Expansion Call")
+   Wider, and the list reads as the reason to book — not fine print.
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .paycard2{max-width:1060px}
+body.h26:not(#_) .pc-body{grid-template-columns:1.25fr .75fr}
+@media(max-width:760px){body.h26:not(#_) .pc-body{grid-template-columns:1fr}}
+body.h26:not(#_) .pc-list{padding:clamp(28px,3.6vw,44px) clamp(26px,3.8vw,52px)}
+body.h26:not(#_) .pc-list h3{color:var(--forest)!important;font-weight:700}
+body.h26:not(#_) .pc-list li{
+  font-weight:500;color:#1B2620!important;line-height:1.5;
+  padding:15px 0 15px 40px;border-bottom-color:rgba(199,172,109,.38)!important;
+}
+body.h26:not(#_) .pc-list li:before{
+  width:26px;height:26px;top:15px;font-size:14px;font-weight:700;
+  background:var(--forest)!important;color:#F3E6C4!important;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+body.h26:not(#_) .pc-buy .go .btn{white-space:nowrap}
+
+
+/* ════════════════════════════════════════════════════════════
+   TESTIMONIALS — endless horizontal scroll (js/testimonials.js)
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .tmq{
+  position:relative;margin:clamp(34px,4.4vw,52px) calc(50% - 50vw) 0;width:100vw;
+  overflow-x:auto;overflow-y:visible;padding:14px 0 26px;
+  scroll-snap-type:x mandatory;scrollbar-width:none;outline:none;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+}
+body.h26:not(#_) .tmq::-webkit-scrollbar{display:none}
+body.h26:not(#_) .tmq-track{display:flex;width:max-content;padding-left:clamp(20px,6vw,80px);text-align:left}
+body.h26:not(#_) .tmq .story{
+  flex:none;width:clamp(290px,30vw,430px);margin:0 26px 0 0;
+  scroll-snap-align:start;display:flex;flex-direction:column;
+}
+body.h26:not(#_) .tmq .story blockquote{margin:0;flex:1}
+body.h26:not(#_) .tmq .story p{line-height:1.55}
+
+/* Moving: JS has filled the lap — slide one lap, loop forever. */
+body.h26:not(#_) .tmq.is-moving{overflow:hidden;scroll-snap-type:none}
+body.h26:not(#_) .tmq.is-moving .tmq-track{padding-left:0;animation:tmqSlide var(--tmq-dur,60s) linear infinite}
+body.h26:not(#_) .tmq.is-moving:is(:hover, :focus-within, .is-paused) .tmq-track{animation-play-state:paused}
+@keyframes tmqSlide{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+
+/* Name · place line */
+body.h26:not(#_) .story .by{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-top:auto;padding-top:22px;border-top:1px solid rgba(199,172,109,.35)}
+body.h26:not(#_) .story .by .who{color:var(--forest);font-weight:700}
+body.h26:not(#_) .story .by .where{color:var(--gold-text);font-weight:500;letter-spacing:.14em}
+body.h26:not(#_) .story .by .where::before{content:"·";margin-right:10px;color:#C7AC6D}
+
+@media(max-width:640px){
+  body.h26:not(#_) .tmq .story{width:82vw;margin-right:16px}
+}
+
+/* Hero: assessment first, call second. */
+body.h26:not(#_) .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+@media(max-width:640px){body.h26:not(#_) .hero-ctas .btn{width:100%}}
+
+
+/* ════════════════════════════════════════════════════════════
+   LAYOUT WIDTH — less tall-and-narrow, more use of the screen.
+   Found by measuring every text block at 1440 and 1024px: headings
+   and paragraphs running 5–10 lines while using a third of the width.
+   Paragraphs still stop at a comfortable 65–70 characters.
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .wrap{max-width:1360px}
+body.h26:not(#_) #nav .nin{max-width:1360px}
+
+/* Homepage hero: give the words more of the row. */
+body.h26:not(#_) .hero .g{grid-template-columns:.82fr 1.18fr}
+@media(max-width:900px){body.h26:not(#_) .hero .g{grid-template-columns:1fr}}
+body.h26:not(#_) .hero h1{max-width:22ch}
+body.h26:not(#_) .hero .sub{max-width:640px}
+body.h26:not(#_) .whome-t p{max-width:64ch}
+
+/* Assessment: a wider stage, headlines and questions that spread out. */
+body.h26:not(#_) .eqstage{max-width:1000px}
+body.h26:not(#_) .intro h1{max-width:24ch;margin-left:auto;margin-right:auto}
+body.h26:not(#_) .intro p{max-width:68ch;margin-left:auto;margin-right:auto}
+body.h26:not(#_) .qbox{max-width:none}
+body.h26:not(#_) .qbox h2{max-width:34ch}
+body.h26:not(#_) .cap > p{max-width:62ch}
+body.h26:not(#_) .form{max-width:680px}
+body.h26:not(#_) .confirm{max-width:860px}
+body.h26:not(#_) .confirm p{max-width:68ch;margin-left:auto;margin-right:auto}
+body.h26:not(#_) .steps{max-width:1180px}
+body.h26:not(#_) .qbox h2{max-width:40ch}
+/* Tablet: three cards side by side were 229px wide and 10 lines tall —
+   stack them into one comfortable column instead. */
+@media(min-width:761px) and (max-width:1100px){
+  body.h26:not(#_) .deliv{grid-template-columns:1fr;max-width:760px;margin-left:auto;margin-right:auto}
+}
+
+/* Hero portrait (images/newhpage.jpeg, 9:16) in the 4:5 arch: crop so her
+   face sits in the upper third with the joined hands still in frame. */
+body.h26:not(#_) .hero .arch2 .im img{object-position:50% 40%}
