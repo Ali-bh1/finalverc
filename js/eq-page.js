@@ -1,7 +1,7 @@
 /**
  * eq-page.js — the Expansion Quotient assessment (eq-t1uqlm.html)
  *
- * Steps: intro → Q1–Q11 → Q12 desires → Q13 intent → Q14 six-month
+ * Steps: intro (details pop-up opens on arrival) → Q1–Q11 → Q12 desires → Q13 intent → Q14 six-month
  * vision → contact (skipped when the booking popup already has it) →
  * confirmation.
  *
@@ -347,19 +347,24 @@ if (pp) sessionStorage.setItem('tejal_program', pp);
 const known = loadContact();
 if (known?.firstName) $('introEyebrow').textContent = `Welcome, ${known.firstName}`;
 
+const hasContact = () => {
+  const c = loadContact();
+  return !!(c?.firstName && EMAIL_RE.test(c.email || ''));
+};
+
 // No details yet (came here directly): ask for them first, in the same pop-up
 // the homepage uses, then start. Arriving from the pop-up skips straight in.
-$('beginBtn').addEventListener('click', (e) => {
-  const c = loadContact();
-  if (c?.firstName && EMAIL_RE.test(c.email || '')) return go(0);
-  openModal(e.currentTarget, {
+function askForDetails() {
+  openModal($('beginBtn'), {
     mode: 'eq',
     onDone: (saved) => {
       $('introEyebrow').textContent = 'Welcome, ' + saved.firstName;
       go(0);
     },
   });
-});
+}
+
+$('beginBtn').addEventListener('click', () => (hasContact() ? go(0) : askForDetails()));
 $('backBtn').addEventListener('click', back);
 $('capBack').addEventListener('click', back);
 $('submitBtn').addEventListener('click', () => {
@@ -370,3 +375,7 @@ $('submitBtn').addEventListener('click', () => {
 restoreProgress();
 history.replaceState({ eq: state.step, depth: 0 }, '');
 render();
+
+// Ad traffic lands here: put the details pop-up up straight away rather than
+// waiting for them to find "Begin". Closing it leaves the intro and Begin.
+if (state.step === INTRO && !hasContact()) askForDetails();
