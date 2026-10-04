@@ -56,9 +56,9 @@ const MODES = {
     pixel: 'Free Expansion Call',
   },
   eq: {
-    eyebrow: 'The Expansion Quotient™ · Free',
-    title: 'Where should we send your results?',
-    sub: 'Fourteen reflective questions, about four minutes. Your personalised Expansion Quotient arrives in your inbox.',
+    eyebrow: 'Welcome',
+    title: 'Your free Expansion Quotient',
+    sub: 'Fourteen reflective questions, about four minutes. Share a few details and your personalised results will come straight to your inbox.',
     steps: ['Your details', 'The questions <small>~4 min</small>', 'Results by email'],
     phoneRequired: false,
     button: 'Begin my Expansion Quotient →',
