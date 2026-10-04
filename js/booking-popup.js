@@ -11,7 +11,7 @@
  * notification all go out together when the assessment is submitted.
  */
 
-import { saveContact, loadContact, captureSource } from './eq-flow.js';
+import { saveContact, loadContact, loadSubmitted, captureSource } from './eq-flow.js';
 
 // ── Country list (top countries first, then alphabetical) ────
 const COUNTRIES = [
@@ -74,6 +74,7 @@ let modalEl = null;
 let lastTrigger = null;
 let mode = 'call';
 let onDone = null;
+let autoOpened = false;   // the current pop-up opened by itself (see autoOpen)
 
 function createModal() {
   if (modalEl) return modalEl;
@@ -241,6 +242,11 @@ function closeModal() {
   if (!modalEl) return;
   modalEl.classList.remove('bk-open');
   document.body.style.overflow = '';
+  // Closed the one that opened by itself: don't show it again this visit.
+  if (autoOpened) {
+    autoOpened = false;
+    try { sessionStorage.setItem('tejal_autopop_dismissed', '1'); } catch { /* private mode */ }
+  }
   if (lastTrigger && typeof lastTrigger.focus === 'function') lastTrigger.focus();
 }
 
@@ -340,7 +346,30 @@ function init() {
     const m = location.hash === '#eq' ? 'eq' : 'call';
     history.replaceState(null, '', location.pathname + location.search);
     openModal(null, { mode: m });
+    return;
   }
+
+  autoOpen();
+}
+
+// ── Opens by itself on pages that ask for it ─────────────────
+// <body data-auto-popup="eq"> (or "call"). Waits a moment so the page is
+// seen first, and stays away from anyone who has already given their
+// details, already taken the assessment, or closed it once this visit.
+const AUTO_DISMISSED_KEY = 'tejal_autopop_dismissed';
+const AUTO_DELAY_MS = 1500;
+
+function autoOpen() {
+  const want = document.body.dataset.autoPopup;
+  if (want !== 'eq' && want !== 'call') return;
+  if (loadContact()?.email || loadSubmitted()) return;
+  try { if (sessionStorage.getItem(AUTO_DISMISSED_KEY)) return; } catch { /* private mode */ }
+
+  setTimeout(() => {
+    if (modalEl?.classList.contains('bk-open')) return; // they already opened it themselves
+    openModal(null, { mode: want });
+    autoOpened = true;
+  }, AUTO_DELAY_MS);
 }
 
 if (document.readyState === 'loading') {
