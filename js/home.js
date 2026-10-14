@@ -170,16 +170,22 @@
     var burger = document.querySelector('.nav-burger');
     var menu = document.querySelector('.mobile-nav');
     if (!burger || !menu) return;
-    burger.addEventListener('click', function () {
-      var open = menu.hasAttribute('hidden');
+    function setOpen(open) {
       if (open) menu.removeAttribute('hidden'); else menu.setAttribute('hidden', '');
       burger.setAttribute('aria-expanded', String(open));
+    }
+    burger.addEventListener('click', function () {
+      setOpen(menu.hasAttribute('hidden'));
     });
     menu.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        menu.setAttribute('hidden', '');
-        burger.setAttribute('aria-expanded', 'false');
-      });
+      a.addEventListener('click', function () { setOpen(false); });
+    });
+    // Escape, or a tap anywhere outside the menu, puts it away.
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !menu.hasAttribute('hidden')) { setOpen(false); burger.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (!menu.hasAttribute('hidden') && !menu.contains(e.target) && !burger.contains(e.target)) setOpen(false);
     });
   }
 
@@ -211,7 +217,13 @@
 
       // Disable form while sending
       submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-busy', 'true');   // spinner (site-premium.css)
       submitBtn.textContent = 'Sending…';
+      // Once it has gone, the button says so instead of staying on "Sending…".
+      function done() {
+        submitBtn.removeAttribute('aria-busy');
+        submitBtn.textContent = 'Sent ✓';
+      }
 
       import('./js/lead-service.js').then(function (mod) {
         return mod.sendLead({
@@ -231,10 +243,12 @@
           err.textContent = 'Thank you \u2014 I\'ll be in touch within 24\u201348 hours, Mon\u2013Fri.';
         }
         form.querySelectorAll('input,select,textarea,button').forEach(function (x) { x.disabled = true; });
+        done();
       }).catch(function () {
         err.style.color = 'var(--forest)';
         err.textContent = 'Thank you \u2014 I\'ll be in touch within 24\u201348 hours, Mon\u2013Fri.';
         form.querySelectorAll('input,select,textarea,button').forEach(function (x) { x.disabled = true; });
+        done();
       });
     });
   }

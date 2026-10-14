@@ -210,3 +210,108 @@ body.h26:not(#_) footer .soc a:hover span{background-size:100% 1px}
 body.h26:not(#_) :is(a, button, summary, input, select, textarea):focus-visible{
   outline:2px solid #C7AC6D;outline-offset:3px;
 }
+
+
+/* ════════════════════════════════════════════════════════════
+   INTERACTION — everything you can click says so, and answers back
+   (pairs with js/press.js, which adds the ripple, .is-pressed and the
+   .arr arrow spans). Only clickable things react; information cards
+   stay still so they never look like buttons.
+   ════════════════════════════════════════════════════════════ */
+
+/* The hand cursor, no grey tap flash on phones, no 300ms tap delay */
+body.h26:not(#_) :is(button, summary, .btn, .opt, .multi-opt, [role="button"], label.chk, .bk-consent){
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+body.h26:not(#_) :is(.btn, .bk-submit, #nav .ncta, .opt, .multi-opt){position:relative;overflow:hidden;isolation:isolate}
+
+/* ── Arrows travel the way the button goes ── */
+body.h26:not(#_) .arr{display:inline-block;margin-left:.15em;transition:transform .3s var(--ease-lux)}
+body.h26:not(#_) .arr-back{margin-left:0;margin-right:.15em}
+
+/* ── Ripple from the point of contact (press.js) ── */
+body.h26:not(#_) .press-ripple{
+  position:absolute;z-index:-1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle, rgba(243,232,203,.55) 0%, rgba(243,232,203,.3) 42%, rgba(243,232,203,0) 70%);
+  transform:scale(0);animation:pressRipple .62s cubic-bezier(.2,.7,.3,1) forwards;
+}
+body.h26:not(#_) :is(.opt:not(.sel), .multi-opt:not(.sel), .btn-ol-dark, .btn-ghost) .press-ripple{
+  background:radial-gradient(circle, rgba(21,66,48,.16) 0%, rgba(21,66,48,.08) 42%, rgba(21,66,48,0) 70%);
+}
+@keyframes pressRipple{to{transform:scale(1);opacity:0}}
+
+/* ── Hover: only on devices that really hover (no sticky lift on phones) ── */
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  body.h26:not(#_) :is(.btn, .bk-submit, #nav .ncta):hover{
+    transform:translateY(-3px);
+    box-shadow:0 20px 34px -18px rgba(21,66,48,.62), 0 3px 8px -4px rgba(21,66,48,.25);
+  }
+  body.h26:not(#_) :is(.btn, .bk-submit, .askfirst > summary):hover .arr{transform:translateX(5px)}
+  body.h26:not(#_) :is(.back2):hover .arr-back{transform:translateX(-4px)}
+
+  /* assessment answers lean in */
+  body.h26:not(#_) .opt:not(.sel):hover{transform:translateY(-2px);border-color:rgba(21,66,48,.45);box-shadow:0 14px 26px -18px rgba(21,66,48,.5)}
+}
+@media (hover:none){
+  body.h26:not(#_) :is(.btn, .bk-submit, #nav .ncta, .opt, .multi-opt, .deliv .d, .story, .php-card):hover{transform:none}
+}
+
+/* ── Quieter hovers on the smaller controls ── */
+@media (hover:hover){
+  body.h26:not(#_) .fq summary{border-radius:4px;transition:background-color .2s, color .2s, padding-left .35s var(--ease-lux)}
+  body.h26:not(#_) .fq summary:hover{background:rgba(255,255,255,.38);color:var(--forest-deep,#0E3122)}
+  body.h26:not(#_) .fq summary:hover:after{color:var(--gold-text)}
+  body.h26:not(#_) .nav-burger:hover{background:rgba(21,66,48,.06);border-color:rgba(21,66,48,.5)}
+  body.h26:not(#_) footer :is(.fg a, .ft a):hover{text-decoration:underline;text-decoration-color:rgba(230,211,163,.6);text-underline-offset:5px;text-decoration-thickness:1px}
+  body.h26:not(#_) :is(.cform, .bk-form) :is(input, select, textarea):hover:not(:focus):not(:disabled){border-color:rgba(21,66,48,.42)}
+}
+
+/* ── Answers: a confirming tick and a small "pop" when chosen ── */
+body.h26:not(#_) .opt{padding-right:52px}
+body.h26:not(#_) .opt.sel::after{
+  content:"✓";position:absolute;right:20px;top:50%;transform:translateY(-50%);
+  font-size:18px;font-weight:700;line-height:1;color:#F0DFAF;
+}
+body.h26:not(#_) .multi-opt.sel::before{content:"✓";margin-right:.45em;font-weight:700}
+@media (prefers-reduced-motion:no-preference){
+  body.h26:not(#_) :is(.opt, .multi-opt).sel{animation:pickPop .36s var(--ease-lux)}
+}
+@keyframes pickPop{0%{transform:scale(.97)}55%{transform:scale(1.015)}100%{transform:scale(1)}}
+
+/* ── Keyboard focus on the controls that lacked a ring ── */
+body.h26:not(#_) :is(.opt, .multi-opt, .back2, .nav-burger, .bk-close, .bk-consent input, .chk input):focus-visible{
+  outline:2px solid var(--forest);outline-offset:3px;
+}
+body.h26:not(#_) .stickycta .btn:focus-visible{outline:2px solid #E6D3A3;outline-offset:3px}
+
+/* ── Bigger, on-brand checkboxes ── */
+body.h26:not(#_) :is(.cform .chk, .chk) input[type="checkbox"]{width:20px;height:20px;accent-color:var(--forest);flex:none}
+
+/* ── Busy and done states for anything that sends ── */
+body.h26:not(#_) :is(.btn, .bk-submit):disabled{cursor:not-allowed;transform:none;box-shadow:none}
+body.h26:not(#_) :is(.btn, .bk-submit)[aria-busy="true"]{cursor:progress;opacity:.92}
+body.h26:not(#_) :is(.btn, .bk-submit)[aria-busy="true"]::before{
+  content:"";display:inline-block;flex:none;width:1em;height:1em;margin-right:.65em;
+  border:2px solid currentColor;border-right-color:transparent;border-radius:50%;
+  animation:btnSpin .7s linear infinite;
+}
+@keyframes btnSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){
+  body.h26:not(#_) :is(.btn, .bk-submit)[aria-busy="true"]::before{animation-duration:2s}
+}
+
+/* ── Pressed: last, so it wins over every hover above.
+      :active covers the moment of contact; .is-pressed (press.js) holds it
+      long enough to see on a quick tap. ── */
+body.h26:not(#_) :is(.btn, .bk-submit, #nav .ncta):is(:active, .is-pressed):not(:disabled){
+  transform:translateY(1px) scale(.985);
+  box-shadow:0 4px 10px -6px rgba(21,66,48,.55);
+  transition-duration:.08s;
+}
+body.h26:not(#_) :is(.btn-em, .btn-ch, .bk-submit, #nav .ncta:not(.ncta-quiet)):is(:active, .is-pressed):not(:disabled){
+  background-color:#0B2A1D;border-color:#0B2A1D;
+}
+body.h26:not(#_) :is(.opt, .multi-opt):is(:active, .is-pressed){transform:scale(.985);transition-duration:.08s}
+body.h26:not(#_) :is(.fq summary, .askfirst > summary):is(:active, .is-pressed){background:rgba(255,255,255,.62)}
+body.h26:not(#_) :is(.nav-burger, .bk-close):is(:active, .is-pressed){transform:scale(.92);transition:transform .08s}
+body.h26:not(#_) :is(.back2, .hero-link, #nav .nl a, .mobile-nav a:not(.btn), footer a):active{opacity:.6}

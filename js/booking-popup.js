@@ -172,7 +172,7 @@ function createModal() {
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) closeModal();
   });
-  document.addEventListener('keydown', handleEsc);
+  document.addEventListener('keydown', handleKeydown);
   overlay.querySelector('#bookingForm').addEventListener('submit', handleSubmit);
 
   return overlay;
@@ -250,8 +250,20 @@ function closeModal() {
   if (lastTrigger && typeof lastTrigger.focus === 'function') lastTrigger.focus();
 }
 
-function handleEsc(e) {
-  if (e.key === 'Escape' && modalEl?.classList.contains('bk-open')) closeModal();
+function handleKeydown(e) {
+  if (!modalEl?.classList.contains('bk-open')) return;
+  if (e.key === 'Escape') { closeModal(); return; }
+  if (e.key !== 'Tab') return;
+  // Keep Tab inside the dialog while it's open, rather than wandering off
+  // into the page behind the overlay.
+  const items = [...modalEl.querySelectorAll('button, [href], input, select, textarea')]
+    .filter((el) => !el.disabled && el.offsetParent !== null);
+  if (!items.length) return;
+  const first = items[0];
+  const last = items[items.length - 1];
+  if (!modalEl.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+  else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 }
 
 
@@ -313,6 +325,7 @@ function setBusy(busy) {
   const btn = document.getElementById('bk-submit');
   if (!btn) return;
   btn.disabled = busy;
+  btn.setAttribute('aria-busy', String(busy));   // shows the spinner (site-premium.css)
   btn.textContent = busy ? 'One moment…' : MODES[mode].button;
 }
 

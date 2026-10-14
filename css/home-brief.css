@@ -1,0 +1,362 @@
+/* home-brief.css — the homepage sections added with the simplified copy
+   (client stories, "how it feels", the five steps, the comparison table)
+   and the refinements that tie them into the rest of the site.
+
+   Loaded after site-type.css. Every rule carries the same
+   body.h26:not(#_) prefix the site's final stylesheets use, so these win
+   on source order instead of losing on specificity.
+
+   Type is sized for readers 30 and up: body copy 18–20px, nothing that
+   carries meaning under 15px, and labels in sentence case where they can be. */
+
+/* ════════════════════════════════════════════════════════════
+   NAVBAR (homepage)
+   Name and role stack as one unit on the left; plain-language links
+   and the one button on the right. Under 1080px the links fold into
+   a menu button (js/home.js → initNav).
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) #nav .nin{gap:20px;min-height:84px}
+body.h26:not(#_) #nav .brand{gap:14px;align-items:center}
+body.h26:not(#_) #nav .brand img.lg,
+body.h26:not(#_) #nav.scrolled .brand img.lg{width:54px;height:54px;margin:-4px 0}
+body.h26:not(#_) #nav .brand .brand-txt{display:flex;flex-direction:column;gap:5px;line-height:1}
+body.h26:not(#_) #nav .brand .brand-txt b{font-size:27px;font-weight:600;letter-spacing:.02em;line-height:1}
+body.h26:not(#_) #nav .brand .brand-txt small{
+  font-family:var(--sans);font-size:14.5px;font-weight:500;font-style:normal;
+  letter-spacing:.01em;line-height:1.2;color:#7A6530;
+}
+
+body.h26:not(#_) #nav .nl{display:flex;align-items:center;gap:clamp(22px,2.4vw,36px);margin-left:auto}
+body.h26:not(#_) #nav .nl a{
+  position:relative;padding:8px 0;
+  font-family:var(--sans);font-size:17px;font-weight:500;letter-spacing:.01em;
+  text-transform:none;color:#1F3A2D;opacity:1;white-space:nowrap;
+}
+/* a gold underline grows in on hover */
+body.h26:not(#_) #nav .nl a:after{
+  content:"";position:absolute;left:0;right:0;bottom:2px;height:1.5px;
+  background:var(--gold-deep);transform:scaleX(0);transform-origin:left;
+  transition:transform .25s var(--ease-out,ease);
+}
+body.h26:not(#_) #nav .nl a:hover:after,
+body.h26:not(#_) #nav .nl a:focus-visible:after{transform:scaleX(1)}
+
+body.h26:not(#_) #nav .ncta{
+  margin-left:12px;height:52px;padding:0 26px;border-radius:2px;
+  font-size:16.5px!important;font-weight:600;letter-spacing:.02em;text-transform:none;
+}
+body.h26:not(#_) #nav .ncta .lbl{text-transform:none;letter-spacing:inherit}
+
+/* Menu button */
+body.h26:not(#_) #nav .nav-burger{
+  display:none;flex:none;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  width:50px;height:50px;padding:0;margin-left:4px;
+  background:transparent;border:1px solid rgba(21,66,48,.28);border-radius:2px;cursor:pointer;
+}
+body.h26:not(#_) #nav .nav-burger span{width:22px;height:2px;background:var(--forest);display:block;transition:transform .25s,opacity .2s}
+body.h26:not(#_) #nav .nav-burger[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+body.h26:not(#_) #nav .nav-burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+body.h26:not(#_) #nav .nav-burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+body.h26:not(#_) #nav .nav-burger:focus-visible{outline:2px solid var(--forest);outline-offset:2px}
+
+/* The dropped-down menu */
+body.h26:not(#_) #nav .mobile-nav{border-top:1px solid rgba(21,66,48,.14);background:rgba(250,246,236,.99);padding:6px 0 22px}
+body.h26:not(#_) #nav .mobile-nav .wrap{display:flex;flex-direction:column}
+body.h26:not(#_) #nav .mobile-nav a:not(.btn){
+  display:block;padding:16px 0;border-bottom:1px solid rgba(21,66,48,.1);
+  font-family:var(--sans);font-size:19px;font-weight:500;letter-spacing:0;text-transform:none;
+  color:var(--forest);opacity:1;
+}
+body.h26:not(#_) #nav .mobile-nav .btn{display:flex;width:100%;max-width:440px;margin-top:20px;opacity:1;color:#F3E6C4}
+
+@media(min-width:1081px){
+  body.h26:not(#_) #nav .mobile-nav{display:none!important}
+}
+@media(max-width:1080px){
+  body.h26:not(#_) #nav .nl{display:none}
+  body.h26:not(#_) #nav .nav-burger{display:inline-flex}
+  body.h26:not(#_) #nav .ncta{margin-left:auto}
+  /* home-2026.css hides the menu above 960px; it is needed up to 1080 here */
+  body.h26:not(#_) #nav .mobile-nav:not([hidden]){display:block!important}
+}
+@media(max-width:860px){
+  body.h26:not(#_) #nav .ncta{display:none!important}  /* the bottom bar books from here down */
+  body.h26:not(#_) #nav .nav-burger{margin-left:auto}
+}
+@media(max-width:640px){
+  body.h26:not(#_) #nav .nin{min-height:70px;gap:12px}
+  body.h26:not(#_) #nav .nav-burger{width:48px;height:48px}
+  body.h26:not(#_) #nav .brand{gap:11px}
+  body.h26:not(#_) #nav .brand img.lg,
+  body.h26:not(#_) #nav.scrolled .brand img.lg{width:46px;height:46px;margin:-3px 0}
+  body.h26:not(#_) #nav .brand .brand-txt b{font-size:24px}
+  body.h26:not(#_) #nav .brand .brand-txt small{font-size:13px}
+}
+@media(max-width:480px){
+  body.h26:not(#_) #nav .brand .brand-txt small{display:none}
+}
+
+/* ════════════════════════════════════════════════════════════
+   SHARED
+   ════════════════════════════════════════════════════════════ */
+/* Buttons: sentence case and a size up — easier to read than small tracked capitals */
+body.h26:not(#_) .btn{
+  font-size:17px!important;font-weight:600;letter-spacing:.02em;text-transform:none;
+  line-height:1.3;padding:19px 34px;
+}
+
+/* Section headings: balanced so a single word never hangs on the last
+   line. Where a heading is two phrases, each phrase is a .ln span and
+   stays whole, so the break falls where the sense does. */
+body.h26:not(#_) :is(.say > .wrap > h2, .book .book-h){
+  max-width:32ch;margin-left:auto;margin-right:auto;text-wrap:balance;
+}
+body.h26:not(#_) .ln{display:inline-block}
+body.h26:not(#_) .say > .wrap > .p{max-width:680px;text-wrap:pretty}
+/* no lone last words in running text */
+body.h26:not(#_) :is(.hero .sub, .hero-cred, .cs p, .fc p, .callout p, .m-steps p, .m-box p,
+  .whome-t p, .fq details p, .cs-disc, .book-note){text-wrap:pretty}
+
+/* Keyboard focus: a clear ring on everything you can tab to */
+body.h26:not(#_) :is(#nav .nl a, #nav .brand, .hero-link, .mobile-nav a, footer a, .fq summary, .askfirst > summary):focus-visible{
+  outline:2px solid var(--forest);outline-offset:4px;border-radius:2px;
+}
+
+/* Small uppercase labels on the cards */
+body.h26:not(#_) :is(.cs-k, .fc-k){
+  display:block;font-size:13.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;line-height:1.3;color:#9C4A1A;
+}
+body.h26:not(#_) :is(.cs-now, .fc-will) :is(.cs-k, .fc-k){color:var(--gold)}
+
+/* ════════════════════════════════════════════════════════════
+   HERO
+   ════════════════════════════════════════════════════════════ */
+/* "Success on the outside." sets up the headline: gold italic, as in the brief */
+body.h26:not(#_) .hero p.superhead{
+  font-family:var(--serif);font-style:italic;font-weight:600;
+  font-size:clamp(26px,2.6vw,36px)!important;letter-spacing:0;text-transform:none;
+  line-height:1.2;color:#8C6F2E;margin-bottom:4px;max-width:none;
+}
+body.h26:not(#_) .hero-ctas{gap:16px 30px}
+body.h26:not(#_) .hero-link{
+  font-size:17.5px;font-weight:600;letter-spacing:.01em;color:var(--forest);
+  text-decoration:underline;text-decoration-color:rgba(21,66,48,.35);
+  text-decoration-thickness:1.5px;text-underline-offset:7px;
+  transition:text-decoration-color .2s;
+}
+body.h26:not(#_) .hero-link:hover{text-decoration-color:var(--forest)}
+body.h26:not(#_) .hero .hero-cred{
+  margin-top:32px;padding-top:20px;max-width:620px;
+  border-top:1px solid rgba(199,172,109,.5);
+  font-size:17.5px;font-weight:500;line-height:1.65;color:#2F3C35;
+}
+
+/* ════════════════════════════════════════════════════════════
+   CLIENT STORIES
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .cs-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;
+  margin-top:clamp(34px,4vw,50px);text-align:left;
+}
+body.h26:not(#_) .cs{
+  display:flex;flex-direction:column;
+  padding:28px 26px 26px;border-radius:18px;
+  background:rgba(255,255,255,.74);border:1px solid rgba(199,172,109,.42);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 24px 48px -34px rgba(21,66,48,.3);
+}
+/* role, then place underneath in gold italic */
+body.h26:not(#_) .cs-h{margin:0 0 18px}
+body.h26:not(#_) .cs h3{font-family:var(--sans);font-size:19px;font-weight:700;line-height:1.35;color:var(--forest);margin:0;text-wrap:balance}
+body.h26:not(#_) .cs .cs-loc{margin:5px 0 0;font-family:var(--serif);font-style:italic;font-size:20px;font-weight:600;line-height:1.25;color:#8C6F2E}
+body.h26:not(#_) .cs .cs-k{margin-bottom:8px}
+body.h26:not(#_) .cs > p{font-size:18.5px;font-weight:500;line-height:1.55;color:var(--ink);margin:0 0 22px}
+body.h26:not(#_) .cs-now{margin-top:auto;background:var(--forest);border-radius:12px;padding:18px 20px 20px}
+body.h26:not(#_) .cs-now .cs-k{margin-bottom:8px}
+body.h26:not(#_) .cs-now p{font-size:18.5px;font-weight:500;line-height:1.5;color:#fff;margin:0}
+/* Line the cards up row by row: titles, "Before" and "Now" each start at
+   the same height across a row, however long the text above them. */
+@supports (grid-template-rows:subgrid){
+  body.h26:not(#_) .cs{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:0}
+  body.h26:not(#_) .cs-now{margin-top:0}
+}
+body.h26:not(#_) .cs-disc{margin:30px auto 0;max-width:680px;font-size:15.5px;line-height:1.6;color:var(--on-green-q)}
+
+/* ════════════════════════════════════════════════════════════
+   HOW IT FEELS
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .feel-grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;
+  margin-top:clamp(34px,4vw,50px);text-align:left;
+}
+body.h26:not(#_) .fc{
+  display:flex;flex-direction:column;border-radius:18px;overflow:hidden;
+  background:rgba(255,255,255,.8);border:1px solid rgba(199,172,109,.42);
+  box-shadow:0 24px 48px -34px rgba(21,66,48,.3);
+}
+body.h26:not(#_) .fc-now{display:flex;flex-direction:column;padding:26px 22px 22px}
+body.h26:not(#_) .fc h3{font-size:32px;line-height:1.1;color:var(--forest);margin:0 0 14px}
+body.h26:not(#_) .fc .fc-k{margin-bottom:8px}
+body.h26:not(#_) .fc .fc-w{font-family:var(--serif);font-style:italic;font-size:24px;font-weight:600;line-height:1.25;color:#9C4A1A;margin:0 0 12px;text-wrap:balance}
+body.h26:not(#_) .fc p{font-size:18px;font-weight:500;line-height:1.55;color:var(--ink);margin:0}
+body.h26:not(#_) .fc .fc-cost{
+  margin-top:auto;padding-top:16px;border-top:1px solid rgba(35,48,42,.13);
+  font-size:16.5px;line-height:1.5;color:#45534B;
+}
+body.h26:not(#_) .fc-now > p:not(.fc-cost):not(.fc-w){margin-bottom:20px}
+body.h26:not(#_) .fc-will{background:var(--forest);padding:22px 22px 24px}
+body.h26:not(#_) .fc .fc-will .fc-w{color:var(--gold);font-style:normal}
+body.h26:not(#_) .fc-will p{color:#fff}
+/* Line the four cards up row by row: name, feeling words, description,
+   cost and the green "how it will feel" panel each start level across
+   the row, whichever card has the longest text. */
+@supports (grid-template-rows:subgrid){
+  body.h26:not(#_) .fc{display:grid;grid-row:span 6;grid-template-rows:subgrid;row-gap:0}
+  body.h26:not(#_) .fc-now{display:contents}
+  body.h26:not(#_) .fc .fc-now > *{margin-left:22px;margin-right:22px}
+  body.h26:not(#_) .fc .fc-now > h3{margin-top:26px}
+  body.h26:not(#_) .fc .fc-cost{margin-top:0;margin-bottom:22px}
+}
+body.h26:not(#_) .feel-sum{
+  margin-top:clamp(44px,5vw,64px);font-family:var(--serif);font-weight:600;
+  font-size:clamp(40px,5.6vw,68px);line-height:1.1;color:var(--forest);
+}
+
+/* ════════════════════════════════════════════════════════════
+   A BETTER WAY
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .bw{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.38fr);gap:clamp(30px,5vw,72px);align-items:center;text-align:left}
+body.h26:not(#_) .bw-pic{margin:0;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -38px rgba(21,66,48,.45)}
+body.h26:not(#_) .bw-pic img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+body.h26:not(#_) .bw h2{margin:0;max-width:20ch;text-wrap:balance}
+body.h26:not(#_) .bw .p{margin:22px 0 0;max-width:58ch}
+body.h26:not(#_) .callout{margin:30px 0 32px;background:var(--forest);border-radius:18px;padding:26px 30px}
+body.h26:not(#_) .callout h3{font-size:30px;line-height:1.2;color:var(--gold);margin:0 0 10px}
+body.h26:not(#_) .callout p{font-size:19px;font-weight:500;line-height:1.6;color:#fff;margin:0}
+
+/* ════════════════════════════════════════════════════════════
+   THE METHOD
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .say.dark .m-lede{
+  max-width:860px;margin:20px auto 0;text-wrap:balance;
+  font-family:var(--serif);font-style:italic;font-size:clamp(23px,2.3vw,28px);
+  font-weight:600;line-height:1.4;color:#7A6530;
+}
+body.h26:not(#_) .m-steps{list-style:none;max-width:880px;margin:clamp(36px,4vw,54px) auto 0;padding:0;text-align:left;border-top:1px solid rgba(21,66,48,.2)}
+body.h26:not(#_) .m-steps li{display:grid;grid-template-columns:80px 1fr;gap:20px;padding:30px 0;border-bottom:1px solid rgba(21,66,48,.2)}
+body.h26:not(#_) .m-n{font-family:var(--serif);font-size:56px;font-weight:600;line-height:.9;color:var(--gold-text);
+  font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+body.h26:not(#_) .m-steps h3{font-size:33px;line-height:1.15;color:var(--forest);margin:0 0 8px}
+body.h26:not(#_) .say.dark .m-steps p{font-size:19.5px;font-weight:500;line-height:1.6;color:var(--on-green);margin:0}
+body.h26:not(#_) .say.dark .m-steps .m-sci{margin-top:10px;font-size:17px;line-height:1.55;color:#6E5A28}
+body.h26:not(#_) .m-pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:880px;margin:38px auto 0;text-align:left}
+body.h26:not(#_) .m-box{border:1px solid rgba(21,66,48,.25);border-radius:18px;padding:28px 30px;background:rgba(255,255,255,.55)}
+body.h26:not(#_) .m-box-g{background:var(--forest);border-color:var(--forest)}
+body.h26:not(#_) .m-box h3{font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7A6530;margin:0 0 12px}
+body.h26:not(#_) .say.dark .m-box p{font-size:19px;font-weight:500;line-height:1.6;color:var(--on-green);margin:0}
+body.h26:not(#_) .m-box-g h3{color:var(--gold)}
+body.h26:not(#_) .say.dark .m-box-g p{color:#fff}
+
+/* ════════════════════════════════════════════════════════════
+   WHY THIS LASTS
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) .cmp-wrap{max-width:920px;margin:clamp(32px,4vw,46px) auto 0}
+body.h26:not(#_) .cmp{width:100%;border-collapse:separate;border-spacing:0;text-align:left;font-size:19px}
+body.h26:not(#_) .cmp :is(th, td){padding:20px 22px;border-bottom:1px solid rgba(35,48,42,.13);vertical-align:top;line-height:1.5}
+body.h26:not(#_) .cmp :is(th, td):first-child{padding-left:0}
+body.h26:not(#_) .cmp thead th{font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#45534B;border-bottom:1.5px solid var(--forest);vertical-align:bottom}
+body.h26:not(#_) .cmp thead .cmp-us{font-family:var(--serif);font-size:26px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--forest)}
+body.h26:not(#_) .cmp tbody th{font-weight:700;color:var(--forest);width:20%}
+body.h26:not(#_) .cmp tbody td{color:#45534B;font-weight:500;width:36%}
+/* the Wealth Expansion Code column sits on a soft panel */
+body.h26:not(#_) .cmp :is(td:last-child, .cmp-us){background:rgba(255,255,255,.62);color:var(--ink);font-weight:600}
+body.h26:not(#_) .cmp thead .cmp-us{border-radius:14px 14px 0 0}
+body.h26:not(#_) .cmp tbody tr:last-child td:last-child{border-radius:0 0 14px 14px;border-bottom:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ════════════════════════════════════════════════════════════
+   MEET YOUR MENTOR · FAQ · CLOSING CALL TO ACTION
+   ════════════════════════════════════════════════════════════ */
+body.h26:not(#_) #about .whome .mq{
+  font-family:var(--serif);font-style:italic;font-size:clamp(24px,2.6vw,30px)!important;
+  font-weight:600;line-height:1.4;color:var(--forest-mid);max-width:30ch;
+}
+
+/* FAQ: a rule above the first question, a larger centred plus */
+body.h26:not(#_) #faq .fq{border-top:1px solid rgba(21,66,48,.28)}
+body.h26:not(#_) .fq summary{padding-right:48px;text-wrap:balance}
+body.h26:not(#_) .fq summary:after{top:50%;transform:translateY(-50%);font-family:var(--sans);font-size:30px;font-weight:300;line-height:1}
+body.h26:not(#_) .fq details[open] summary:after{transform:translateY(-50%) rotate(45deg)}
+
+body.h26:not(#_) .book .book-h{font-size:clamp(36px,4.8vw,58px)!important;line-height:1.1}
+body.h26:not(#_) .book .book-sub{margin-top:18px;font-family:var(--serif);font-style:italic;font-size:clamp(23px,2.4vw,28px);font-weight:600;color:#7A6530}
+body.h26:not(#_) .book .book-note{margin-top:18px;font-size:17.5px;color:#45534B;text-wrap:balance}
+
+/* "Have a question before you book?" — a quiet solid panel rather than
+   a dashed box, and a readable error line in the form */
+body.h26:not(#_) .askfirst > summary{
+  border:1px solid rgba(21,66,48,.3);border-radius:2px;background:rgba(255,255,255,.42);
+  padding:18px 24px;font-weight:600;letter-spacing:.01em;
+  transition:background .2s,border-color .2s;
+}
+body.h26:not(#_) .askfirst > summary:hover{background:rgba(255,255,255,.75);border-color:rgba(21,66,48,.5)}
+body.h26:not(#_) .askfirst[open] > summary{border-bottom:none;border-radius:2px 2px 0 0}
+body.h26:not(#_) .askfirst .inner{border-radius:0 0 2px 2px}
+body.h26:not(#_) .askfirst .err{font-size:16px;font-weight:500;margin-top:4px}
+body.h26:not(#_) .askfirst .cform :is(input, textarea)::placeholder{color:rgba(44,59,51,.58)!important}
+
+/* Phone booking bar */
+body.h26:not(#_) .stickycta .txt{font-size:17px!important;line-height:1.3}
+body.h26:not(#_) .stickycta .txt small{font-size:14px;color:rgba(255,255,255,.8)}
+
+/* ════════════════════════════════════════════════════════════
+   SMALLER SCREENS
+   ════════════════════════════════════════════════════════════ */
+@media(max-width:1240px){
+  body.h26:not(#_) .feel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:960px){
+  body.h26:not(#_) .cs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:900px){
+  body.h26:not(#_) .bw{grid-template-columns:1fr;max-width:680px;margin-left:auto;margin-right:auto}
+  body.h26:not(#_) .bw-pic img{aspect-ratio:16/10;object-position:50% 28%}
+  body.h26:not(#_) .bw h2{max-width:none}
+}
+@media(max-width:700px){
+  body.h26:not(#_) :is(.cs-grid, .feel-grid, .m-pair, .bw){grid-template-columns:1fr}
+  body.h26:not(#_) .cs-grid{gap:16px}
+  body.h26:not(#_) .cs{padding:24px 22px 22px}
+  body.h26:not(#_) :is(.cs > p, .cs-now p, .fc p){font-size:18px}
+  body.h26:not(#_) .bw-pic img{aspect-ratio:4/3;object-position:50% 30%}
+  body.h26:not(#_) .callout{padding:24px}
+  body.h26:not(#_) .callout h3{font-size:27px}
+  body.h26:not(#_) .m-steps li{grid-template-columns:46px 1fr;gap:12px;padding:24px 0}
+  body.h26:not(#_) .m-n{font-size:42px}
+  body.h26:not(#_) .m-steps h3{font-size:29px}
+  body.h26:not(#_) .say.dark .m-steps p{font-size:18.5px}
+  body.h26:not(#_) .say.dark .m-steps .m-sci{font-size:16.5px}
+  body.h26:not(#_) .m-box{padding:24px}
+
+  /* Comparison table → one small card per row */
+  body.h26:not(#_) .cmp{font-size:18px}
+  body.h26:not(#_) .cmp thead{display:none}
+  body.h26:not(#_) .cmp :is(tbody, tr){display:block}
+  body.h26:not(#_) .cmp tbody :is(th, td){display:block;width:auto}
+  body.h26:not(#_) .cmp tr{padding:20px 0;border-bottom:1px solid rgba(35,48,42,.13)}
+  body.h26:not(#_) .cmp tbody th{padding:0 0 12px;border:0;font-size:14px;letter-spacing:.12em;text-transform:uppercase}
+  body.h26:not(#_) .cmp tbody td{padding:0 0 12px;border:0}
+  body.h26:not(#_) .cmp td::before{content:attr(data-label);display:block;margin-bottom:3px;font-size:15px;font-weight:600;color:#45534B}
+  body.h26:not(#_) .cmp tbody td:last-child,
+  body.h26:not(#_) .cmp tbody tr:last-child td:last-child{padding:14px 16px;border-radius:12px}
+  body.h26:not(#_) .cmp td:last-child::before{color:var(--forest)}
+
+  body.h26:not(#_) #about .credrow span{font-size:16px!important;padding:9px 15px}
+  body.h26:not(#_) .hero p.superhead{font-size:25px!important}
+  body.h26:not(#_) .hero-ctas{flex-direction:column;align-items:stretch;text-align:center}
+  body.h26:not(#_) .btn{padding:18px 22px;font-size:17px!important}
+  /* centred eyebrows lose their side rules so they don't wrap */
+  body.h26:not(#_) .say > .wrap > .eyebrow{padding:0;letter-spacing:.2em}
+  body.h26:not(#_) .say > .wrap > .eyebrow:before,
+  body.h26:not(#_) .say > .wrap > .eyebrow:after{display:none}
+}
