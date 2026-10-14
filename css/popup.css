@@ -172,26 +172,26 @@
    stylesheets so these win over the base rules above on every page.
    ════════════════════════════════════════════════════════════ */
 /* a little wider, so the three steps sit on one line at the larger size */
-body.h26:not(#_) .bk-modal{max-width:660px}
+body.h26:not(#_) .bk-modal{max-width:720px}
 body.h26:not(#_) .bk-header{margin-bottom:24px}
-body.h26:not(#_) .bk-eyebrow{font-size:17px;font-weight:600;letter-spacing:.02em;color:#8C6F2E}
-body.h26:not(#_) .bk-sub{font-size:17.5px;line-height:1.55;color:#45534B;max-width:40ch;text-wrap:balance}
+body.h26:not(#_) .bk-eyebrow{font-size:18.5px;font-weight:600;letter-spacing:.02em;color:#8C6F2E}
+body.h26:not(#_) .bk-sub{font-size:19px;line-height:1.55;color:#45534B;max-width:40ch;text-wrap:balance}
 body.h26:not(#_) .bk-steps{gap:8px}
-body.h26:not(#_) .bk-steps li{font-size:14.5px;padding:7px 13px;color:#55635A}
+body.h26:not(#_) .bk-steps li{font-size:15.5px;padding:7px 13px;color:#55635A}
 body.h26:not(#_) .bk-steps li b{width:22px;height:22px;font-size:12px}
-body.h26:not(#_) .bk-steps li small{font-size:13px}
+body.h26:not(#_) .bk-steps li small{font-size:14px}
 body.h26:not(#_) .bk-steps li.on{color:var(--forest)}
-body.h26:not(#_) .bk-field label{font-size:13px;font-weight:600;letter-spacing:.1em;color:#45534B}
-body.h26:not(#_) .bk-field .bk-opt{font-size:13.5px;letter-spacing:0}
-body.h26:not(#_) .bk-field :is(input, select, textarea){font-size:17px;padding:14px 16px}
-body.h26:not(#_) .bk-consent{font-size:15.5px;line-height:1.5;color:#45534B}
+body.h26:not(#_) .bk-field label{font-size:15px;font-weight:600;letter-spacing:.1em;color:#45534B}
+body.h26:not(#_) .bk-field .bk-opt{font-size:15px;letter-spacing:0}
+body.h26:not(#_) .bk-field :is(input, select, textarea){font-size:18.5px;padding:14px 16px}
+body.h26:not(#_) .bk-consent{font-size:17px;line-height:1.5;color:#45534B}
 body.h26:not(#_) .bk-consent input[type="checkbox"]{width:20px;height:20px;margin-top:2px}
-body.h26:not(#_) .bk-err{font-size:16px;font-weight:500}
-body.h26:not(#_) .bk-fine{font-size:16px;line-height:1.5;color:#55635A;text-wrap:balance}
+body.h26:not(#_) .bk-err{font-size:17.5px;font-weight:500}
+body.h26:not(#_) .bk-fine{font-size:17px;line-height:1.5;color:#55635A;text-wrap:balance}
 body.h26:not(#_) .bk-close{width:46px;height:46px;font-size:30px;color:#55635A}
 /* Laptop screens are often only ~780px tall inside the browser: tighten the
    spacing (not the type) so the button stays in view */
-@media(min-width:641px) and (max-height:880px){
+@media(min-width:641px) and (max-height:940px){
   body.h26:not(#_) .bk-modal{padding-top:30px;padding-bottom:26px}
   body.h26:not(#_) .bk-header{margin-bottom:16px}
   body.h26:not(#_) .bk-sub{margin-top:6px}
@@ -209,4 +209,11 @@ body.h26:not(#_) .bk-close{width:46px;height:46px;font-size:30px;color:#55635A}
   body.h26:not(#_) .bk-steps{margin-top:10px}
   body.h26:not(#_) .bk-form{gap:10px}
   body.h26:not(#_) .bk-field :is(input, select, textarea){padding-top:11px;padding-bottom:11px}
+}
+@media(min-width:641px) and (max-height:800px){
+  body.h26:not(#_) .bk-header{margin-bottom:10px}
+  body.h26:not(#_) .bk-steps{margin-top:8px}
+  body.h26:not(#_) .bk-form{gap:8px}
+  body.h26:not(#_) .bk-row{gap:8px 14px}
+  body.h26:not(#_) .bk-field :is(input, select, textarea){padding-top:9px;padding-bottom:9px}
 }

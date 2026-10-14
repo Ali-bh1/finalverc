@@ -360,3 +360,74 @@ body.h26:not(#_) .stickycta .txt small{font-size:14px;color:rgba(255,255,255,.8)
   body.h26:not(#_) .say > .wrap > .eyebrow:before,
   body.h26:not(#_) .say > .wrap > .eyebrow:after{display:none}
 }
+
+/* ════════════════════════════════════════════════════════════
+   TYPE BOOST — one more step up, at the client's request.
+   Every size here is final: the doubled prefix outranks site-type.css
+   (which uses !important), so nothing earlier can shrink these back.
+   Floor: nothing that carries meaning under 16px; reading text 21–22px
+   on desktop, 19.5–20px on phones.
+   ════════════════════════════════════════════════════════════ */
+
+/* Labels and small capitals: 13.5–15 → 16 */
+html body.h26:not(#_):not(#__) :is(.cs-k, .fc-k, .m-box h3, .cmp thead th, .eyebrow, .idrole,
+  .nameplate span, .field label){font-size:16px!important;letter-spacing:.1em!important}
+html body.h26:not(#_):not(#__) :is(footer .cp, footer h4){font-size:16px!important}
+
+/* Supporting lines: 15.5–17.5 → 18.5–19.5 */
+html body.h26:not(#_):not(#__) :is(.cs-disc, footer .disc){font-size:17.5px!important;line-height:1.65!important}
+html body.h26:not(#_):not(#__) :is(.fc .fc-cost, .say.dark .m-steps .m-sci, .book .book-note, .chk span){font-size:18.5px!important}
+html body.h26:not(#_):not(#__) :is(.hero .hero-cred, .hero-link, #about .credrow span){font-size:19px!important}
+
+/* Navigation and buttons */
+html body.h26:not(#_):not(#__) #nav .nl a{font-size:19px!important}
+html body.h26:not(#_):not(#__) #nav .brand .brand-txt small{font-size:16.5px!important}
+html body.h26:not(#_):not(#__) #nav .ncta{font-size:18px!important}
+html body.h26:not(#_):not(#__) :is(.btn, .bk-submit){font-size:19px!important}
+html body.h26:not(#_):not(#__) #nav .mobile-nav a:not(.btn){font-size:21px!important}
+html body.h26:not(#_):not(#__) .stickycta .txt{font-size:18.5px!important}
+html body.h26:not(#_):not(#__) .stickycta .txt small{font-size:15.5px!important}
+html body.h26:not(#_):not(#__) .stickycta .btn{font-size:18px!important}
+
+/* Reading text: 18–20.5 → 21–22 */
+html body.h26:not(#_):not(#__) :is(.fc p:not(.fc-cost):not(.fc-w), .cs > p, .cs-now p, .callout p,
+  .say.dark .m-steps p:not(.m-sci), .say.dark .m-box p, .whome-t p:not(.mq), .fq details p,
+  .askfirst .inner p, .askfirst > summary, .cmp td){font-size:21px!important;line-height:1.6!important}
+html body.h26:not(#_):not(#__) .cs h3{font-size:21px!important}
+html body.h26:not(#_):not(#__) .cmp tbody th{font-size:19px!important}
+
+/* Lead paragraphs and questions */
+html body.h26:not(#_):not(#__) .say .p{font-size:23px!important}
+html body.h26:not(#_):not(#__) .hero .sub{font-size:25px!important;line-height:1.6!important}
+html body.h26:not(#_):not(#__) .fq summary{font-size:25px!important}
+html body.h26:not(#_):not(#__) .fc .fc-w{font-size:27px!important}
+html body.h26:not(#_):not(#__) .cs .cs-loc{font-size:22px!important}
+
+/* With bigger text, four cards side by side get too narrow to read:
+   two per row on every screen that has room for two */
+html body.h26:not(#_):not(#__) .feel-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:1080px;margin-left:auto;margin-right:auto;gap:22px}
+html body.h26:not(#_):not(#__) .fc .fc-now > *{margin-left:28px;margin-right:28px}
+html body.h26:not(#_):not(#__) .fc-will{padding-left:28px;padding-right:28px}
+
+@media(max-width:700px){
+  html body.h26:not(#_):not(#__) .feel-grid{grid-template-columns:1fr}
+  html body.h26:not(#_):not(#__) .fc .fc-now > *{margin-left:22px;margin-right:22px}
+  html body.h26:not(#_):not(#__) .fc-will{padding-left:22px;padding-right:22px}
+  html body.h26:not(#_):not(#__) :is(.fc p:not(.fc-cost):not(.fc-w), .cs > p, .cs-now p, .callout p,
+    .say.dark .m-steps p:not(.m-sci), .say.dark .m-box p, .whome-t p:not(.mq), .fq details p,
+    .askfirst .inner p, .askfirst > summary, .cmp td){font-size:20px!important}
+  html body.h26:not(#_):not(#__) .say .p{font-size:21px!important}
+  html body.h26:not(#_):not(#__) .hero .sub{font-size:21.5px!important}
+  html body.h26:not(#_):not(#__) .fq summary{font-size:21.5px!important}
+  html body.h26:not(#_):not(#__) :is(.fc .fc-cost, .say.dark .m-steps .m-sci){font-size:18px!important}
+  html body.h26:not(#_):not(#__) .btn{font-size:18.5px!important}
+  html body.h26:not(#_):not(#__) .stickycta .btn{font-size:17.5px!important}
+  html body.h26:not(#_):not(#__) .cs h3{font-size:20px!important}
+  html body.h26:not(#_):not(#__) .cmp tbody th{font-size:16px!important}
+}
+/* Narrow phones: full-width buttons keep their words on one line; the
+   arrow (a hover cue) steps aside there, except on the small bottom bar */
+@media(max-width:480px){
+  html body.h26:not(#_):not(#__) .btn:not(.stickycta .btn) .arr{display:none}
+  html body.h26:not(#_):not(#__) .btn{padding-left:14px;padding-right:14px}
+}
