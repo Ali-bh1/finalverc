@@ -104,20 +104,42 @@
       "source": "/apply-sovereign-mentor.html",
       "destination": "/#book",
       "permanent": false
+    },
+    {
+      "source": "/expansion-quotient-t1uqlm",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/eq-t1uqlm",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/eq-t1uqlm.html",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/expansion-result-t1uqlm",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/eqr-t1uqlm",
+      "destination": "/#book",
+      "permanent": false
+    },
+    {
+      "source": "/eqr-t1uqlm.html",
+      "destination": "/#book",
+      "permanent": false
     }
   ],
   "rewrites": [
     {
       "source": "/call-booked-x7r9",
       "destination": "/cb-x7r9.html"
-    },
-    {
-      "source": "/expansion-quotient-t1uqlm",
-      "destination": "/eq-t1uqlm.html"
-    },
-    {
-      "source": "/expansion-result-t1uqlm",
-      "destination": "/eqr-t1uqlm.html"
     }
   ],
   "headers": [

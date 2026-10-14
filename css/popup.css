@@ -217,3 +217,16 @@ body.h26:not(#_) .bk-close{width:46px;height:46px;font-size:30px;color:#55635A}
   body.h26:not(#_) .bk-row{gap:8px 14px}
   body.h26:not(#_) .bk-field :is(input, select, textarea){padding-top:9px;padding-bottom:9px}
 }
+
+/* Thank-you view of the free-call form */
+body.h26:not(#_) .bk-success{padding:28px 8px 12px}
+body.h26:not(#_) .bk-success h3{font-size:clamp(28px,3.6vw,36px)}
+body.h26:not(#_) .bk-success p{font-size:19px;line-height:1.6;color:#2F3C35;max-width:40ch;margin:0 auto 26px;text-wrap:pretty}
+body.h26:not(#_) .bk-success b{color:var(--forest)}
+body.h26:not(#_) .bk-nowrap{white-space:nowrap}
+body.h26:not(#_) .bk-success h3:focus{outline:none}
+/* keep the top line clear of the close button on narrow screens */
+@media(max-width:640px){
+  body.h26:not(#_) .bk-header{padding:0 30px}
+  body.h26:not(#_) .bk-eyebrow{display:block;line-height:1.4;text-wrap:balance}
+}

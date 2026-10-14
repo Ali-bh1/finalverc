@@ -1,17 +1,17 @@
 /**
- * booking-popup.js — the details pop-up, step 1 of both journeys
+ * booking-popup.js — the "book a free call" form, on every page
  *
- *   "Book a free call"           → popup (mode 'call') → Expansion Quotient → thank-you
- *   "Take the free Expansion Q." → popup (mode 'eq')   → Expansion Quotient → thank-you
+ *   Any booking button → this pop-up → details sent → thank-you, right here.
  *
- * [data-book-call] or a #book link opens it in 'call' mode; [data-take-eq]
- * or a #eq link in 'eq' mode. The details are handed to the assessment
- * through sessionStorage (eq-flow.js), so nobody is asked twice. Nothing is
- * sent from here — the lead, the client's result email and the team
- * notification all go out together when the assessment is submitted.
+ * [data-book-call], [data-pay], a #book link (and any old [data-take-eq] /
+ * #eq link) opens it. The request goes out through lead-service.js: an email
+ * to hello@tejaldesae.com, the Google Sheet and the marketing platform —
+ * the same route as the "Have a question?" form. The team then contacts the
+ * visitor to arrange a time.
  */
 
-import { saveContact, loadContact, loadSubmitted, captureSource } from './eq-flow.js';
+import { saveContact, loadContact, captureSource, loadSource } from './eq-flow.js?v=20261014c';
+import { sendLead } from './lead-service.js?v=20261014c';
 
 // ── Country list (top countries first, then alphabetical) ────
 const COUNTRIES = [
@@ -41,30 +41,13 @@ const COUNTRIES = [
   'Zambia', 'Zimbabwe', 'Other',
 ];
 
-const ASSESSMENT_URL = 'eq-t1uqlm.html';
-
-// Copy for each journey. 'call' promises a call; 'eq' promises results only.
-const MODES = {
-  call: {
-    eyebrow: 'Your free Expansion Call',
-    title: "Let's start with you",
-    sub: 'Before you speak with Tejal, a short, private reflection helps us understand where you are.',
-    steps: ['Your details', 'Expansion Quotient <small>~4 min</small>', 'We arrange your call'],
-    phoneRequired: true,
-    button: 'Continue to my Expansion Quotient →',
-    fine: 'Completely free. Your personalised result comes to your inbox, and our team will be in touch to arrange your call.',
-    pixel: 'Free Expansion Call',
-  },
-  eq: {
-    eyebrow: 'Welcome',
-    title: 'Your free Expansion Quotient',
-    sub: 'Fourteen reflective questions, about four minutes. Share a few details and your personalised results will come straight to your inbox.',
-    steps: ['Your details', 'The questions <small>~4 min</small>', 'Results by email'],
-    phoneRequired: false,
-    button: 'Begin my Expansion Quotient →',
-    fine: 'Completely free. Your details stay private, and your results come straight to your inbox.',
-    pixel: 'Free Expansion Quotient',
-  },
+const COPY = {
+  eyebrow: 'Free · 45 minutes · one-on-one on Zoom',
+  title: 'Book your free call',
+  sub: 'Share a few details and our team will be in touch within two working days to find a time that suits you.',
+  button: 'Request my free call →',
+  fine: 'No payment, no obligation. Your details stay private.',
+  pixel: 'Free Expansion Call',   // unchanged so ad reporting stays continuous
 };
 
 
@@ -72,9 +55,10 @@ const MODES = {
 
 let modalEl = null;
 let lastTrigger = null;
-let mode = 'call';
-let onDone = null;
 let autoOpened = false;   // the current pop-up opened by itself (see autoOpen)
+
+const ENTITIES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ENTITIES[c]);
 
 function createModal() {
   if (modalEl) return modalEl;
@@ -90,78 +74,76 @@ function createModal() {
     <div class="bk-modal">
       <button class="bk-close" aria-label="Close" type="button">&times;</button>
 
-      <div class="bk-header">
-        <span class="bk-eyebrow" id="bk-eyebrow"></span>
-        <h2 class="bk-title" id="bk-title"></h2>
-        <p class="bk-sub" id="bk-sub"></p>
-        <ol class="bk-steps" id="bk-steps" aria-label="How it works"></ol>
-      </div>
-
-      <form class="bk-form" id="bookingForm" novalidate>
-        <div class="bk-row">
-          <div class="bk-field">
-            <label for="bk-fn">First name *</label>
-            <input id="bk-fn" name="firstName" type="text" required autocomplete="given-name" placeholder="Your name">
-          </div>
-          <div class="bk-field">
-            <label for="bk-ln">Last name *</label>
-            <input id="bk-ln" name="lastName" type="text" required autocomplete="family-name" placeholder="Your surname">
-          </div>
+      <div class="bk-view" id="bk-form-view">
+        <div class="bk-header">
+          <span class="bk-eyebrow">${COPY.eyebrow}</span>
+          <h2 class="bk-title" id="bk-title">${COPY.title}</h2>
+          <p class="bk-sub">${COPY.sub}</p>
         </div>
 
-        <div class="bk-row">
-          <div class="bk-field">
-            <label for="bk-email">Email *</label>
-            <input id="bk-email" name="email" type="email" required autocomplete="email" placeholder="you@email.com">
+        <form class="bk-form" id="bookingForm" novalidate>
+          <div class="bk-row">
+            <div class="bk-field">
+              <label for="bk-fn">First name *</label>
+              <input id="bk-fn" name="firstName" type="text" required autocomplete="given-name" placeholder="Your name">
+            </div>
+            <div class="bk-field">
+              <label for="bk-ln">Last name</label>
+              <input id="bk-ln" name="lastName" type="text" autocomplete="family-name" placeholder="Your surname">
+            </div>
           </div>
-          <div class="bk-field">
-            <label for="bk-phone">Phone / WhatsApp <span id="bk-phone-req">*</span></label>
-            <input id="bk-phone" name="phone" type="tel" autocomplete="tel" placeholder="+91…">
-          </div>
-        </div>
 
-        <div class="bk-row">
+          <div class="bk-row">
+            <div class="bk-field">
+              <label for="bk-email">Email *</label>
+              <input id="bk-email" name="email" type="email" required autocomplete="email" placeholder="you@email.com">
+            </div>
+            <div class="bk-field">
+              <label for="bk-phone">Phone / WhatsApp *</label>
+              <input id="bk-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+91…">
+            </div>
+          </div>
+
           <div class="bk-field">
             <label for="bk-country">Country *</label>
             <select id="bk-country" name="country" required>
               <option value="">Select your country</option>
-              ${COUNTRIES.map(c =>
+              ${COUNTRIES.map((c) =>
                 c.startsWith('──')
-                  ? `<option disabled>───────────</option>`
+                  ? '<option disabled>───────────</option>'
                   : `<option value="${c}">${c}</option>`
               ).join('')}
             </select>
           </div>
+
           <div class="bk-field">
-            <label for="bk-role">Role / Title *</label>
-            <input id="bk-role" name="role" type="text" required autocomplete="organization-title" placeholder="e.g. Founder, Director">
+            <label for="bk-msg">What would you like to talk about? <span class="bk-opt">(optional)</span></label>
+            <textarea id="bk-msg" name="message" rows="3" placeholder="A line or two is plenty."></textarea>
           </div>
-        </div>
 
-        <div class="bk-row">
-          <div class="bk-field">
-            <label for="bk-company">Company <span class="bk-opt">(optional)</span></label>
-            <input id="bk-company" name="company" type="text" autocomplete="organization" placeholder="Your business">
-          </div>
-          <div class="bk-field">
-            <label for="bk-li">LinkedIn <span class="bk-opt">(optional)</span></label>
-            <input id="bk-li" name="linkedin" type="text" placeholder="linkedin.com/in/you">
-          </div>
-        </div>
+          <!-- spam trap: people never see or fill this -->
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                 style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 
-        <label class="bk-consent">
-          <input type="checkbox" id="bk-consent" name="consent">
-          <span>I'd also like to receive Tejal's insights on identity, wealth and living from wholeness. I can unsubscribe anytime.</span>
-        </label>
+          <label class="bk-consent">
+            <input type="checkbox" id="bk-consent" name="consent">
+            <span>I’d also like to receive Tejal’s insights on identity, wealth and living from wholeness. I can unsubscribe anytime.</span>
+          </label>
 
-        <div class="bk-err" id="bk-err" role="alert"></div>
+          <div class="bk-err" id="bk-err" role="alert"></div>
 
-        <button class="btn btn-em bk-submit" type="submit" id="bk-submit">
-          Continue to my Expansion Quotient →
-        </button>
+          <button class="btn btn-em bk-submit" type="submit" id="bk-submit">${COPY.button}</button>
 
-        <p class="bk-fine" id="bk-fine"></p>
-      </form>
+          <p class="bk-fine">${COPY.fine}</p>
+        </form>
+      </div>
+
+      <div class="bk-view bk-success" id="bk-done-view" hidden>
+        <div class="bk-check-icon" aria-hidden="true">✓</div>
+        <h3 id="bk-done-title" tabindex="-1">Thank you</h3>
+        <p id="bk-done-text"></p>
+        <button class="btn btn-em" type="button" id="bk-done-close">Close</button>
+      </div>
     </div>
   `;
 
@@ -169,6 +151,7 @@ function createModal() {
   modalEl = overlay;
 
   overlay.querySelector('.bk-close').addEventListener('click', closeModal);
+  overlay.querySelector('#bk-done-close').addEventListener('click', closeModal);
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) closeModal();
   });
@@ -181,30 +164,23 @@ function createModal() {
 
 // ── Open / Close ─────────────────────────────────────────────
 
-/**
- * @param {Element} [trigger]  what was clicked (focus returns here on close)
- * @param {{mode?: 'call'|'eq', onDone?: (contact) => void}} [opts]
- *   onDone: stay on this page and hand over the details instead of
- *   navigating to the assessment (used on the assessment page itself).
- */
-function openModal(trigger, opts = {}) {
+/** @param {Element} [trigger]  what was clicked (focus returns here on close) */
+function openModal(trigger) {
   const modal = createModal();
   const form = modal.querySelector('#bookingForm');
   lastTrigger = trigger || null;
-  mode = opts.mode === 'eq' ? 'eq' : 'call';
-  onDone = typeof opts.onDone === 'function' ? opts.onDone : null;
-  applyMode(modal);
 
+  showView('form');
   form.reset();
   modal.querySelector('#bk-err').textContent = '';
   setBusy(false);
 
-  // Coming back to it in the same session — don't make them type it all again.
+  // Coming back to it in the same visit — don't make them type it all again.
   const saved = loadContact();
   if (saved) {
     for (const [k, v] of Object.entries(saved)) {
       const el = form.elements[k];
-      if (!el) continue;
+      if (!el || k === 'message') continue;
       if (el.type === 'checkbox') el.checked = !!v;
       else if (typeof v === 'string') el.value = v;
     }
@@ -222,20 +198,14 @@ function openModal(trigger, opts = {}) {
   });
 
   if (typeof window.fbq === 'function') {
-    window.fbq('track', 'InitiateCheckout', { content_name: MODES[mode].pixel });
+    window.fbq('track', 'InitiateCheckout', { content_name: COPY.pixel });
   }
 }
 
-function applyMode(modal) {
-  const m = MODES[mode];
-  modal.querySelector('#bk-eyebrow').textContent = m.eyebrow;
-  modal.querySelector('#bk-title').textContent = m.title;
-  modal.querySelector('#bk-sub').textContent = m.sub;
-  modal.querySelector('#bk-steps').innerHTML = m.steps
-    .map((t, i) => '<li' + (i === 0 ? ' class="on"' : '') + '><b>' + (i + 1) + '</b>' + t + '</li>').join('');
-  modal.querySelector('#bk-fine').textContent = m.fine;
-  modal.querySelector('#bk-phone-req').innerHTML = m.phoneRequired ? '*' : '<span class="bk-opt">(optional)</span>';
-  modal.querySelector('#bk-phone').required = m.phoneRequired;
+function showView(which) {
+  modalEl.querySelector('#bk-form-view').hidden = which !== 'form';
+  modalEl.querySelector('#bk-done-view').hidden = which !== 'done';
+  modalEl.setAttribute('aria-labelledby', which === 'done' ? 'bk-done-title' : 'bk-title');
 }
 
 function closeModal() {
@@ -256,7 +226,7 @@ function handleKeydown(e) {
   if (e.key !== 'Tab') return;
   // Keep Tab inside the dialog while it's open, rather than wandering off
   // into the page behind the overlay.
-  const items = [...modalEl.querySelectorAll('button, [href], input, select, textarea')]
+  const items = [...modalEl.querySelectorAll('button, [href], input:not([tabindex="-1"]), select, textarea')]
     .filter((el) => !el.disabled && el.offsetParent !== null);
   if (!items.length) return;
   const first = items[0];
@@ -269,7 +239,7 @@ function handleKeydown(e) {
 
 // ── Form Handling ────────────────────────────────────────────
 
-function handleSubmit(e) {
+async function handleSubmit(e) {
   e.preventDefault();
   const form = e.target;
   const errEl = document.getElementById('bk-err');
@@ -281,19 +251,15 @@ function handleSubmit(e) {
     email:     v('email'),
     phone:     v('phone'),
     country:   form.elements.country.value,
-    role:      v('role'),
-    company:   v('company'),
-    linkedin:  v('linkedin'),
+    message:   v('message'),
     consent:   form.elements.consent.checked,
   };
 
   const problem =
     !contact.firstName ? ['firstName', 'Please enter your first name.'] :
-    !contact.lastName ? ['lastName', 'Please enter your last name.'] :
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email) ? ['email', 'Please enter a valid email address.'] :
-    (MODES[mode].phoneRequired || contact.phone) && contact.phone.replace(/\D/g, '').length < 7 ? ['phone', 'Please enter a phone number we can reach you on.'] :
+    contact.phone.replace(/\D/g, '').length < 7 ? ['phone', 'Please enter a phone or WhatsApp number we can reach you on.'] :
     !contact.country ? ['country', 'Please select your country.'] :
-    !contact.role ? ['role', 'Please tell us your role or title.'] :
     null;
 
   if (problem) {
@@ -303,22 +269,55 @@ function handleSubmit(e) {
   }
   errEl.textContent = '';
 
+  // A bot filled the hidden field: pretend it worked, send nothing.
+  if (form.elements.website.value) { showDone(contact); return; }
+
   const program = lastTrigger?.closest('[data-program]')?.dataset.program
     || document.querySelector('#book[data-program]')?.dataset.program
     || '';
+  saveContact({ ...contact, program });
 
-  // Someone who asked for a call earlier in the visit keeps that request.
-  const askedForCall = mode === 'call' || loadContact()?.origin === 'book-call';
-  const saved = { ...contact, origin: askedForCall ? 'book-call' : 'assessment', program };
-  saveContact(saved);
-
-  if (onDone) {
-    closeModal();
-    onDone(saved);
-    return;
-  }
+  const src = loadSource();
   setBusy(true);
-  window.location.href = ASSESSMENT_URL;
+  let result = null;
+  try {
+    result = await sendLead({
+      source: 'Free Call Request',
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      email: contact.email,
+      phone: contact.phone,
+      program: program || 'Free call',
+      message: contact.message,
+      extraFields: {
+        'Country': contact.country,
+        'Marketing Consent': contact.consent ? 'Yes' : 'No',
+        'Page': location.pathname,
+        'First Landing': src.landing || '',
+        'Campaign': [src.utm_source, src.utm_medium, src.utm_campaign].filter(Boolean).join(' / '),
+      },
+    });
+  } catch { /* handled below */ }
+  setBusy(false);
+
+  // Sent if the email or the sheet took it (a repeat click counts as sent).
+  if (result && (result.email || result.sheet || result.reason === 'duplicate')) {
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'Lead', { content_name: COPY.pixel });
+    }
+    showDone(contact);
+  } else {
+    errEl.textContent = 'Sorry, that didn’t go through. Please try again, or email hello@tejaldesae.com.';
+  }
+}
+
+function showDone(contact) {
+  const reach = contact.phone ? `on <b class="bk-nowrap">${esc(contact.phone)}</b> or ` : '';
+  modalEl.querySelector('#bk-done-title').textContent = `Thank you, ${contact.firstName}.`;
+  modalEl.querySelector('#bk-done-text').innerHTML =
+    `We’ve got your request. Our team will be in touch within two working days ${reach}at <b class="bk-nowrap">${esc(contact.email)}</b> to arrange a time that suits you.`;
+  showView('done');
+  modalEl.querySelector('#bk-done-title').focus({ preventScroll: true });
 }
 
 function setBusy(busy) {
@@ -326,16 +325,16 @@ function setBusy(busy) {
   if (!btn) return;
   btn.disabled = busy;
   btn.setAttribute('aria-busy', String(busy));   // shows the spinner (site-premium.css)
-  btn.textContent = busy ? 'One moment…' : MODES[mode].button;
+  btn.textContent = busy ? 'Sending…' : COPY.button;
 }
 
 
-// ── Auto-wire all booking CTAs ───────────────────────────────
+// ── Auto-wire all booking buttons ────────────────────────────
 
 function init() {
   captureSource();
 
-  const selectors = '[data-book-call], [data-pay], a[href="#book"], a[href*="rzp.io/rzp/expansion369"]';
+  const selectors = '[data-book-call], [data-pay], [data-take-eq], a[href="#book"], a[href="#eq"], a[href*="rzp.io/rzp/expansion369"]';
   document.querySelectorAll(selectors).forEach((el) => {
     el.addEventListener('click', (e) => {
       e.preventDefault();
@@ -347,18 +346,10 @@ function init() {
     }
   });
 
-  document.querySelectorAll('[data-take-eq], a[href="#eq"]').forEach((el) => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      openModal(el, { mode: 'eq' });
-    });
-  });
-
-  // Arriving from another page's link (index.html#book or #eq) — open straight away.
+  // Arriving from another page's link (index.html#book) — open straight away.
   if (location.hash === '#book' || location.hash === '#eq') {
-    const m = location.hash === '#eq' ? 'eq' : 'call';
     history.replaceState(null, '', location.pathname + location.search);
-    openModal(null, { mode: m });
+    openModal(null);
     return;
   }
 
@@ -366,21 +357,18 @@ function init() {
 }
 
 // ── Opens by itself on pages that ask for it ─────────────────
-// <body data-auto-popup="eq"> (or "call"). Waits a moment so the page is
-// seen first, and stays away from anyone who has already given their
-// details, already taken the assessment, or closed it once this visit.
+// <body data-auto-popup="call">. Waits a moment so the page is seen first,
+// and stays away from anyone who closed it once this visit.
 const AUTO_DISMISSED_KEY = 'tejal_autopop_dismissed';
 const AUTO_DELAY_MS = 1500;
 
 function autoOpen() {
-  const want = document.body.dataset.autoPopup;
-  if (want !== 'eq' && want !== 'call') return;
-  if (loadContact()?.email || loadSubmitted()) return;
+  if (!document.body.dataset.autoPopup) return;
   try { if (sessionStorage.getItem(AUTO_DISMISSED_KEY)) return; } catch { /* private mode */ }
 
   setTimeout(() => {
     if (modalEl?.classList.contains('bk-open')) return; // they already opened it themselves
-    openModal(null, { mode: want });
+    openModal(null);
     autoOpened = true;
   }, AUTO_DELAY_MS);
 }

@@ -91,11 +91,16 @@ export async function sendLead(data) {
     data.emailOnly ? Promise.resolve(false) : sendToMarketingPlatform(data),
   ]);
 
-  return {
+  const result = {
     email:     emailResult.status === 'fulfilled' && emailResult.value,
     sheet:     sheetResult.status === 'fulfilled' && sheetResult.value,
     marketing: marketingResult.status === 'fulfilled' && marketingResult.value,
   };
+  // Neither the email nor the sheet (what the team reads) took it: forget this
+  // attempt, so pressing the button again
+  // really retries instead of being swallowed as a "duplicate".
+  if (!result.email && !result.sheet) recentSubmissions.delete(fp);
+  return result;
 }
 
 

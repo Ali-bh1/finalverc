@@ -225,7 +225,8 @@
         submitBtn.textContent = 'Sent ✓';
       }
 
-      import('./js/lead-service.js').then(function (mod) {
+      // Relative to this file (js/home.js), not the page — './js/…' was a 404.
+      import('./lead-service.js?v=20261014c').then(function (mod) {
         return mod.sendLead({
           source:    'Contact Form',
           firstName: firstName,
@@ -236,19 +237,18 @@
           message:   message,
         });
       }).then(function (result) {
-        err.style.color = 'var(--forest)';
-        if (result && result.email) {
-          err.textContent = 'Thank you \u2014 I\'ll be in touch within 24\u201348 hours, Mon\u2013Fri.';
-        } else {
-          err.textContent = 'Thank you \u2014 I\'ll be in touch within 24\u201348 hours, Mon\u2013Fri.';
-        }
-        form.querySelectorAll('input,select,textarea,button').forEach(function (x) { x.disabled = true; });
-        done();
-      }).catch(function () {
+        // Only say thank you when the email or the sheet actually took it.
+        if (!result || !(result.email || result.sheet || result.reason === 'duplicate')) throw new Error('not sent');
         err.style.color = 'var(--forest)';
         err.textContent = 'Thank you \u2014 I\'ll be in touch within 24\u201348 hours, Mon\u2013Fri.';
         form.querySelectorAll('input,select,textarea,button').forEach(function (x) { x.disabled = true; });
         done();
+      }).catch(function () {
+        err.style.color = '';
+        err.textContent = 'Sorry, that didn\u2019t go through. Please try again, or email hello@tejaldesae.com.';
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute('aria-busy');
+        submitBtn.textContent = 'Send my question \u2192';
       });
     });
   }

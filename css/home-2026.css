@@ -261,7 +261,7 @@ section[id],header[id]{scroll-margin-top:88px}
 
 /* ── FOOTER ── */
 .h26 footer{background:var(--em);color:rgba(255,255,255,.7);padding:clamp(44px,5vw,64px) 0 28px}
-.h26 footer .fg{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:34px}
+.h26 footer .fg{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:34px}
 @media(max-width:900px){.h26 footer .fg{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.h26 footer .fg{grid-template-columns:1fr}}
 .h26 footer .brand span{color:var(--ch)}
